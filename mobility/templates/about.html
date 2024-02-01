@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Main page</a></li>
+            <li><a href="/about">About</a></li>
+
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>About</h1>
+        <p>{{ HelloWorld }}</p>
+    </div>
+</body>
+</html>

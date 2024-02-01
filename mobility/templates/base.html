@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="/">Main page</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>Mobility</h1>
+
+        <h2>City list</h2>
+        <table>
+            <tr>
+                <th>Postal code</th>
+                <th>Name</th>
+                <th>Population</th>
+            </tr>
+            {% for city in cities %}
+            <tr>
+                <td>{{ city[0] }}</td>
+                <td>{{ city[1] }}</td>
+                <td>{{ city[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
