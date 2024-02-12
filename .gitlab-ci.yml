@@ -1,0 +1,13 @@
+stages:
+  - build
+  - test
+
+build_job:
+  stage: build
+  script:
+    - pip install -r requirements.txt
+
+test_job:
+  stage: test
+  script:
+    - python -m unittest discover tests
