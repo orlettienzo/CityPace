@@ -8,6 +8,9 @@ Ce projet devrait ressembler au résultat du TP1
 
     flask --app=mobility --debug run
 
+bonjour
+
+
 ## Capture d'écran
 
 <img src=docs/image1.png >
