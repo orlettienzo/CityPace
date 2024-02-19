@@ -34,6 +34,26 @@ def create_app(test_config=None):
 
     @app.route('/about')
     def about():
-        return render_template('about.html', HelloWorld='Hello World')
+        return render_template('about.html', HelloWorld='Hello World 😎')
+
+    @app.route('/enzo')
+    def enzo():
+        return render_template('enzo.html')
+
+    @app.route('/tom')
+    def tom():
+        return render_template('tom.html')
+
+    @app.route('/nicolas')
+    def nicolas():
+        return render_template('nicolas.html')
+
+    @app.route('/johannes')
+    def johannes():
+        return render_template('johannes.html')
+
+    @app.route('/liam')
+    def liam():
+        return render_template('liam.html')
 
     return app
