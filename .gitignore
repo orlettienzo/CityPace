@@ -1,9 +1,13 @@
 venv/
+.venv/
 
 *.pyc
 __pycache__/
 
 instance/
+
+.DS_Store
+.idea/
 
 .pytest_cache/
 .coverage

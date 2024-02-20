@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>My App</title>
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://use.typekit.net/khf5jdz.css">
 </head>
 <body>
 
@@ -15,7 +17,7 @@
     </nav>
 
     <div class="content">
-        <h1>Mobility</h1>
+        <h1><span class="special">Mobility</span>. (we will find a better name)</h1>
 
         <h2>City list</h2>
         <table>
@@ -32,6 +34,16 @@
             </tr>
             {% endfor %}
         </table>
+        <ul>
+            <li><a href="/enzo">Enzo Andrade Orletti</a></li>
+            <li><a href="/tom">Tom Deglume</a></li>
+            <li><a href="/nicolas">Nicolas Mertens</a></li>
+            <li><a href="/johannes">Johannes Radesey</a></li>
+            <li><a href="/liam">Liam Vander Becken</a></li>
+        </ul>
     </div>
+    <footer>
+        <p>© 2024 Mobility<br>Created by G25</p>
+    </footer>
 </body>
 </html>

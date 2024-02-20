@@ -1,9 +1,106 @@
-html { font-family: sans-serif; background: #eee; padding: 1rem; }
-body { max-width: 960px; margin: 0 auto; background: white; }
-h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
-a { color: #377ba8; }
-nav { background: lightgray; display: flex; align-items: center;
-padding: 0 0.5rem; }
-nav h1 { flex: auto; margin: 0; }
-nav ul { display: flex; list-style: none; margin: 0; padding: 0; }
-nav ul li a, nav ul li span, header { display: block; padding: 0.5rem; }
+:root {
+    --rosewater: ;
+    --flamingo: ;
+    --pink: ;
+    --mauve: #cba6f7;
+    --red: ;
+    --maroon: ;
+    --peach: ;
+    --yellow: ;
+    --green: ;
+    --teal: #94e2d5;
+    --sky: ;
+    --saphire: ;
+    --blue: ;
+    --lavander: ;
+    --text: #cdd6f4;
+    --subtext1: ;
+    --subtext0: ;
+    --overlay2: ;
+    --overlay1: ;
+    --overlay0: #6c7086;
+    --surface2: ;
+    --surface1: #45475a;
+    --surface0: #313244;
+    --base: #1e1e2e;
+    --mantle: #181825;
+    --crust: #11111b;
+
+    --primary: var(--mauve);
+    --secondary: ;
+    --tertiary: ;
+    --disabled: ;
+    --enabled: ;
+    --warning: ;
+    --success: ;
+}
+
+html {
+    background: var(--mantle);
+    color: var(--text);
+    padding: 1rem;
+    font-family: neulis-sans, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    background: var(--base);
+    padding: 2rem;
+}
+
+footer {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+h1 {
+    font-family: neulis-sans, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    margin: 1rem 0;
+    font-size: 3em;
+}
+
+table {
+    background-color: var(--surface0);
+}
+
+tr:nth-child(even) {
+    background-color: var(--surface1);
+}
+
+a {
+    color: var(--text);
+}
+
+nav {
+    background: var(--base);
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+}
+
+nav h1 {
+    flex: auto;
+    margin: 0;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a,
+nav ul li span,
+header {
+    display: block;
+    padding: 0.5rem;
+}
+
+.special {
+    color: var(--primary);
+}
