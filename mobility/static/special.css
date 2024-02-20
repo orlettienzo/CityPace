@@ -1,0 +1,26 @@
+html {
+    font-family: "mudstone-sans", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+p,a {
+    font-family: neulis-sans, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: none;
+}
+
+.content {
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 400px;
+}
