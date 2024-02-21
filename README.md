@@ -4,6 +4,8 @@ Projet de base à "forker" pour commencer votre phase 0 et votre propre site web
 
 Ce projet devrait ressembler au résultat du TP1
 
+test pour rebuild l'application sur coolify
+
 ## Lancement
 
     flask --app=mobility --debug run
