@@ -60,7 +60,7 @@ h1 {
     font-weight: 700;
     font-style: normal;
     margin: 1rem 0;
-    font-size: 3em;
+    font-size: 2em;
 }
 
 table {
@@ -103,4 +103,5 @@ header {
 
 .special {
     color: var(--primary);
+    font-weight: 700;
 }
