@@ -10,6 +10,11 @@ test pour rebuild l'application sur coolify
 
     flask --app=mobility --debug run
 
+bonjour
+
+# test commit 2
+
+
 ## Capture d'écran
 
 <img src=docs/image1.png >
