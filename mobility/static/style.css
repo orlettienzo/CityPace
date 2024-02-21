@@ -14,12 +14,12 @@
     --blue: ;
     --lavander: ;
     --text: #cdd6f4;
-    --subtext1: ;
-    --subtext0: ;
-    --overlay2: ;
-    --overlay1: ;
+    --subtext1: #bac2de;
+    --subtext0: #a6adc8;
+    --overlay2: #9399b2;
+    --overlay1: #7f849c;
     --overlay0: #6c7086;
-    --surface2: ;
+    --surface2: #585b70;
     --surface1: #45475a;
     --surface0: #313244;
     --base: #1e1e2e;
@@ -60,7 +60,7 @@ h1 {
     font-weight: 700;
     font-style: normal;
     margin: 1rem 0;
-    font-size: 2em;
+    font-size: 4rem;
 }
 
 table {
@@ -89,6 +89,7 @@ nav h1 {
 
 nav ul {
     display: flex;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -104,4 +105,16 @@ header {
 .special {
     color: var(--primary);
     font-weight: 700;
+}
+
+.title {
+    margin-top: 10rem;
+}
+
+.description {
+    font-size: 2rem;
+}
+
+.subtext {
+    color: var(--subtext0);
 }
