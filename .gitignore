@@ -11,6 +11,7 @@ instance/
 
 .pytest_cache/
 .coverage
+.idea/
 htmlcov/
 
 dist/
