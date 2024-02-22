@@ -8,16 +8,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/"><img src="../static/logo.svg" alt="CityPace" height="24px"></a></li>
-            <li><a href="/about">About</a></li>
-        </ul>
-    </nav>
+    {% extends "navbars.html" %}
+    {% block content %}
 
     <div class="content">
         <h2>About</h2>
         <p>{{ HelloWorld }}</p>
+        <h2>La team</h2>
+        <ul>
+            <li><a href="/enzo">Enzo Andrade Orletti</a></li>
+            <li><a href="/tom">Tom Deglume</a></li>
+            <li><a href="/nicolas">Nicolas Mertens</a></li>
+            <li><a href="/johannes">Johannes Radesey</a></li>
+            <li><a href="/liam">Liam Vander Becken</a></li>
+        </ul>
     </div>
+
+    {% endblock %}
 </body>
 </html>

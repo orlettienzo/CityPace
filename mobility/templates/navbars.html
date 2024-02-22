@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,13 +7,17 @@
     <link rel="stylesheet" href="https://use.typekit.net/khf5jdz.css">
 </head>
 <body>
-    {% extends "navbars.html" %}
-    {% block content %}
 
-    <div class="content">
-        <h1 class="title">Le rythme de votre ville.</h1>
-        <p class="description subtext">CityPace vous apporte des statistiques sur la circulation dans votre ville. </p>
-    </div>
+    <nav>
+        <ul>
+            <li><a href="/"><img src="../static/logo.svg" alt="CityPace" height="28px"></a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
+    {% block content %}
     {% endblock %}
+    <footer>
+        <p><span class="subtext">© 2024 CityPace</span><br>Created by G25</p>
+    </footer>
 </body>
 </html>
