@@ -8,13 +8,8 @@
     <link rel="stylesheet" href="https://use.typekit.net/khf5jdz.css">
 </head>
 <body>
-
-    <nav>
-        <ul>
-            <li><a href="/"><img src="../static/logo.svg" alt="CityPace" height="24px"></a></li>
-            <li><a href="/about">About</a></li>
-        </ul>
-    </nav>
+    {% extends "navbars.html" %}
+    {% block content %}
 
     <div class="content">
         <h1 class="title">Le rythme de votre ville.</h1>
@@ -27,8 +22,6 @@
             <li><a href="/liam">Liam Vander Becken</a></li>
         </ul>
     </div>
-    <footer>
-        <p><span class="subtext">© 2024 CityPace</span><br>Created by G25</p>
-    </footer>
+    {% endblock %}
 </body>
 </html>

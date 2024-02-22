@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CityPace - Le rythme de votre ville</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://use.typekit.net/khf5jdz.css">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="/"><img src="../static/logo.svg" alt="CityPace" height="28px"></a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <p><span class="subtext">© 2024 CityPace</span><br>Created by G25</p>
+    </footer>
+</body>
+</html>
