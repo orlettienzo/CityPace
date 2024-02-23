@@ -5,6 +5,12 @@ stages:
 build_job:
   stage: build
   script:
+    - apt-get -qq update && apt-get -qq install -y python
+    - apt-get -qq update
+    - apt-get -qq install -y python python-virtualenv python-pip
+    - virtualenv venv
+    - . venv/bin/activate
+    - python -V
     - pip install -r requirements.txt
 
 test_job:
