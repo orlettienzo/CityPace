@@ -1,24 +1,19 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<head>
-    <title>About CityPace</title>
-</head>
-<body>
-    {% extends "navbars.html" %}
-    {% block content %}
+{% block title %}
+About CityPace
+{% endblock %}
 
-    <div class="content">
-        <h2>About</h2>
-        <p>{{ HelloWorld }}</p>
-        <h2>La team</h2>
-        <ul>
-            <li><a href="/enzo">Enzo</a></li>
-            <li><a href="/tom">Tom</a></li>
-            <li><a href="/nicolas">Nicolas</a></li>
-            <li><a href="/johannes">Johannes</a></li>
-            <li><a href="/liam">Liam</a></li>
-        </ul>
-    </div>
+{% block content %}
+<div class="content">
+    <h2>La team CityPace</h2>
+    <ul>
+        <li><a href="/enzo">Enzo</a></li>
+        <li><a href="/tom">Tom</a></li>
+        <li><a href="/nicolas">Nicolas</a></li>
+        <li><a href="/johannes">Johannes</a></li>
+        <li><a href="/liam">Liam</a></li>
+    </ul>
+</div>
+{% endblock %}
 
-    {% endblock %}
-</body>
