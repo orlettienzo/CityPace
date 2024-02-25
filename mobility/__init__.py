@@ -3,16 +3,20 @@ from flask import Flask, render_template
 
 
 def create_app(test_config=None):
+    """Création et configuration de l'application. 'L'usine de l'application' comme il disent."""
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
+        DATABASE=os.path.join(app.instance_path, 'db.sqlite')
     )
 
-    from . import city
+    from . import city, street
     app.register_blueprint(city.bp)
+    app.register_blueprint(street.bp)
 
     app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/street', endpoint='street_index')
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -55,5 +59,11 @@ def create_app(test_config=None):
     @app.route('/liam')
     def liam():
         return render_template('liam.html')
+
+    from . import db
+    db.init_app(app)
+
+    with app.app_context():
+        db.init_db()
 
     return app
