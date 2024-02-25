@@ -1,5 +1,9 @@
-# CityPace - Une application d'étude de la mobilité en Wallonie et à Bruxelles
-https://g25.linfo1002.ovh/
+<img src="docs/logo.svg">
+
+Une application d'étude de la mobilité en Wallonie et à Bruxelles
+
+→ https://g25.linfo1002.ovh/
+
 
 ## Données
 CityPace utilise les données des capteurs [Telraam](https://telraam.net/en/what-is-telraam). Telraam utilise une caméra collée à une fenêtre qui donne sur la rue et un algorithme de vision par ordinateur pour compter le nombre de voitures, piétons, cyclistes et poids lourds. Toutes les heures, le capteur renvoie le nombre d'objets détectés et leurs vitesses agrégées à Telraam.net.
