@@ -1,20 +1,20 @@
-# Projet de base
+# CityPace - Une application d'étude de la mobilité en Wallonie et à Bruxelles
+https://g25.linfo1002.ovh/
 
-Projet de base à "forker" pour commencer votre phase 0 et votre propre site web !
+## Données
+CityPace utilise les données des capteurs [Telraam](https://telraam.net/en/what-is-telraam). Telraam utilise une caméra collée à une fenêtre qui donne sur la rue et un algorithme de vision par ordinateur pour compter le nombre de voitures, piétons, cyclistes et poids lourds. Toutes les heures, le capteur renvoie le nombre d'objets détectés et leurs vitesses agrégées à Telraam.net.
 
-Ce projet devrait ressembler au résultat du TP1
+## Équipe
+- [Enzo Andrade Orletti](https://g25.linfo1002.ovh/enzo)
+- [Tom Deglume](https://g25.linfo1002.ovh/tom)
+- [Nicolas Mertens](https://g25.linfo1002.ovh/nicolas)
+- [Johannes Radesey](https://g25.linfo1002.ovh/johannes)
+- [Liam Vander Becken](https://g25.linfo1002.ovh/liam)
 
-test pour rebuild l'application sur coolify
+
 
 ## Lancement
 
     flask --app=mobility --debug run
 
-bonjour
 
-# test commit 2
-
-
-## Capture d'écran
-
-<img src=docs/image1.png >
