@@ -164,3 +164,30 @@ input, button {
 .content {
     margin-top: 50px;
 }
+
+section {
+    margin-top: 10rem;
+}
+
+@media (max-width: 500px) {
+    .section {
+        width: 100%;
+    }
+    .title {
+        margin-top: 0rem;
+    }
+    .description {
+        font-size: 1.5rem;
+    }
+
+    /* nav ul li {
+        margin: 0 0.5rem;
+    } */
+
+    h1 {
+        font-size: 3rem;
+    }
+    /* p {
+        font-size: 1rem;
+    } */
+}
