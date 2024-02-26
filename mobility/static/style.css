@@ -1,18 +1,18 @@
 :root {
-    --rosewater: ;
-    --flamingo: ;
-    --pink: ;
+    --rosewater: #f5e0dc;
+    --flamingo: #f2cdcd;
+    --pink: #f5c2e7;
     --mauve: #cba6f7;
-    --red: ;
-    --maroon: ;
-    --peach: ;
-    --yellow: ;
-    --green: ;
+    --red: #f38ba8;
+    --maroon: #eba0ac;
+    --peach: #fab387;
+    --yellow: #f9e2af;
+    --green: #a6e3a1;
     --teal: #94e2d5;
-    --sky: ;
-    --saphire: ;
-    --blue: ;
-    --lavander: ;
+    --sky: #89dceb;
+    --saphire: #74c7ec;
+    --blue: #89b4fa;
+    --lavander: #b4befe;
     --text: #cdd6f4;
     --subtext1: #bac2de;
     --subtext0: #a6adc8;
@@ -33,6 +33,16 @@
     --enabled: ;
     --warning: ;
     --success: ;
+}
+
+::-moz-selection {
+    color: var(--crust);
+    background: var(--blue);
+}
+
+::selection {
+    color: var(--crust);
+    background: var(--blue);
 }
 
 html {
