@@ -59,6 +59,10 @@ def create_app(test_config=None):
     @app.route('/liam')
     def liam():
         return render_template('liam.html')
+    
+    @app.route('/robots.txt')
+    def robots():
+        return 'User-agent: *\nDisallow: /'
 
     from . import db
     db.init_app(app)
