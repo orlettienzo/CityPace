@@ -14,12 +14,12 @@
     --blue: ;
     --lavander: ;
     --text: #cdd6f4;
-    --subtext1: ;
-    --subtext0: ;
-    --overlay2: ;
-    --overlay1: ;
+    --subtext1: #bac2de;
+    --subtext0: #a6adc8;
+    --overlay2: #9399b2;
+    --overlay1: #7f849c;
     --overlay0: #6c7086;
-    --surface2: ;
+    --surface2: #585b70;
     --surface1: #45475a;
     --surface0: #313244;
     --base: #1e1e2e;
@@ -38,16 +38,18 @@
 html {
     background: var(--mantle);
     color: var(--text);
-    padding: 1rem;
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
     font-style: normal;
 }
 
 body {
-    margin: 0;
     background: var(--base);
     padding: 2rem;
+    /* margin: 1rem;
+    border-radius: 10px; */
+    margin: 0;
+    /* background: var(--mauve); */
 }
 
 footer {
@@ -60,11 +62,12 @@ h1 {
     font-weight: 700;
     font-style: normal;
     margin: 1rem 0;
-    font-size: 3em;
+    font-size: 4rem;
 }
 
 table {
     background-color: var(--surface0);
+    border-radius: 5px;
 }
 
 tr:nth-child(even) {
@@ -75,32 +78,116 @@ a {
     color: var(--text);
 }
 
-nav {
-    background: var(--base);
-    display: flex;
-    align-items: center;
-    padding: 0 0.5rem;
+p {
+    font-size: 1.2rem;
 }
 
-nav h1 {
-    flex: auto;
-    margin: 0;
+nav {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    height: 50px;
+}
+
+.navbar {
+    background: none;
+    width: 100%;
+    position:fixed;
+    border-bottom: 1px solid transparent;
+    top:0;
+    left: 0;
+    margin-top: 10px;
+    transition: background 0.5s, margin-bottom 0.5s, margin-top 0.5s, top 0.5s, padding-top 0.5s, border-bottom 0.5s;
+}
+/* if the page is scrolled to the top */
+.scrolled {
+    padding-top: 3rem;
+    top: -3rem;
+    background: var(--mantle);
+    border-bottom: 1px solid var(--surface0);
+    margin-top: 0;
+    transition: background 0.1s, border-bottom 0.5s, margin-top 0.5s;
 }
 
 nav ul {
     display: flex;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-nav ul li a,
-nav ul li span,
-header {
-    display: block;
-    padding: 0.5rem;
+nav ul li {
+    margin: 0 1rem;
+}
+
+input, button {
+    background: var(--surface0);
+    color: var(--text);
+    border: none;
+    padding: 0.4rem;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 .special {
     color: var(--primary);
+    font-weight: 700;
+}
+
+.title {
+    margin-top: 20rem;
+}
+
+.description {
+    font-size: 2rem;
+}
+
+.subtext {
+    color: var(--subtext0);
+}
+
+.section {
+    margin-top: 2rem;
+    width: 30%;
+}
+
+.logo {
+    height: 32px;
+}
+
+.logo:hover > .logo-text {
+    fill: #cba6f7;
+    transition: 0.3s;
+}
+
+.content {
+    margin-top: 50px;
+}
+
+section {
+    margin-top: 10rem;
+}
+
+@media (max-width: 500px) {
+    .section {
+        width: 100%;
+    }
+    .title {
+        margin-top: 0rem;
+    }
+    .description {
+        font-size: 1.5rem;
+    }
+
+    /* nav ul li {
+        margin: 0 0.5rem;
+    } */
+
+    h1 {
+        font-size: 3rem;
+    }
+    /* p {
+        font-size: 1rem;
+    } */
 }

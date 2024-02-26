@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+Rues
+{% endblock %}
+
+{% block content %}
+
+<h2>Street list</h2>
+<table>
+    <tr>
+        <th>Street id</th>
+        <th>Name</th>
+        <th>Postal code</th>
+        <th>City</th>
+        <th></th>
+    </tr>
+    {% for street in streets %}
+    <tr>
+        <td>{{ street.rue_id }}</td>
+        <td>{{ street.nom }}</td>
+        <td>{{ street.code_postal }}</td>
+        <td>{{ street.city_name }}</td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Street</h2>
+<form method="post" action="{{ url_for("street.street_create") }}">
+<div>
+    <label for="street_id">Street id: </label>
+    <input name="street_id" id="street_id" type="text" />
+</div>
+<div>
+    <label for="name">Name: </label>
+    <input name="name" id="name" type="text" />
+</div>
+<div>
+    <label for="postal_code">Postal code : </label>
+    <input name="postal_code" id="postal_code" type="text" />
+</div>
+<div>
+    <button type="submit">Add a street</button>
+</div>
+</form>
+{% endblock %}

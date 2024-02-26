@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}
+CityPace - Le rythme de votre ville
+{% endblock %}
+
+{% block content %}
+
+<section class="display-title">
+    <h1 class="title">Le rythme de votre ville.</h1>
+    <p class="description subtext">CityPace vous apporte des statistiques sur la circulation dans votre ville. </p>
+</section>
+<section class="section-city">
+    <h2>City list</h2>
+    <table>
+        <tr>
+            <th>Postal code</th>
+            <th>Name</th>
+            <th>Population</th>
+            <th></th>
+        </tr>
+        {% for city in cities %}
+        <tr>
+            <td>{{ city.code_postal }}</td>
+            <td>{{ city.nom }}</td>
+            <td>{{ city.population }}</td>
+            <td><a href="{{ url_for("city.city_delete", postal_code=city.code_postal) }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>New city</h2>
+    <form method="post" action="{{ url_for("city.city_create") }}">
+        <div>
+            <label for="postal_code">Postal code: </label>
+            <input name="postal_code" id="postal_code" type="text" />
+        </div>
+        <div>
+            <label for="name">Name: </label>
+            <input name="name" id="name" type="text" />
+        </div>
+        <div>
+            <label for="population">Population : </label>
+            <input name="population" id="population" type="text" />
+        </div>
+        <div>
+            <button type="submit">Add a city </button>
+        </div>
+    </form>
+</section>
+    
+
+{% endblock %}

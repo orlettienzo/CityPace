@@ -9,13 +9,16 @@ html {
     background: #fff;
 }
 
+img {
+    margin-right: 40px;
+}
+
 p,a {
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
     font-style: normal;
     /* text-decoration: none; */
 }
-
 
 .content {
     display: flex;
@@ -32,5 +35,8 @@ p,a {
         flex-direction: column;
         width: 100%;
         height: 100%;
+    }
+    img {
+        margin-right: 0;
     }
 }
