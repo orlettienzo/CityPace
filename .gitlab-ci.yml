@@ -1,7 +1,6 @@
-image: alpine:3.19
+image: python:3.11-alpine 
 
 before_script:
-  - apk add python3 py3-pip
   - python3 -m venv .venv
   - . ./.venv/bin/activate
   - python3 -m pip install -r requirements.txt
@@ -37,3 +36,11 @@ tests:
     - coverage report -m
     - coverage html
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
+
+docs:
+  stage: test
+  artifacts:
+    paths:
+      - html/mobility
+  script:
+    - pdoc --html mobility 
