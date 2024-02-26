@@ -29,5 +29,11 @@ pretest:
 
 tests:
   stage: test
+  artifacts:
+    paths:
+      - htmlcov/
   script:
-    - python3 -m unittest discover -v -s ./mobility/tests
+    - coverage run --source ./mobility/ -m unittest discover -v -s ./mobility/tests
+    - coverage report -m
+    - coverage html
+  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
