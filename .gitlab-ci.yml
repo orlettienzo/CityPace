@@ -1,7 +1,6 @@
-image: alpine:3.19
+image: python:3.11-alpine 
 
 before_script:
-  - apk add python3 py3-pip
   - python3 -m venv .venv
   - . ./.venv/bin/activate
   - python3 -m pip install -r requirements.txt
