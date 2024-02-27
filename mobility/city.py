@@ -13,17 +13,15 @@ def city_list():
 @bp.route("/create", methods=["POST"])
 def city_create():
     postal_code = request.form["postal_code"]
+    if len(postal_code) != 4:
+        return redirect(url_for("city.city_list"))
     if not search_by_postal_code(int(postal_code)):
         name = request.form["name"]
+        if 20< len(name) < 3:
+            return redirect(url_for("city.city_list"))
         population = request.form["population"]
         city = City(name, population, postal_code)
         city.save()
-
-    ip = request.remote_addr
-    data = {
-        "content": f"{name} - {population} - {postal_code} created by {ip}"
-    }
-    requests.post("https://discord.com/api/webhooks/1212030126792122430/WoBcKMxVkfSPG-lYdrYQ0UyRDt8l2hr1m8pJHlJ-TmFgDIfz6Nwcu69jWS5DAjOnbXpX", json=data, timeout=10)
     return redirect(url_for("city.city_list"))
 
 @bp.route("/delete/<int:postal_code>")
