@@ -34,6 +34,13 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
+def init_db():
+    """Initialisation de la base de données."""
+    db = get_db()
+
+    with current_app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
+
 def init_app(app):
     """To be called when an app is initialized
 
