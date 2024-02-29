@@ -1,6 +1,5 @@
 from flask import (Blueprint, render_template, request, redirect, url_for)
 from mobility.models.city import get_city_list, search_by_postal_code, City
-import requests
 
 bp = Blueprint('city', __name__)
 
