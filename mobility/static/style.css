@@ -238,7 +238,11 @@ section {
     padding: 80px;
 }
 
-@media (max-width: 500px) {
+.menu-button {
+    display: none;
+}
+
+@media (max-width: 800px) {
     .section {
         width: 100%;
     }
@@ -247,6 +251,15 @@ section {
     }
     .description {
         font-size: 1.5rem;
+    }
+
+    /* remove all links from navbar-left */
+    .navbar-link {
+        display: none;
+    }
+
+    .menu-button {
+        display: block;
     }
 
     /* nav ul li {
