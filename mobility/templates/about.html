@@ -7,8 +7,8 @@ About CityPace
 {% block content %}
 <section>
     <h2>La <span class="special">team</span> CityPace</h2>
-    <h4> Citypace est un site web créer par le groupe 25 dans le cadre du premier projet de LINFO1002, cours de L'UCLouvain.</h4>
-    <h4> Le groupe est composé de :</h4>
+    <p>Citypace est un projet créé par le 5 étudiants de <a href=https://uclouvain.be/fr/index.html">l'UCLouvain</a> dans le cadre du cours d'LINFO1002. Le véritable but de ce projet est d'appendre à utiliser Flask, SQLite et l'html/css.</p>
+    <p>Le groupe est composé de :</p>
     <ul>
         <li><a href="/enzo">Enzo</a></li>
         <li><a href="/tom">Tom</a></li>
@@ -16,6 +16,12 @@ About CityPace
         <li><a href="/johannes">Johannes</a></li>
         <li><a href="/liam">Liam</a></li>
     </ul>
+    <h2>Nos objectifs pour ce site</h2>
+    <p>Pour notre groupe, il est très important que ce site reste simple à utiliser, accessible, et authentique.</p>
+
+    <h2>D'où viennent ces données?</h2>
+    <p>CityPace utilise les données des capteurs Telraam. Telraam a une réseau de capteurs sous la forme d'une caméra collée à une fenêtre qui donne sur la rue et un algorithme de vision par ordinateur pour compter le nombre de voitures, piétons, cyclistes et poids lourds. Toutes les heures, le capteur renvoie le nombre d'objets détectés et leurs vitesses agrégées à Telraam.net.</p>
+    <p>CityPace n'utilise pas l'api Telraam directement mais une copie sous la forme d'un csv converti en base de données SQL.</p>
 </section>
 {% endblock %}
 
