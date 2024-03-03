@@ -154,10 +154,12 @@ form {
 
 .hamburger-menu-button {
     display: none;
+    cursor: pointer;
 }
 
 .hamburger-exit-button {
     text-align: right;
+    cursor: pointer;
 }
 
 .hamburger-menu-navbar {
