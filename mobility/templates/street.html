@@ -6,13 +6,13 @@ Rues
 
 {% block content %}
 <section>
-    <h2>Street list</h2>
+    <h2>Liste des rues</h2>
     <table>
         <tr>
-            <th>Street id</th>
-            <th>Name</th>
-            <th>Postal code</th>
-            <th>City</th>
+            <th>Identifiant de la rue</th>
+            <th>Nom</th>
+            <th>Code postal</th>
+            <th>Ville</th>
             <th></th>
         </tr>
         {% for street in streets %}
@@ -29,19 +29,19 @@ Rues
     <h2>Street</h2>
     <form method="post" action="{{ url_for("street.street_create") }}">
     <div>
-        <label for="street_id">Street id: </label>
+        <label for="street_id">Identifiant de la rue : </label>
         <input name="street_id" id="street_id" type="text" />
     </div>
     <div>
-        <label for="name">Name: </label>
+        <label for="name">Nom : </label>
         <input name="name" id="name" type="text" />
     </div>
     <div>
-        <label for="postal_code">Postal code : </label>
+        <label for="postal_code">Code postal : </label>
         <input name="postal_code" id="postal_code" type="text" />
     </div>
     <div>
-        <button type="submit">Add a street</button>
+        <button type="submit">Ajouter</button>
     </div>
     </form>
 </section>

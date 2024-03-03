@@ -75,7 +75,7 @@ body {
     padding: 0;
 }
 
-p {
+p, a {
     font-size: var(--paragraph);
     line-height: var(--line-size)
 }

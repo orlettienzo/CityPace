@@ -12,14 +12,14 @@ CityPace - Le rythme de votre ville
     </div>
 </section>
 <section class="section-city">
-    <h2>City list</h2>
+    <h2>Demo : Liste des villes</h2>
     <p>
-        Here is the list of cities in the database. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit corporis nobis magnam veritatis ullam amet fugit accusamus? Perspiciatis, esse omnis atque animi labore aut facilis voluptatum! Tempora esse in laboriosam!
+        Voici une petite demo de notre base de données :) . Vous pouvez ajouter ou supprimer des villes.
     </p>
     <table>
         <tr>
-            <th>Postal code</th>
-            <th>Name</th>
+            <th>Code postal</th>
+            <th>Nom</th>
             <th>Population</th>
             <th></th>
         </tr>
@@ -32,14 +32,14 @@ CityPace - Le rythme de votre ville
         </tr>
         {% endfor %}
     </table>
-    <h2>New city</h2>
+    <h2>Ajouter une ville</h2>
     <form method="post" action="{{ url_for("city.city_create") }}">
         <div>
-            <label for="postal_code">Postal code: </label>
+            <label for="postal_code">Code postal : </label>
             <input name="postal_code" id="postal_code" type="text" />
         </div>
         <div>
-            <label for="name">Name: </label>
+            <label for="name">Nom : </label>
             <input name="name" id="name" type="text" />
         </div>
         <div>
@@ -47,7 +47,7 @@ CityPace - Le rythme de votre ville
             <input name="population" id="population" type="text" />
         </div>
         <div>
-            <button type="submit">Add a city </button>
+            <button type="submit">Ajouter</button>
         </div>
     </form>
 </section>
