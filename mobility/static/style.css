@@ -285,7 +285,7 @@ form {
 
 .logo {
     height: 38px;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
 }
 
 .logo:hover > .logo-text {
