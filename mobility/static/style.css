@@ -34,6 +34,9 @@
     --warning: ;
     --success: ;
     --side-padding-width: 80px;
+
+    --paragraph: 1.25rem;
+    --line-size: 2rem;
 }
 
 ::-moz-selection {
@@ -47,6 +50,7 @@
 }
 
 * {
+    color: var(--text);
     box-sizing: border-box;
 }
 
@@ -71,6 +75,11 @@ body {
     padding: 0;
 }
 
+p {
+    font-size: var(--paragraph);
+    line-height: var(--line-size)
+}
+
 section {
     padding-top: 80px;
     padding-left: var(--side-padding-width);
@@ -92,19 +101,12 @@ h2 {
 table {
     background-color: var(--surface0);
     border-radius: 5px;
+    font-size: var(--paragraph);
+    width: 100%;
 }
 
 tr:nth-child(even) {
     background-color: var(--surface1);
-}
-
-a {
-    color: var(--text);
-}
-
-p {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
 }
 
 input, button {
@@ -114,6 +116,15 @@ input, button {
     padding: 0.4rem;
     border-radius: 5px;
     margin-top: 10px;
+    font-size: var(--paragraph);
+    font-family: neulis-sans, sans-serif;
+    font-weight: 400;
+}
+
+form {
+    font-size: var(--paragraph);
+    font-family: neulis-sans, sans-serif;
+    font-weight: 400;
 }
 
 .navbar {
@@ -160,7 +171,7 @@ input, button {
 
 .hamburger-menu {
     height: 100%;
-    width: 20rem;
+    width: 30rem;
     background: var(--mantle);
     border-left: 1px solid var(--surface0);
     /* padding-top: 80px; */
@@ -168,12 +179,12 @@ input, button {
 
     position: fixed;
     top: 0;
-    right: -20rem;
+    right: -30rem;
 
     display: flex;
     flex-direction: column;
     /* align-items: center; */
-    gap: 2rem;
+    gap: 5rem;
     /* z-index: 3; */
     transition: right 0.3s;
 }
@@ -217,7 +228,7 @@ input, button {
 }
 
 .navbar-link, .hamburger-link {
-    font-size: 18px;
+    font-size: var(--paragraph);
     text-decoration: none;
     font-weight: 600;
 }
@@ -287,9 +298,6 @@ input, button {
     .title {
         margin-top: 2rem;
     }
-    .description {
-        font-size: 1.5rem;
-    }
 
     .navbar-link {
         display: none;
@@ -299,8 +307,36 @@ input, button {
         display: block;
     }
 
+    .hamburger-menu-button svg, .hamburger-exit-button svg {
+        height: var(--paragraph);
+        width: var(--paragraph);
+    }
+
+    .logo {
+        height: 82px;
+    }
+
+    .navbar {
+        height: 120px;
+    }
+
+    section {
+        padding-top: 120px;
+        padding-bottom: 120px;
+    }
+
+    /* multiplay all font sizes by 2 */
     h1 {
+        font-size: 6rem;
+    }
+
+    h2 {
         font-size: 3rem;
+    }
+
+    :root {
+        --paragraph: 2rem;
+        --line-size: 3rem;
     }
 
 }
