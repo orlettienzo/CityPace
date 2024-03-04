@@ -39,8 +39,6 @@ def init_db():
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
-    import mobility.csv_converter
-    mobility.csv_converter.ugly_csv_to_sqlite()
 
 def init_app(app):
     """To be called when an app is initialized

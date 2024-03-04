@@ -21,9 +21,9 @@ def street_create(name:str, postal_code:int, street_id:int):
     street.add()
     # return redirect(url_for("street.street_list"))
 
-@bp.route("/delete/<int:street_id>")
-def street_delete(street_id):
-    street = Street.get(street_id)
-    if street:
-        street.delete()
-    return redirect(url_for("street.street_list"))
+# @bp.route("/delete/<int:street_id>")
+# def street_delete(street_id):
+#     street = Street.get(street_id)
+#     if street:
+#         street.delete()
+#     return redirect(url_for("street.street_list"))

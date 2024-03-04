@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template
+import threading as bg_thread
 
 
 def create_app(test_config=None):
@@ -20,6 +21,8 @@ def create_app(test_config=None):
 
     app.add_url_rule('/', endpoint='index')
     app.add_url_rule('/street', endpoint='street_index')
+
+    app.app_context().push()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -76,5 +79,14 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.init_db()
+
+    import mobility.csv_converter
+    mobility.csv_converter.populate_db()
+
+    # def populate_db_background():
+    #     with app.app_context():
+    #         bg_thread.Thread(target=mobility.csv_converter.populate_db).start()
+
+    # populate_db_background()
 
     return app

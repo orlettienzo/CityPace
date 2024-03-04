@@ -26,9 +26,9 @@ def city_create(name:str, population:int, postal_code:int):
     # return redirect(url_for("city.city_list"))
     # return redirect("/")
 
-@bp.route("/delete/<int:postal_code>")
-def city_delete(postal_code):
-    city = City.get(postal_code)
-    if city:
-        city.delete()
-    return redirect(url_for("city.city_list"))
+# @bp.route("/delete/<int:postal_code>")
+# def city_delete(postal_code):
+#     city = City.get(postal_code)
+#     if city:
+#         city.delete()
+#     return redirect(url_for("city.city_list"))

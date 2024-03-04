@@ -8,6 +8,9 @@ from flask import current_app, g
 import mobility.models.city_model
 import mobility.models.street_model
 import mobility.models.speed_model
+import mobility.models.v85_model
+import mobility.models.trafic_model
+
 
 POPULATION = {"bruxelles":1_222_657,
               "grobbendonk":11_249,
@@ -20,7 +23,7 @@ POPULATION = {"bruxelles":1_222_657,
               "herzele":17_723,
               }
 
-def ugly_csv_to_sqlite():
+def populate_db():
     previous_city_code_postal = 0
     previous_street_id = 0
     path = os.path.join(os.path.dirname(__file__), "ugly_csv.csv")
@@ -53,6 +56,26 @@ def ugly_csv_to_sqlite():
                 speed.add()
 
             # v85
+            # estimation de la limite de vitesse qui est respectée par 85% des usagers de la route (15% des usagers dépassent cette vitesse). Cette valeur est absente si aucune usagers n'a été observé.
+            t.sort()
+            somme_cumulative = 0
+            limite_vitesse = 0
+            for proportion in t:
+                somme_cumulative += proportion
+                if somme_cumulative >= 0.85:
+                    limite_vitesse = proportion
+                    break
+            
+            v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], limite_vitesse)
+            v85.add()
+
+            # trafic
+            traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
+
+            for type_vehicule, nb_vehicules in traffic_dict.items():
+                trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
+                trafic.add()
+
             
             
     print("done!")
