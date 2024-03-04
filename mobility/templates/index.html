@@ -7,7 +7,7 @@ CityPace - Le rythme de votre ville
 
 <section class="display-title">
     <div>
-        <h1 class="title">Le <span class="special">rythme</span> de votre ville.</h1>
+        <h1 class="title">Le <span class="special">Rythme</span> de votre ville.</h1>
         <p class="description">CityPace vous apporte des statistiques sur la circulation dans votre ville. </p>
     </div>
 </section>
@@ -21,19 +21,17 @@ CityPace - Le rythme de votre ville
             <th>Code postal</th>
             <th>Nom</th>
             <th>Population</th>
-            <th></th>
         </tr>
         {% for city in cities %}
         <tr>
             <td>{{ city.code_postal }}</td>
             <td>{{ city.nom }}</td>
             <td>{{ city.population }}</td>
-            <td><a href="{{ url_for("city.city_delete", postal_code=city.code_postal) }}">Delete</a></td>
         </tr>
         {% endfor %}
     </table>
-    <h2>Ajouter une ville</h2>
-    <form method="post" action="{{ url_for("city.city_create") }}">
+    <!-- <h2>Ajouter une ville</h2> -->
+    <!-- <form method="post" action="{{ url_for("city.city_create") }}">
         <div>
             <label for="postal_code">Code postal : </label>
             <input name="postal_code" id="postal_code" type="text" />
@@ -49,7 +47,7 @@ CityPace - Le rythme de votre ville
         <div>
             <button type="submit">Ajouter</button>
         </div>
-    </form>
+    </form> -->
 </section>
     
 

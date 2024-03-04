@@ -1,11 +1,13 @@
 import os
 from flask import Flask, render_template
+from flask_executor import Executor
 
 
 def create_app(test_config=None):
     """Création et configuration de l'application. 'L'usine de l'application' comme il disent."""
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    executor = Executor(app)
     if test_config:
         app.config.from_mapping(test_config)
     else:
@@ -20,6 +22,8 @@ def create_app(test_config=None):
 
     app.add_url_rule('/', endpoint='index')
     app.add_url_rule('/street', endpoint='street_index')
+
+    app.app_context().push()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -76,5 +80,16 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.init_db()
+
+    # context_lol = app.app_context()
+        
+    @app.route('/populate')
+    def populate_task():
+        executor.submit(populate)
+        return 'Populating the database... inchallah this works'
+
+    def populate():
+        import mobility.csv_converter
+        mobility.csv_converter.populate_db()
 
     return app

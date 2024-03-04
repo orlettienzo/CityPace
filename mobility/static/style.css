@@ -103,10 +103,18 @@ table {
     border-radius: 5px;
     font-size: var(--paragraph);
     width: 100%;
+    overflow: hidden;
+    text-align: center;
+    max-width: 1200px;
 }
 
 tr:nth-child(even) {
     background-color: var(--surface1);
+}
+
+td {
+    /* hide if overflow */
+    overflow: hidden;
 }
 
 input, button {
@@ -173,7 +181,7 @@ form {
 
 .hamburger-menu {
     height: 100%;
-    width: 30rem;
+    width: 70%;
     background: var(--mantle);
     border-left: 1px solid var(--surface0);
     /* padding-top: 80px; */
@@ -181,7 +189,7 @@ form {
 
     position: fixed;
     top: 0;
-    right: -30rem;
+    right: -70%;
 
     display: flex;
     flex-direction: column;
@@ -285,7 +293,7 @@ form {
 
 .logo {
     height: 38px;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
 }
 
 .logo:hover > .logo-text {
@@ -293,7 +301,7 @@ form {
     transition: 0.3s;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 800px) {
     .section {
         width: 100%;
     }
@@ -316,25 +324,29 @@ form {
     }
 
     .logo {
-        height: 82px;
+        /* height: 82px; */
     }
 
     .navbar {
-        height: 120px;
+        height: 100px;
     }
 
     section {
-        padding-top: 120px;
-        padding-bottom: 120px;
+        /* padding-top: 120px;
+        padding-bottom: 120px; */
     }
 
     /* multiplay all font sizes by 2 */
     h1 {
-        font-size: 4rem;
+        /* font-size: 4rem; */
     }
 
     h2 {
-        font-size: 3rem;
+        /* font-size: 3rem; */
+    }
+
+    table {
+        font-size: 18px;
     }
 
     :root {

@@ -7,7 +7,6 @@ def get_db():
     Returns:
         db: The db connection to be used for SQL functions
     """
-
     #g is the shorthand for "globals" and allows registering available in the whole Flask app
     if 'db' not in g:
         #If it's not there, let's create the db connection
@@ -19,7 +18,6 @@ def get_db():
 
         # Instead of getting "tuple" out of queries, we'll get dictionaries of column->value
         g.db.row_factory = sqlite3.Row
-
 
     return g.db
 
@@ -41,6 +39,7 @@ def init_db():
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
+
 def init_app(app):
     """To be called when an app is initialized
 
@@ -49,4 +48,3 @@ def init_app(app):
         app: the application context
     """
     app.teardown_appcontext(close_db)
-
