@@ -24,24 +24,5 @@ Rues
         </tr>
         {% endfor %}
     </table>
-
-    <h2>Street</h2>
-    <form method="post" action="{{ url_for("street.street_create") }}">
-    <div>
-        <label for="street_id">Identifiant de la rue : </label>
-        <input name="street_id" id="street_id" type="text" />
-    </div>
-    <div>
-        <label for="name">Nom : </label>
-        <input name="name" id="name" type="text" />
-    </div>
-    <div>
-        <label for="postal_code">Code postal : </label>
-        <input name="postal_code" id="postal_code" type="text" />
-    </div>
-    <div>
-        <button type="submit">Ajouter</button>
-    </div>
-    </form>
 </section>
 {% endblock %}
