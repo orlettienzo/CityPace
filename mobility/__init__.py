@@ -1,12 +1,13 @@
 import os
 from flask import Flask, render_template
-import threading as bg_thread
+from flask_executor import Executor
 
 
 def create_app(test_config=None):
     """Création et configuration de l'application. 'L'usine de l'application' comme il disent."""
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    executor = Executor(app)
     if test_config:
         app.config.from_mapping(test_config)
     else:
@@ -80,13 +81,15 @@ def create_app(test_config=None):
     with app.app_context():
         db.init_db()
 
-    import mobility.csv_converter
-    mobility.csv_converter.populate_db()
+    # context_lol = app.app_context()
+        
+    @app.route('/populate')
+    def populate_task():
+        executor.submit(populate)
+        return 'Populating the database... inchallah this works'
 
-    # def populate_db_background():
-    #     with app.app_context():
-    #         bg_thread.Thread(target=mobility.csv_converter.populate_db).start()
-
-    # populate_db_background()
+    def populate():
+        import mobility.csv_converter
+        mobility.csv_converter.populate_db()
 
     return app
