@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template
 from flask_executor import Executor
+import mobility.csv_converter
 
 
 def create_app(test_config=None):
@@ -84,7 +85,6 @@ def create_app(test_config=None):
         db.init_db()
 
     def populate():
-        import mobility.csv_converter
         mobility.csv_converter.populate_db()
         
     @app.route('/populate')
@@ -108,8 +108,7 @@ def create_app(test_config=None):
     
     @app.route('/progress')
     def progress():
-        # get progress variable from mobility.csv_converter
-        import mobility.csv_converter
+        # progress variable from mobility.csv_converter
         return str(mobility.csv_converter.progress)
 
     

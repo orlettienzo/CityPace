@@ -1,18 +1,20 @@
 from flask import (Blueprint, redirect, render_template, request, url_for)
 from mobility.models.street_model import get_street_list,search_street_id, Street
 import sqlite3
+import mobility.csv_converter
 
 bp = Blueprint('street', __name__)
 
 # Define the routes code
 @bp.route('/street')
 def street_list():
-    # try to get street list id the db is not locked
-    try:
-        streets = get_street_list()
-    except sqlite3.OperationalError:
-        streets = []
-    return render_template("street.html", streets=streets)
+    if mobility.csv_converter.done:
+        try:
+            streets = get_street_list()
+        except sqlite3.OperationalError:
+            return render_template("street.html", done=False)
+        return render_template("street.html", done=True, streets=streets)
+    return render_template("street.html", done=False)
 
 @bp.route("/create_street", methods=["POST"])
 def street_create(name:str, postal_code:int, street_id:int):

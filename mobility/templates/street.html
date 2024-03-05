@@ -7,22 +7,28 @@ Rues
 {% block content %}
 <section>
     <h2>Liste des rues</h2>
-    <table>
-        <tr>
-            <th>Identifiant de la rue</th>
-            <th>Nom</th>
-            <th>Code postal</th>
-            <th>Ville</th>
-        </tr>
-        {% for street in streets %}
-        <tr>
-            <td>{{ street.rue_id }}</td>
-            <td>{{ street.nom }}</td>
-            <td>{{ street.code_postal }}</td>
-            <td>{{ street.city_name }}</td>
+    {% if done %}
+        <table>
+            <tr>
+                <th>Identifiant de la rue</th>
+                <th>Nom</th>
+                <th>Code postal</th>
+                <th>Ville</th>
+            </tr>
+            {% for street in streets %}
+            <tr>
+                <td>{{ street.rue_id }}</td>
+                <td>{{ street.nom }}</td>
+                <td>{{ street.code_postal }}</td>
+                <td>{{ street.city_name }}</td>
 
-        </tr>
-        {% endfor %}
-    </table>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
 </section>
 {% endblock %}

@@ -4,7 +4,10 @@ import os
 import time
 
 if os.path.exists('app_initialized'):
-    os.remove('app_initialized')
+    try:
+        os.remove('app_initialized')
+    except:
+        pass
 
 time.sleep(5)
 
