@@ -1,15 +1,6 @@
 import os
 from flask import Flask, render_template
 from flask_executor import Executor
-import requests
-
-def discord_notify(message):
-    url = "https://discord.com/api/webhooks/1212030126792122430/WoBcKMxVkfSPG-lYdrYQ0UyRDt8l2hr1m8pJHlJ-TmFgDIfz6Nwcu69jWS5DAjOnbXpX"
-    data = {
-        "content": message
-    }
-    requests.post(url, data=data)
-
 
 
 def create_app(test_config=None):
@@ -18,12 +9,6 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     executor = Executor(app)
     db_populated = False
-    # get python version
-    discord_notify(f"# Starting")
-    discord_notify(f"**Python version** : {os.popen('python --version').read()}")
-    # get csv module version
-    discord_notify(f"**flask-executor** module version: {os.popen('pip show flask-executor').read()}")
-    discord_notify(f"**flask** module version: {os.popen('pip show flask').read()}")
 
     if test_config:
         app.config.from_mapping(test_config)
@@ -97,17 +82,29 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.init_db()
+
+    def populate():
+        import mobility.csv_converter
+        mobility.csv_converter.populate_db()
         
     @app.route('/populate')
     def populate_task():
-        nonlocal db_populated
+        # nonlocal db_populated
 
-        if db_populated:
-            return 'Database already populated'
-        db_populated = True
-        executor.submit(populate)
-        discord_notify('submitting populate task to executor...')
-        return 'Populating the database...'
+        # if db_populated:
+        #     return 'Database already populated'
+        # db_populated = True
+        # executor.submit(populate)
+
+        if not os.path.exists('app_initialized'):
+            executor.submit_stored('populate', populate)
+
+            with open('app_initialized', 'w') as f:
+                pass
+
+            return 'Populating the database...'
+        return 'Database already populated'
+
     
     @app.route('/progress')
     def progress():
@@ -115,8 +112,6 @@ def create_app(test_config=None):
         import mobility.csv_converter
         return str(mobility.csv_converter.progress)
 
-    def populate():
-        import mobility.csv_converter
-        mobility.csv_converter.populate_db()
+    
 
     return app
