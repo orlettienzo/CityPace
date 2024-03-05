@@ -8,6 +8,8 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     executor = Executor(app)
+    db_populated = False
+
     if test_config:
         app.config.from_mapping(test_config)
     else:
@@ -80,13 +82,16 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.init_db()
-
-    # context_lol = app.app_context()
         
     @app.route('/populate')
     def populate_task():
+        nonlocal db_populated
+
+        if db_populated:
+            return 'Database already populated'
+        db_populated = True
         executor.submit(populate)
-        return 'Populating the database... inchallah this works'
+        return 'Populating the database...'
 
     def populate():
         import mobility.csv_converter
