@@ -92,6 +92,12 @@ def create_app(test_config=None):
         db_populated = True
         executor.submit(populate)
         return 'Populating the database...'
+    
+    @app.route('/progress')
+    def progress():
+        # get progress variable from mobility.csv_converter
+        import mobility.csv_converter
+        return str(mobility.csv_converter.progress)
 
     def populate():
         import mobility.csv_converter

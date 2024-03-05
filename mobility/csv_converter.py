@@ -23,7 +23,10 @@ POPULATION = {"bruxelles":1_222_657,
               "herzele":17_723,
               }
 
+progress = 0
+
 def populate_db():
+    global progress
     previous_city_code_postal = 0
     previous_street_id = 0
     path = os.path.join(os.path.dirname(__file__), "ugly_csv.csv")
@@ -35,6 +38,8 @@ def populate_db():
         for row in reader:
             if reader.line_num % 1000 == 0:
                 print(f"{reader.line_num}/18048 lines processed")
+
+            progress = reader.line_num
 
             # villes
             city = mobility.models.city_model.City(row["nom_de_ville"].capitalize(), POPULATION[row["nom_de_ville"].lower()], row["code_postal"])
