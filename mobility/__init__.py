@@ -11,12 +11,19 @@ def discord_notify(message):
     requests.post(url, data=data)
 
 
+
 def create_app(test_config=None):
     """Création et configuration de l'application. 'L'usine de l'application' comme il disent."""
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     executor = Executor(app)
     db_populated = False
+    # get python version
+    discord_notify(f"# Starting")
+    discord_notify(f"**Python version** : {os.popen('python --version').read()}")
+    # get csv module version
+    discord_notify(f"**flask-executor** module version: {os.popen('pip show flask-executor').read()}")
+    discord_notify(f"**flask** module version: {os.popen('pip show flask').read()}")
 
     if test_config:
         app.config.from_mapping(test_config)
