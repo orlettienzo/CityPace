@@ -1,6 +1,14 @@
 import os
 from flask import Flask, render_template
 from flask_executor import Executor
+import requests
+
+def discord_notify(message):
+    url = "https://discord.com/api/webhooks/1212030126792122430/WoBcKMxVkfSPG-lYdrYQ0UyRDt8l2hr1m8pJHlJ-TmFgDIfz6Nwcu69jWS5DAjOnbXpX"
+    data = {
+        "content": message
+    }
+    requests.post(url, data=data)
 
 
 def create_app(test_config=None):
@@ -91,6 +99,7 @@ def create_app(test_config=None):
             return 'Database already populated'
         db_populated = True
         executor.submit(populate)
+        discord_notify('submitting populate task to executor...')
         return 'Populating the database...'
     
     @app.route('/progress')
