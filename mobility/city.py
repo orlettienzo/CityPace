@@ -1,12 +1,16 @@
 from flask import (Blueprint, render_template, request, redirect, url_for)
 from mobility.models.city_model import get_city_list, search_by_postal_code, City
+import sqlite3
 
 bp = Blueprint('city', __name__)
 
 # Define the routes code
 @bp.route('/')
 def city_list():
-    cities = get_city_list()
+    try:
+        cities = get_city_list()
+    except sqlite3.OperationalError:
+        cities = []
     return render_template("index.html", cities=cities)
 
 @bp.route("/create", methods=["POST"])
