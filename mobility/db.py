@@ -42,7 +42,9 @@ def init_db():
     db = get_db()
 
     # if the database is empty:
-    if db.execute('SELECT * FROM ville').fetchone() is not None:
+    try:
+        db.execute('SELECT * FROM ville').fetchone()
+    except sqlite3.OperationalError:
         with current_app.open_resource('schema.sql') as f:
             db.executescript(f.read().decode('utf8'))
 
