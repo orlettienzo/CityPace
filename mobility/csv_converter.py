@@ -10,6 +10,14 @@ import mobility.models.street_model
 import mobility.models.speed_model
 import mobility.models.v85_model
 import mobility.models.trafic_model
+import requests
+
+def discord_notify(message):
+    url = "https://discord.com/api/webhooks/1212030126792122430/WoBcKMxVkfSPG-lYdrYQ0UyRDt8l2hr1m8pJHlJ-TmFgDIfz6Nwcu69jWS5DAjOnbXpX"
+    data = {
+        "content": message
+    }
+    requests.post(url, data=data)
 
 
 POPULATION = {"bruxelles":1_222_657,
@@ -32,12 +40,14 @@ def populate_db():
     path = os.path.join(os.path.dirname(__file__), "ugly_csv.csv")
     with open(path, "r", encoding="utf-8") as file:
         print("populating database with ugly_csv.csv...")
+        discord_notify("populating database with ugly_csv.csv...")
 
         reader = csv.DictReader(file)
 
         for row in reader:
             if reader.line_num % 1000 == 0:
                 print(f"{reader.line_num}/18048 lines processed")
+                discord_notify(f"{reader.line_num}/18048 lines processed")
 
             progress = reader.line_num
 
@@ -84,3 +94,4 @@ def populate_db():
             
             
     print("done!")
+    discord_notify("done!")

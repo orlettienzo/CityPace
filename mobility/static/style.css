@@ -301,6 +301,12 @@ form {
     transition: 0.3s;
 }
 
+.illustraded-paragraph {
+    display: flex;
+    align-items: center;
+}
+
+
 @media (max-width: 800px) {
     .section {
         width: 100%;
@@ -349,10 +355,10 @@ form {
         font-size: 18px;
     }
 
-    /* :root {
-        --paragraph: 2rem;
-        --line-size: 3rem;
-    } */
+    .illustraded-paragraph {
+        flex-direction: column;
+    
+    }
 
 }
 

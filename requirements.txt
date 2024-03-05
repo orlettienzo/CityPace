@@ -5,3 +5,5 @@ gunicorn
 coverage
 pdoc3
 flask-executor
+requests
+
