@@ -42,11 +42,13 @@ def init_db():
     db = get_db()
 
     # if the database is empty:
-    try:
-        db.execute('SELECT * FROM ville').fetchone()
-    except sqlite3.OperationalError:
-        with current_app.open_resource('schema.sql') as f:
-            db.executescript(f.read().decode('utf8'))
+    # try:
+    #     db.execute('SELECT * FROM ville').fetchone()
+    # except sqlite3.OperationalError:
+        # with current_app.open_resource('schema.sql') as f:
+        #     db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
 def init_app(app):
     """To be called when an app is initialized
