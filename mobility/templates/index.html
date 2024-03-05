@@ -13,20 +13,26 @@ CityPace - Le rythme de votre ville
 </section>
 <section class="section-city">
     <h2>Demo : Liste des villes</h2>
-    <table>
-        <tr>
-            <th>Code postal</th>
-            <th>Nom</th>
-            <th>Population</th>
-        </tr>
-        {% for city in cities %}
-        <tr>
-            <td>{{ city.code_postal }}</td>
-            <td>{{ city.nom }}</td>
-            <td>{{ city.population }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% if done %}
+        <table>
+            <tr>
+                <th>Code postal</th>
+                <th>Nom</th>
+                <th>Population</th>
+            </tr>
+            {% for city in cities %}
+            <tr>
+                <td>{{ city.code_postal }}</td>
+                <td>{{ city.nom }}</td>
+                <td>{{ city.population }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
 </section>
     
 
