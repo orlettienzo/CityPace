@@ -57,35 +57,33 @@ def populate_db():
                 street.add()
             previous_street_id = row["rue_id"]
 
-            # j'ai comment juste le temps qu'on utilise pas ces données
+            # vitesse
+            t = row["histogramme_0_a_120plus"]
+            t = ast.literal_eval(t)
+            for index_tranche_de_vitesse in range(len(t)):
+                speed = mobility.models.speed_model.Speed(row["rue_id"], row["date"], index_tranche_de_vitesse*5, t[index_tranche_de_vitesse])
+                speed.add()
 
-            # # vitesse
-            # t = row["histogramme_0_a_120plus"]
-            # t = ast.literal_eval(t)
-            # for index_tranche_de_vitesse in range(len(t)):
-            #     speed = mobility.models.speed_model.Speed(row["rue_id"], row["date"], index_tranche_de_vitesse*5, t[index_tranche_de_vitesse])
-            #     speed.add()
-
-            # # v85
-            # # estimation de la limite de vitesse qui est respectée par 85% des usagers de la route (15% des usagers dépassent cette vitesse). Cette valeur est absente si aucune usagers n'a été observé.
-            # t.sort()
-            # somme_cumulative = 0
-            # limite_vitesse = 0
-            # for proportion in t:
-            #     somme_cumulative += proportion
-            #     if somme_cumulative >= 0.85:
-            #         limite_vitesse = proportion
-            #         break
+            # v85
+            # estimation de la limite de vitesse qui est respectée par 85% des usagers de la route (15% des usagers dépassent cette vitesse). Cette valeur est absente si aucune usagers n'a été observé.
+            t.sort()
+            somme_cumulative = 0
+            limite_vitesse = 0
+            for proportion in t:
+                somme_cumulative += proportion
+                if somme_cumulative >= 0.85:
+                    limite_vitesse = proportion
+                    break
             
-            # v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], limite_vitesse)
-            # v85.add()
+            v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], limite_vitesse)
+            v85.add()
 
-            # # trafic
-            # traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
+            # trafic
+            traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
 
-            # for type_vehicule, nb_vehicules in traffic_dict.items():
-            #     trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
-            #     trafic.add()
+            for type_vehicule, nb_vehicules in traffic_dict.items():
+                trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
+                trafic.add()
 
             
     db = get_db()
