@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template
 from flask_executor import Executor
 import mobility.csv_converter
+import time
 
 
 def create_app(test_config=None):
@@ -10,6 +11,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     executor = Executor(app)
     db_populated = False
+    start_time = 0
 
     if test_config:
         app.config.from_mapping(test_config)
@@ -109,7 +111,7 @@ def create_app(test_config=None):
     @app.route('/progress')
     def progress():
         # progress variable from mobility.csv_converter
-        return str(mobility.csv_converter.progress)
+        return f"{round(mobility.csv_converter.progress/18048*100, 1)}% done."
 
     
 

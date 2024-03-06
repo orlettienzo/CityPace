@@ -30,14 +30,16 @@ CREATE TABLE IF NOT EXISTS v85 (
     PRIMARY KEY (rue_id, date)
     FOREIGN KEY (rue_id) REFERENCES rue(rue_id)
 );
-DROP TABLE IF EXISTS trafic;
-CREATE TABLE IF NOT EXISTS trafic (
+DROP TABLE IF EXISTS traffic;
+CREATE TABLE IF NOT EXISTS traffic (
     rue_id INTEGER NOT NULL,
     date TEXT NOT NULL,
-    type_vehicule TEXT NOT NULL,
-    nb_vehicules INTEGER NOT NULL,
+    lourd INTEGER,
+    voiture INTEGER,
+    velo INTEGER,
+    pieton INTEGER,
     FOREIGN KEY (rue_id) REFERENCES rue(rue_id),
-    PRIMARY KEY (rue_id, date, type_vehicule)
+    PRIMARY KEY (rue_id, date)
 );
 DROP TABLE IF EXISTS appdata;
 CREATE TABLE IF NOT EXISTS appdata (
