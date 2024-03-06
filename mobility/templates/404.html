@@ -1,12 +1,26 @@
 {% extends "base.html" %}
+
 {% block title %}
-Page not found
+Rues
 {% endblock %}
 
 {% block content %}
 <section>
-    <h1>404 :/</h1>
-    <p>Hé! La page n'existe pas (encore)! Soyez patient!</p>
-    <a href="/">Retour à la page principale</a>
+    <h2>Nombre de rue par ville</h2>
+    {% if done %}
+        <table>
+            <tr>
+                for row in cursor.execute("SELECT nom_de_ville, rue_id, FROM nom_de_rue ORDER BY nom_de_ville"):
+                print(row)
+
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
 </section>
 {% endblock %}
+
