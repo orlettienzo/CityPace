@@ -11,13 +11,14 @@ import mobility.models.speed_model
 import mobility.models.v85_model
 import mobility.models.trafic_model
 import requests
+from mobility.db import get_db
 
 
 progress = 0
 done = False
 
 def populate_db():
-    global progress, done
+    global progress, done, session
 
     POPULATION = {"bruxelles":1_222_657,
               "grobbendonk":11_249,
@@ -79,13 +80,17 @@ def populate_db():
             # v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], limite_vitesse)
             # v85.add()
 
-            # # trafic
-            # traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
+            # trafic
+            traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
 
-            # for type_vehicule, nb_vehicules in traffic_dict.items():
-            #     trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
-            #     trafic.add()
+            for type_vehicule, nb_vehicules in traffic_dict.items():
+                trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
+                trafic.add()
 
             
-    done = True
+    db = get_db()
+    db.execute("INSERT INTO appdata(data_id, data_name, data_value) VALUES(?, ?, ?)", (1, "db_populated", 1))
+    db.commit()
+    
+
     print("done!")

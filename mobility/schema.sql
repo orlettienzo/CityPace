@@ -39,3 +39,10 @@ CREATE TABLE IF NOT EXISTS trafic (
     FOREIGN KEY (rue_id) REFERENCES rue(rue_id),
     PRIMARY KEY (rue_id, date, type_vehicule)
 );
+DROP TABLE IF EXISTS appdata;
+CREATE TABLE IF NOT EXISTS appdata (
+    data_id INTEGER NOT NULL,
+    data_name TEXT NOT NULL,
+    data_value INTEGER NOT NULL,
+    PRIMARY KEY (data_id)
+);
