@@ -80,12 +80,12 @@ def populate_db():
             # v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], limite_vitesse)
             # v85.add()
 
-            # trafic
-            traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
+            # # trafic
+            # traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
 
-            for type_vehicule, nb_vehicules in traffic_dict.items():
-                trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
-                trafic.add()
+            # for type_vehicule, nb_vehicules in traffic_dict.items():
+            #     trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
+            #     trafic.add()
 
             
     db = get_db()

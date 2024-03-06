@@ -9,13 +9,16 @@ bp = Blueprint('street', __name__)
 # Define the routes code
 @bp.route('/street')
 def street_list():
-    if get_db_populated():
-        try:
-            streets = get_street_list()
-        except sqlite3.OperationalError:
-            return render_template("street.html", done=False)
-        return render_template("street.html", done=True, streets=streets)
-    return render_template("street.html", done=False)
+    try:
+        if get_db_populated():
+            try:
+                streets = get_street_list()
+            except sqlite3.OperationalError:
+                return render_template("street.html", done=False)
+            return render_template("street.html", done=True, streets=streets)
+        return render_template("street.html", done=False)
+    except:
+        return render_template("street.html", done=False)
 
 @bp.route("/create_street", methods=["POST"])
 def street_create(name:str, postal_code:int, street_id:int):
