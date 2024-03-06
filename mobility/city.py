@@ -1,7 +1,7 @@
 from flask import (Blueprint, render_template, request, redirect, url_for)
 from mobility.models.city_model import get_city_list, search_by_postal_code, City
 import sqlite3
-import mobility.csv_converter
+from mobility.models.appdata_model import get_db_populated
 
 
 bp = Blueprint('city', __name__)
@@ -9,7 +9,7 @@ bp = Blueprint('city', __name__)
 # Define the routes code
 @bp.route('/')
 def city_list():
-    if mobility.csv_converter.done:
+    if get_db_populated():
         try:
             cities = get_city_list()
         except sqlite3.OperationalError:
