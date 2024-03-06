@@ -9,7 +9,7 @@ import mobility.models.city_model
 import mobility.models.street_model
 import mobility.models.speed_model
 import mobility.models.v85_model
-import mobility.models.trafic_model
+import mobility.models.traffic_model
 import requests
 from mobility.db import get_db
 
@@ -61,29 +61,21 @@ def populate_db():
             t = row["histogramme_0_a_120plus"]
             t = ast.literal_eval(t)
             for index_tranche_de_vitesse in range(len(t)):
+                if t[index_tranche_de_vitesse] == 0:
+                    continue
                 speed = mobility.models.speed_model.Speed(row["rue_id"], row["date"], index_tranche_de_vitesse*5, t[index_tranche_de_vitesse])
                 speed.add()
 
             # v85
-            # estimation de la limite de vitesse qui est respectée par 85% des usagers de la route (15% des usagers dépassent cette vitesse). Cette valeur est absente si aucune usagers n'a été observé.
-            t.sort()
-            somme_cumulative = 0
-            limite_vitesse = 0
-            for proportion in t:
-                somme_cumulative += proportion
-                if somme_cumulative >= 0.85:
-                    limite_vitesse = proportion
-                    break
+            # check if there is a value for row["v85"]
+            if row["v85"] != "":
+                v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], row["v85"])
+                v85.add()
+
+            # traffic
             
-            v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], limite_vitesse)
-            v85.add()
-
-            # trafic
-            traffic_dict = {"lourd":round(float(row["lourd"])), "voiture":round(float(row["voiture"])), "velo":round(float(row["velo"])), "pieton":round(float(row["pieton"]))}
-
-            for type_vehicule, nb_vehicules in traffic_dict.items():
-                trafic = mobility.models.trafic_model.Trafic(row["rue_id"], row["date"], type_vehicule, nb_vehicules)
-                trafic.add()
+            traffic = mobility.models.traffic_model.Traffic(row["rue_id"], row["date"], round(float(row["lourd"])), round(float(row["voiture"])), round(float(row["velo"])), round(float(row["pieton"])))
+            traffic.add()
 
             
     db = get_db()
