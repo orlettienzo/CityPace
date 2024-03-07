@@ -22,5 +22,20 @@ Rues
         </div>
     {% endif %}
 </section>
+    <section>
+    <h2>Nombres de vélo par ville</h2>
+    {% if done %}
+        <table>
+            <tr>
+                for row in cursor.execute("SELECT ville.nom, SUM(traffic.velo) FROM traffic, rue, ville WHERE traffic.rue_id=rue.rue_id AND rue.code_postal=ville.code_postal GROUP BY ville.nom ORDER BY SUM(traffic.velo) DESC")
+                print(row)
+            </tr>
+        </table>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
+    </section>
 {% endblock %}
 
