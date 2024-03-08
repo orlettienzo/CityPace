@@ -71,7 +71,9 @@ def create_app(test_config=None):
     @app.route('/liam')
     def liam():
         return render_template('liam.html')
-    
+    @app.route('/statistics')
+    def statistics():
+        return render_template('statistics.html')
     @app.route('/robots.txt')
     def robots():
         return 'User-agent: *\nDisallow: /'

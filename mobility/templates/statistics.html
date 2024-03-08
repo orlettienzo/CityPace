@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+Rues
+{% endblock %}
+
+{% block content %}
+    <section>
+    <h2>Nombre d'entrées par tableau</h2>
+    {% if done %}
+        <table>
+            <tr>
+                for row in cursor.execute("SELECT table_name, nombre_entrees FROM nombre_entrees_par_table")
+                print(row)
+            </tr>
+        </table>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
+    </section>
+    <section>
+    <h2>Nombre de rue par ville</h2>
+    {% if done %}
+        <table>
+            <tr>
+                for row in cursor.execute("SELECT nom_de_ville, rue_id, FROM nom_de_rue ORDER BY nom_de_ville"):
+                print(row)
+
+            </tr>
+
+        </table>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
+    </section>
+    <section>
+    <h2>Villes les plus cyclables</h2>
+    {% if done %}
+        <table>
+            <tr>
+                for row in cursor.execute("SELECT ville, velos_par_habitants FROM villes_les_plus_cyclables ORDER BY velos_par_habitants DESC")
+                print(row)
+            </tr>
+        </table>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
+    </section>
+{% endblock %}
