@@ -16,4 +16,4 @@ def get_number_of_streets_by_city():
 
 def get_most_cyclable_cities():
     db = get_db()
-    # ça j'ai pas su faire
+    return db.execute('SELECT ville.nom AS city_name, SUM(traffic.velo) AS number_of_cyclists FROM traffic JOIN rue ON traffic.rue_id = rue.rue_id JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom')

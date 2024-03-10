@@ -27,7 +27,7 @@ Statistiques
     {% endif %}
     </section>
     <section>
-    <h2>Nombre de rue par ville</h2>
+    <h2>Nombre de rues par ville</h2>
     {% if done %}
         <table>
             <tr>
@@ -52,12 +52,16 @@ Statistiques
     <h2>Villes les plus cyclables</h2>
     {% if done %}
         <table>
-            <!-- {% for value in most_cyclable_cities %}
+            <tr>
+                <th>Ville</th>
+                <th>Nombre de cyclistes</th>
+            </tr>
+            {% for value in most_cyclable_cities %}
             <tr>
                 <td>{{ value.city_name }}</td>
-                <td>{{ value.bikes_per_person }}</td>
+                <td>{{ value.number_of_cyclists }}</td>
             </tr>
-            {% endfor %} -->
+            {% endfor %}
             <tr></tr>
         </table>
     {% else %}

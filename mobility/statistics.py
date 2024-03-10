@@ -11,8 +11,8 @@ def serve_statistics():
         try:
             entry_list = get_entry_list()
             number_of_streets_by_city = get_number_of_streets_by_city()
-            # most_cyclable_cities = get_most_cyclable_cities() # enlever le commentaire quand la fonction sera implémentée
+            most_cyclable_cities = get_most_cyclable_cities() # enlever le commentaire quand la fonction sera implémentée
         except sqlite3.OperationalError:
             return render_template("statistics.html", done=False)
-        return render_template("statistics.html", done=True, entry_list=entry_list, number_of_streets_by_city=number_of_streets_by_city) #, most_cyclable_cities=most_cyclable_cities)
+        return render_template("statistics.html", done=True, entry_list=entry_list, number_of_streets_by_city=number_of_streets_by_city, most_cyclable_cities=most_cyclable_cities)
     return render_template("statistics.html", done=False)
