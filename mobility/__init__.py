@@ -97,32 +97,17 @@ def create_app(test_config=None):
     @app.route('/resetdb', methods=['POST'])
     @limiter.limit("1/minute")
     def populate_task():
-        # if not os.path.exists('app_initialized'):
-        #     executor.submit_stored('populate', populate)
-
-        #     with open('app_initialized', 'w') as f:
-        #         pass
-
-        #     return 'Populating the database...'
-        # return 'Database already populated'
-
         data = request.get_json()
         secret = data.get('secret')
 
         if secret == "Acgfi9^Ziy!$zpY39CRg4Ww7ZjbmHHwdnbkYYbVen6HN*&ZiY9y$QDU8fB$ED*8tBR!BAwUwA^STjcgXPkUY*oUe*S9YY@D$WEfuK4gA%vDC$mE7&j9tH&Js#6yJJ88D":
-
             # initialisation de la base de données
             with app.app_context():
                 db.init_db()
-
             executor.submit_stored('populate', populate)
             executor.futures.pop('populate')
-
             return 'Populating the database...'
         return 'nope'
-
-
-
 
     @app.route('/progress')
     def progress():
