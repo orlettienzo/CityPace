@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS v85;
 CREATE TABLE IF NOT EXISTS v85 (
     rue_id INTEGER NOT NULL,
     date TEXT NOT NULL,
-    v85 REAL,
+    v85_value REAL,
     PRIMARY KEY (rue_id, date)
     FOREIGN KEY (rue_id) REFERENCES rue(rue_id)
 );

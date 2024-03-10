@@ -2,17 +2,19 @@ import os
 from flask import Flask, render_template
 from flask_executor import Executor
 import mobility.csv_converter
-import time
+
 
 
 def create_app(test_config=None):
-    """Création et configuration de l'application. 'L'usine de l'application' comme il disent."""
-    # create and configure the app
+    """Création et configuration de l'application. 'L'usine de l'application' """
+    
+    # initialisation des variables
     app = Flask(__name__, instance_relative_config=True)
-    executor = Executor(app)
-    db_populated = False
-    start_time = 0
+    executor = Executor(app) # pour le traitement multithread
+    db_populated = False # pour savoir si la base de données a été peuplée
 
+
+    # configuration selon si on est en mode test ou non
     if test_config:
         app.config.from_mapping(test_config)
     else:
@@ -20,15 +22,6 @@ def create_app(test_config=None):
             SECRET_KEY='dev',
             DATABASE=os.path.join(app.root_path, 'db.sqlite'),
         )
-
-    from . import city, street
-    app.register_blueprint(city.bp)
-    app.register_blueprint(street.bp)
-
-    app.add_url_rule('/', endpoint='index')
-    app.add_url_rule('/street', endpoint='street_index')
-
-    app.app_context().push()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -43,14 +36,32 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    # initialisation de la base de données
+    from . import db
+    db.init_app(app)
 
+    with app.app_context():
+        db.init_db()
+
+    def populate():
+        mobility.csv_converter.populate_db()
+
+    
+    # chargement des blueprints
+    from . import city, street, statistics
+    app.register_blueprint(city.bp)
+    app.register_blueprint(street.bp)
+    app.register_blueprint(statistics.bp)
+
+    app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/street', endpoint='street_index')
+    app.add_url_rule('/statistics', endpoint='statistics_index')
+
+
+    # chargement des routes
     @app.route('/about')
     def about():
-        return render_template('about.html', HelloWorld='Hello World 😎')
+        return render_template('about.html')
 
     @app.route('/enzo')
     def enzo():
@@ -71,35 +82,13 @@ def create_app(test_config=None):
     @app.route('/liam')
     def liam():
         return render_template('liam.html')
-    @app.route('/statistics')
-    def statistics():
-        return render_template('statistics.html')
+
     @app.route('/robots.txt')
     def robots():
         return 'User-agent: *\nDisallow: /'
     
-    @app.errorhandler(404)
-    def page_not_found(e):
-        return render_template('404.html'), 404
-
-    from . import db
-    db.init_app(app)
-
-    with app.app_context():
-        db.init_db()
-
-    def populate():
-        mobility.csv_converter.populate_db()
-        
     @app.route('/populate')
     def populate_task():
-        # nonlocal db_populated
-
-        # if db_populated:
-        #     return 'Database already populated'
-        # db_populated = True
-        # executor.submit(populate)
-
         if not os.path.exists('app_initialized'):
             executor.submit_stored('populate', populate)
 
@@ -109,12 +98,13 @@ def create_app(test_config=None):
             return 'Populating the database...'
         return 'Database already populated'
 
-    
     @app.route('/progress')
     def progress():
         # progress variable from mobility.csv_converter
         return f"{round(mobility.csv_converter.progress/18048*100, 1)}% done."
 
-    
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
 
     return app

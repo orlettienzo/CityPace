@@ -9,7 +9,7 @@ class v85:
     def add(self):
         db = get_db()
         db.execute(
-            "INSERT INTO v85 (rue_id, date, v85) VALUES (?, ?, ?)",
+            "INSERT INTO v85 (rue_id, date, v85_value) VALUES (?, ?, ?)",
             (self.rue_id, self.date, self.v85)
         )
         db.commit()
@@ -26,4 +26,4 @@ class v85:
 
         if data is None:
             return None
-        return v85(data["rue_id"], data["date"], data["v85"])
+        return v85(data["rue_id"], data["date"], data["v85_value"])

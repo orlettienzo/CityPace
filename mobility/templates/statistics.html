@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Rues
+Statistiques
 {% endblock %}
 
 {% block content %}
@@ -10,9 +10,15 @@ Rues
     {% if done %}
         <table>
             <tr>
-                for row in cursor.execute("SELECT table_name, nombre_entrees FROM nombre_entrees_par_table")
-                print(row)
+                <th>Nom de la table</th>
+                <th>Nombre d'entrées</th>
             </tr>
+            {% for table in entry_list %}
+            <tr>
+                <td>{{ table.table_name }}</td>
+                <td>{{ table.number_of_entries }}</td>
+            </tr>
+            {% endfor %}
         </table>
     {% else %}
         <div class="db-error">
@@ -25,10 +31,15 @@ Rues
     {% if done %}
         <table>
             <tr>
-                for row in cursor.execute("SELECT nom_de_ville, rue_id, FROM nom_de_rue ORDER BY nom_de_ville"):
-                print(row)
-
+                <th>Ville</th>
+                <th>Nombre de rues</th>
             </tr>
+            {% for value in number_of_streets_by_city %}
+            <tr>
+                <td>{{ value.city_name }}</td>
+                <td>{{ value.number_of_streets }}</td>
+            </tr>
+            {% endfor %}
 
         </table>
     {% else %}
@@ -41,10 +52,13 @@ Rues
     <h2>Villes les plus cyclables</h2>
     {% if done %}
         <table>
+            <!-- {% for value in most_cyclable_cities %}
             <tr>
-                for row in cursor.execute("SELECT ville, velos_par_habitants FROM villes_les_plus_cyclables ORDER BY velos_par_habitants DESC")
-                print(row)
+                <td>{{ value.city_name }}</td>
+                <td>{{ value.bikes_per_person }}</td>
             </tr>
+            {% endfor %} -->
+            <tr></tr>
         </table>
     {% else %}
         <div class="db-error">

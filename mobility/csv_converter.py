@@ -73,7 +73,6 @@ def populate_db():
                 v85.add()
 
             # traffic
-            
             traffic = mobility.models.traffic_model.Traffic(row["rue_id"], row["date"], round(float(row["lourd"])), round(float(row["voiture"])), round(float(row["velo"])), round(float(row["pieton"])))
             traffic.add()
 
