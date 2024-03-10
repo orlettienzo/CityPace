@@ -47,6 +47,8 @@ def init_db():
     # except sqlite3.OperationalError:
         # with current_app.open_resource('schema.sql') as f:
         #     db.executescript(f.read().decode('utf8'))
+    
+    # drop the tables and recreate them
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
