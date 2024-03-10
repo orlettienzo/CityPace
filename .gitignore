@@ -20,7 +20,4 @@ build/
 
 .vimhistory
 
-db.sqlite
-db.sqlite-journal
-
 app_initialized
