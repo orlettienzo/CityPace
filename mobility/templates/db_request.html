@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}
+Requêtes
+{% endblock %}
+
+{% block content %}
+<section class="search-section">
+    <!-- <form action="" class="search-form">
+        <div class="search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" id="search-input" placeholder="Rechercher une ville ou une rue" autocomplete="off">
+        </div>
+        <div class="suggestions">
+            <ul id="suggestions-list">
+
+            </ul>
+        </div>
+        <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
+    </form> -->
+    {% if done %}
+        <h2>Demo : Requêtes</h2>
+        <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
+            <div class="city-select">
+                <label for="ville">Sélectionnez une ville :</label>
+                <select name="ville" id="ville">
+                    {% for city in cities %}
+                    <option value="{{ city.code_postal }}">{{ city.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="street-select">
+                <label for="rue">Sélectionnez une rue :</label>
+                <select name="rue" id="rue">
+                    <option value="0">Toutes les rues</option>
+                    {% for street in streets %}
+                    <option value="{{ street.rue_id }}">{{ street.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" value="Valider">
+        </form>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
