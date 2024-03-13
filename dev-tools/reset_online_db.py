@@ -6,10 +6,13 @@ import requests
 
 input("ATTENTION: cette opération va réinitialiser la base de données en ligne. Appuyez sur Entrée pour continuer.")
 
-url = 'https://g25.linfo1002.ovh/resetdb'
-data = {'secret': 'Acgfi9^Ziy!$zpY39CRg4Ww7ZjbmHHwdnbkYYbVen6HN*&ZiY9y$QDU8fB$ED*8tBR!BAwUwA^STjcgXPkUY*oUe*S9YY@D$WEfuK4gA%vDC$mE7&j9tH&Js#6yJJ88D'}
+with open('mobility/secret.txt', 'r', encoding='utf-8') as file:
+    secret = file.read().strip()
 
-response = requests.post(url, json=data)
+url = 'https://g25.linfo1002.ovh/resetdb'
+data = {'secret': secret}
+
+response = requests.post(url, json=data, timeout=5)
 
 print(response.status_code)
 print(response.text)

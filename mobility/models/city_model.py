@@ -5,7 +5,6 @@ def get_city_list():
     db = get_db()
     return db.execute('SELECT * FROM ville ORDER BY code_postal')
 
-
 def search_by_postal_code(postal_code: int):
     """Retourne une liste de toutes les villes dans la base de données 
     qui ont un code postal égal à celui passé en paramètre"""

@@ -2,7 +2,7 @@ from mobility.db import get_db
 
 def get_street_list():
     db = get_db()
-    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, ville.nom AS city_name FROM rue JOIN ville ON rue.code_postal = ville.code_postal ORDER BY rue.rue_id')
+    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, ville.nom AS city_name FROM rue JOIN ville ON rue.code_postal = ville.code_postal ORDER BY rue.code_postal')
 
 def search_street_id(street_id: int):
     db = get_db()
