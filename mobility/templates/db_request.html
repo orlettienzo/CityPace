@@ -17,10 +17,11 @@ Requêtes
         </div>
         <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
     </form> -->
-    <form method="post" action="{{ url_for('city.get_city_stats') }}">
-        {% if done %}
+    {% if done %}
+        <h2>Demo : Requêtes</h2>
+        <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
             <div class="city-select">
-                <p>Sélectionnez une ville:</p>
+                <label for="ville">Sélectionnez une ville :</label>
                 <select name="ville" id="ville">
                     {% for city in cities %}
                     <option value="{{ city.code_postal }}">{{ city.nom }}</option>
@@ -28,7 +29,7 @@ Requêtes
                 </select>
             </div>
             <div class="street-select">
-                <p>Sélectionnez une rue:</p>
+                <label for="rue">Sélectionnez une rue :</label>
                 <select name="rue" id="rue">
                     <option value="0">Toutes les rues</option>
                     {% for street in streets %}
@@ -37,11 +38,11 @@ Requêtes
                 </select>
             </div>
             <input type="submit" value="Valider">
-        {% else %}
-            <div class="db-error">
-                La base de données est en train de s'initialiser. Veuillez revenir plus tard.
-            </div>
-        {% endif %}
-    </form>
+        </form>
+    {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    {% endif %}
 </section>
 {% endblock %}

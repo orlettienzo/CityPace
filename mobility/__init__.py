@@ -7,7 +7,7 @@ from mobility.models.appdata_model import get_db_populated
 from mobility.models.city_model import get_city_list
 from mobility.models.street_model import get_street_list
 from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities
-from . import db, city, street
+from . import db, city, street, requests
 import sqlite3
 import mobility.csv_converter
 
@@ -56,9 +56,11 @@ def create_app(test_config=None):
     # chargement des blueprints
     app.register_blueprint(city.bp)
     app.register_blueprint(street.bp)
+    app.register_blueprint(requests.bp)
 
     app.add_url_rule('/', endpoint='index')
     app.add_url_rule('/street', endpoint='street_index')
+    app.add_url_rule('/request', endpoint='request_index')
 
 
     # chargement des routes
@@ -109,21 +111,6 @@ def create_app(test_config=None):
                 return render_template("db_statistics.html", done=False)
             return render_template("db_statistics.html", done=True, entry_list=entry_list, number_of_streets_by_city=number_of_streets_by_city, most_cyclable_cities=most_cyclable_cities)
         return render_template("db_statistics.html", done=False)
-
-    @app.route('/request')
-    def request_page():
-        """Page de requête."""
-        try:
-            if get_db_populated():
-                try:
-                    cities = get_city_list()
-                    streets = get_street_list()
-                except sqlite3.OperationalError:
-                    return render_template("db_request.html", done=False)
-                return render_template("db_request.html", done=True, cities=cities, streets=streets)
-            return render_template("db_request.html", done=False)
-        except:
-            return render_template("db_request.html", done=False)
 
     @app.route('/resetdb', methods=['POST'])
     @limiter.limit("1/minute")

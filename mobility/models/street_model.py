@@ -1,4 +1,5 @@
 from mobility.db import get_db
+import datetime
 
 def get_street_list():
     db = get_db()
@@ -6,7 +7,8 @@ def get_street_list():
 
 def search_street_id(street_id: int):
     db = get_db()
-    return db.execute('SELECT * FROM rue WHERE rue_id=?', (street_id,)).fetchall()
+    data = db.execute('SELECT * FROM rue WHERE rue_id=?', (street_id,)).fetchone()
+    return Street(data[1], data[2], data[0])
 
 class Street:
     """Classe représentant une rue"""
@@ -20,10 +22,34 @@ class Street:
         db.execute("DELETE FROM rue WHERE rue_id=?", (self.street_id,))
         db.commit()
 
-    def add(self):
+    def get_street_traffic_proportions_by_week_day(self) -> dict:
         db = get_db()
-        db.execute("INSERT INTO rue(rue_id,nom, code_postal ) VALUES(?, ?, ?)", ( self.street_id, self.name, self.postal_code))
-        db.commit()
+        data = db.execute('SELECT * FROM traffic WHERE rue_id=?', (self.street_id,)).fetchall()
+        t = {}
+        for traffic in data:
+            try:
+                print(traffic["date"][:10])
+                jour = datetime.datetime.strptime(traffic["date"][:10], '%Y-%m-%d').strftime('%A')
+            except ValueError:
+                jour = "Unknown"
+            # t.append({"lourd": traffic["lourd"], "voiture": traffic["voiture"], "velo": traffic["velo"], "pieton": traffic["pieton"], "date": traffic["date"], "jour": jour})
+            if jour in t:
+                t[jour]["lourd"] += traffic["lourd"]
+                t[jour]["voiture"] += traffic["voiture"]
+                t[jour]["velo"] += traffic["velo"]
+                t[jour]["pieton"] += traffic["pieton"]
+            else:
+                t[jour] = {"lourd": traffic["lourd"], "voiture": traffic["voiture"], "velo": traffic["velo"], "pieton": traffic["pieton"]}
+
+        for key in t:
+            total = t[key]["lourd"] + t[key]["voiture"] + t[key]["velo"] + t[key]["pieton"]
+            t[key]["lourd"] = (t[key]["lourd"]/total) * 100
+            t[key]["voiture"] = (t[key]["voiture"]/total) * 100
+            t[key]["velo"] = (t[key]["velo"]/total) * 100
+            t[key]["pieton"] = (t[key]["pieton"]/total) * 100
+
+
+        return t
 
     @staticmethod
     def get(street_id: int):

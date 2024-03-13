@@ -398,10 +398,16 @@ form {
     background-color: var(--pink);
 }
 
-select {
+select { 
     color: black;
 }
 
+.request-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
 
 @media (max-width: 800px) {
     .section {
