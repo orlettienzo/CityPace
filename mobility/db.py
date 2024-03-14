@@ -32,21 +32,9 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
-# def populate():
-#     import mobility.csv_converter
-#     mobility.csv_converter.populate_db()
-
-
 def init_db():
     """Initialisation de la base de données."""
     db = get_db()
-
-    # if the database is empty:
-    # try:
-    #     db.execute('SELECT * FROM ville').fetchone()
-    # except sqlite3.OperationalError:
-        # with current_app.open_resource('schema.sql') as f:
-        #     db.executescript(f.read().decode('utf8'))
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 

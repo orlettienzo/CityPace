@@ -6,4 +6,4 @@ coverage
 pdoc3
 flask-executor
 requests
-
+Flask-Limiter
