@@ -1,13 +1,13 @@
 import os
+import sqlite3
 from flask import Flask, render_template, request
 from flask_executor import Executor
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mobility.models.appdata_model import db_populated
 from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities
-from . import db, city, street, requests
-import sqlite3
 import mobility.csv_converter
+from . import db, city, street, requests
 
 
 def create_app(test_config=None) -> Flask:
