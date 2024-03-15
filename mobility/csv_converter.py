@@ -1,24 +1,20 @@
 import os
 import csv
 import ast
-import sqlite3
-from flask import current_app, g
-# import mobility.city
-# import mobility.street
 import mobility.models.city_model
 import mobility.models.street_model
 import mobility.models.speed_model
 import mobility.models.v85_model
 import mobility.models.traffic_model
-import requests
 from mobility.db import get_db
 
 
 progress = 0
 done = False
 
-def populate_db():
-    global progress, done, session
+def populate_db() -> None:
+    """Populates the database with the ugly_csv.csv file."""
+    global progress, done
 
     POPULATION = {"bruxelles":1_222_657,
               "grobbendonk":11_249,
@@ -30,7 +26,7 @@ def populate_db():
               "beveren":50_281,
               "herzele":17_723,
               }
-    
+
     previous_city_code_postal = 0
     previous_street_id = 0
     path = os.path.join(os.path.dirname(__file__), "ugly_csv.csv")
@@ -49,7 +45,7 @@ def populate_db():
             city = mobility.models.city_model.City(row["nom_de_ville"].capitalize(), POPULATION[row["nom_de_ville"].lower()], row["code_postal"])
             if row["code_postal"] != previous_city_code_postal:
                 city.add()
-            previous_city_code_postal = row["code_postal"] 
+            previous_city_code_postal = row["code_postal"]
 
             # rues
             street = mobility.models.street_model.Street(row["nom_de_rue"], row["code_postal"], row["rue_id"])
@@ -76,10 +72,8 @@ def populate_db():
             traffic = mobility.models.traffic_model.Traffic(row["rue_id"], row["date"], round(float(row["lourd"])), round(float(row["voiture"])), round(float(row["velo"])), round(float(row["pieton"])))
             traffic.add()
 
-            
     db = get_db()
     db.execute("INSERT INTO appdata(data_id, data_name, data_value) VALUES(?, ?, ?)", (1, "db_populated", 1))
     db.commit()
-    
 
     print("done!")

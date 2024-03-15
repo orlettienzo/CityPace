@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-{% block title %}
-Requêtes
-{% endblock %}
+{% block title %}Requêtes{% endblock %}
 
 {% block content %}
 <section class="search-section">
@@ -22,27 +20,56 @@ Requêtes
         <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
             <div class="city-select">
                 <label for="ville">Sélectionnez une ville :</label>
-                <select name="ville" id="ville">
+                <select name="ville" id="ville" onchange="document.getElementById('rue').value = '0'; this.form.submit();">
+                    <option value="0">Sélectionnez une ville</option>
                     {% for city in cities %}
-                    <option value="{{ city.code_postal }}">{{ city.nom }}</option>
+                    <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="street-select">
                 <label for="rue">Sélectionnez une rue :</label>
-                <select name="rue" id="rue">
+                <select name="rue" id="rue" onchange="submit()">
                     <option value="0">Toutes les rues</option>
                     {% for street in streets %}
-                    <option value="{{ street.rue_id }}">{{ street.nom }}</option>
+                    <option value="{{ street.rue_id }}" {% if street.rue_id == selected_street %}selected="selected"{% endif %}>{{ street.nom }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <input type="submit" value="Valider">
+            <!-- <input type="submit" value="Valider"> -->
         </form>
-    {% else %}
-        <div class="db-error">
-            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
-        </div>
-    {% endif %}
 </section>
+    {% if city_data %}
+    <section>
+        <table>
+            {% for key, value in city_data.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    {% endif %}
+    {% if street_data %}
+    <section>
+        <table>
+            {% for key, value in street_data.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>
+                    {% for k, v in value.items() %}
+                    {{ k }} : {{ v }}% <br>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    {% endif %}
+{% else %}
+    <div class="db-error">
+        La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+    </div>
+{% endif %}
 {% endblock %}

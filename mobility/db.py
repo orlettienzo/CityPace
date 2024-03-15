@@ -1,7 +1,7 @@
 import sqlite3
 from flask import current_app, g
 
-def get_db():
+def get_db() -> sqlite3.Connection:
     """Returns the database connection. Create the connection if needed.
 
     Returns:
@@ -21,7 +21,7 @@ def get_db():
 
     return g.db
 
-def close_db(e=None):
+def close_db(e=None) -> None:
     """Close the database
 
     Args:
@@ -32,13 +32,13 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
-def init_db():
-    """Initialisation de la base de données."""
+def init_db() -> None:
+    """Reinitialisation de la base de données."""
     db = get_db()
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
-def init_app(app):
+def init_app(app) -> None:
     """To be called when an app is initialized
 
     Asks to call close_db when the app is closed

@@ -1,20 +1,20 @@
 import os
+import sqlite3
 from flask import Flask, render_template, request
 from flask_executor import Executor
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from mobility.models.appdata_model import get_db_populated
-from mobility.models.city_model import get_city_list
-from mobility.models.street_model import get_street_list
+from mobility.models.appdata_model import db_populated
 from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities
-from . import db, city, street, requests
-import sqlite3
 import mobility.csv_converter
+from . import db, city, street, requests
 
 
-def create_app(test_config=None):
-    """Création et configuration de l'application. 'L'usine de l'application' """
-    
+def create_app(test_config=None) -> Flask:
+    """Création et configuration de l'application. 'L'usine de l'application' 
+    Retourne une instance de l'application configurée.
+    """
+
     # initialisation des variables
     app = Flask(__name__, instance_relative_config=True)
     executor = Executor(app) # pour le traitement multithread
@@ -65,56 +65,53 @@ def create_app(test_config=None):
 
     # chargement des routes
     @app.route('/about')
-    def about():
+    def about() -> str:
         """Page 'À propos' du site."""
         return render_template('about.html')
 
     @app.route('/enzo')
-    def enzo():
+    def enzo() -> str:
         """Page perso d'Enzo."""
         return render_template('enzo.html')
 
     @app.route('/tom')
-    def tom():
+    def tom() -> str:
         """Page perso de Tom."""
         return render_template('tom.html')
 
     @app.route('/nicolas')
-    def nicolas():
+    def nicolas() -> str:
         """Page perso de Nicolas."""
         return render_template('nicolas.html')
 
     @app.route('/johannes')
-    def johannes():
+    def johannes() -> str:
         """Page perso de Johannes."""
         return render_template('johannes.html')
 
     @app.route('/liam')
-    def liam():
+    def liam() -> str:
         """Page perso de Liam."""
         return render_template('liam.html')
 
     @app.route('/robots.txt')
-    def robots():
+    def robots() -> str:
         """Page 'robots.txt' du site."""
         return 'User-agent: *\nDisallow: /'
 
     @app.route('/statistics')
-    def statistics():
+    def statistics() -> str:
         """Page de statistiques."""
-        if get_db_populated():
-            try:
-                entry_list = get_entry_list()
-                number_of_streets_by_city = get_number_of_streets_by_city()
-                most_cyclable_cities = get_most_cyclable_cities() # enlever le commentaire quand la fonction sera implémentée
-            except sqlite3.OperationalError:
-                return render_template("db_statistics.html", done=False)
+        if db_populated():
+            entry_list = get_entry_list()
+            number_of_streets_by_city = get_number_of_streets_by_city()
+            most_cyclable_cities = get_most_cyclable_cities()
             return render_template("db_statistics.html", done=True, entry_list=entry_list, number_of_streets_by_city=number_of_streets_by_city, most_cyclable_cities=most_cyclable_cities)
         return render_template("db_statistics.html", done=False)
 
     @app.route('/resetdb', methods=['POST'])
     @limiter.limit("1/minute")
-    def populate_task():
+    def populate_task() -> str:
         """Permet de réinitialiser la base de données du site."""
         data = request.get_json()
         received_secret = data.get('secret')
@@ -132,18 +129,18 @@ def create_app(test_config=None):
         return 'nope'
 
     @app.route('/progress')
-    def progress():
+    def progress() -> str:
         """Retourne le pourcentage de progression de la réinitialisation de la base de données si vous avez de la chance."""
         # progress variable from mobility.csv_converter
         return f"{round(mobility.csv_converter.progress/18048*100, 1)}% done."
 
     @app.errorhandler(404)
-    def page_not_found(e):
+    def page_not_found(e) -> str:
         """Page 404."""
         return render_template('404.html'), 404
-    
+
     @app.errorhandler(429)
-    def ratelimit_handler(e):
+    def ratelimit_handler(e) -> str:
         """Page 429."""
         return render_template('429.html'), 429
 

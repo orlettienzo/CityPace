@@ -1,6 +1,8 @@
 from mobility.db import get_db
+import sqlite3
 
-def get_entry_list():
+def get_entry_list() -> sqlite3.Cursor:
+    """Retourne la liste du nombre d'entrées dans chaque table de la base de données sous la forme d'un curseur sqlite3."""
     db = get_db()
     return db.execute('''
                       SELECT "ville" AS table_name, COUNT(*) AS number_of_entries FROM ville UNION ALL 
@@ -10,10 +12,12 @@ def get_entry_list():
                       SELECT "traffic" AS table_name, COUNT(*) AS number_of_entries FROM traffic
                       ''')
 
-def get_number_of_streets_by_city():
+def get_number_of_streets_by_city() -> sqlite3.Cursor:
+    """Retourne le nombre de rues par ville sous la forme d'un curseur sqlite3."""
     db = get_db()
     return db.execute('SELECT ville.nom AS city_name, COUNT(rue.nom) AS number_of_streets FROM rue JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom')
 
-def get_most_cyclable_cities():
+def get_most_cyclable_cities() -> sqlite3.Cursor:
+    """Retourne les villes les plus cyclables sous la forme d'un curseur sqlite3."""
     db = get_db()
     return db.execute('SELECT ville.nom AS city_name, SUM(traffic.velo) AS number_of_cyclists FROM traffic JOIN rue ON traffic.rue_id = rue.rue_id JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom')

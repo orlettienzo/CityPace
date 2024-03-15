@@ -317,7 +317,7 @@ form {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 40rem;
+    /* height: 40rem; */
 }
 
 .search-form {
