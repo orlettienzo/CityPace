@@ -7,6 +7,11 @@ def get_street_list() -> sqlite3.Cursor:
     db = get_db()
     return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, ville.nom AS city_name FROM rue JOIN ville ON rue.code_postal = ville.code_postal ORDER BY rue.code_postal')
 
+def get_street_list_for_city(postal_code: int) -> sqlite3.Cursor:
+    """Retourne la liste des rues de la base de données qui sont dans la ville passée en paramètre."""
+    db = get_db()
+    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, ville.nom AS city_name FROM rue JOIN ville ON rue.code_postal = ville.code_postal WHERE rue.code_postal=?', (postal_code,))
+
 def search_street_id(street_id: int) -> "Street": # à retirer
     """Retourne un objet Street qui a l'id passé en paramètre."""
     db = get_db()
@@ -50,7 +55,6 @@ class Street:
         t = {} # tableau du traffic de chaque jour de la semaine
         for traffic in data:
             try:
-                print(traffic["date"][:10])
                 jour = datetime.datetime.strptime(traffic["date"][:10], '%Y-%m-%d').strftime('%A')
             except ValueError:
                 jour = "Unknown"
@@ -65,6 +69,12 @@ class Street:
 
         for key in t:
             total = t[key]["lourd"] + t[key]["voiture"] + t[key]["velo"] + t[key]["pieton"]
+            if total == 0:
+                t[key]["lourd"] = 0
+                t[key]["voiture"] = 0
+                t[key]["velo"] = 0
+                t[key]["pieton"] = 0
+                continue
             t[key]["lourd"] = (t[key]["lourd"]/total) * 100
             t[key]["voiture"] = (t[key]["voiture"]/total) * 100
             t[key]["velo"] = (t[key]["velo"]/total) * 100

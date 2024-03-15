@@ -103,12 +103,9 @@ def create_app(test_config=None) -> Flask:
     def statistics() -> str:
         """Page de statistiques."""
         if db_populated():
-            try:
-                entry_list = get_entry_list()
-                number_of_streets_by_city = get_number_of_streets_by_city()
-                most_cyclable_cities = get_most_cyclable_cities() # enlever le commentaire quand la fonction sera implémentée
-            except sqlite3.OperationalError:
-                return render_template("db_statistics.html", done=False)
+            entry_list = get_entry_list()
+            number_of_streets_by_city = get_number_of_streets_by_city()
+            most_cyclable_cities = get_most_cyclable_cities()
             return render_template("db_statistics.html", done=True, entry_list=entry_list, number_of_streets_by_city=number_of_streets_by_city, most_cyclable_cities=most_cyclable_cities)
         return render_template("db_statistics.html", done=False)
 
@@ -141,7 +138,7 @@ def create_app(test_config=None) -> Flask:
     def page_not_found(e) -> str:
         """Page 404."""
         return render_template('404.html'), 404
-    
+
     @app.errorhandler(429)
     def ratelimit_handler(e) -> str:
         """Page 429."""
