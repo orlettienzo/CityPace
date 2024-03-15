@@ -68,7 +68,7 @@ class City:
         total = lourd + voiture + velo + pieton
 
         # calcul de la proportion de chaque type de vehicule
-        return {"lourd": (lourd/total) * 100, 
-                "voiture": (voiture/total) * 100, 
-                "velo": (velo/total) * 100, 
-                "pieton": (pieton/total) * 100}
+        return {"lourd": round((lourd/total) * 100, 2),
+            "voiture": round((voiture/total) * 100, 2), 
+            "velo": round((velo/total) * 100, 2), 
+            "pieton": round((pieton/total) * 100, 2)}

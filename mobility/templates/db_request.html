@@ -21,6 +21,7 @@
             <div class="city-select">
                 <label for="ville">Sélectionnez une ville :</label>
                 <select name="ville" id="ville" onchange="document.getElementById('rue').value = '0'; this.form.submit();">
+                    <option value="0">Sélectionnez une ville</option>
                     {% for city in cities %}
                     <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
                     {% endfor %}
@@ -37,12 +38,38 @@
             </div>
             <!-- <input type="submit" value="Valider"> -->
         </form>
-        <p>{{ city_data }}</p>
-        <p>{{ street_data }}</p>
-    {% else %}
-        <div class="db-error">
-            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
-        </div>
-    {% endif %}
 </section>
+    {% if city_data %}
+    <section>
+        <table>
+            {% for key, value in city_data.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    {% endif %}
+    {% if street_data %}
+    <section>
+        <table>
+            {% for key, value in street_data.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>
+                    {% for k, v in value.items() %}
+                    {{ k }} : {{ v }}% <br>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    {% endif %}
+{% else %}
+    <div class="db-error">
+        La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+    </div>
+{% endif %}
 {% endblock %}

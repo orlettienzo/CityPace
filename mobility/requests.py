@@ -18,6 +18,10 @@ def get_stats():
     selected_city = int(request.form["ville"])
     selected_street = int(request.form["rue"])
     print(f"{selected_city=}, {selected_street=}")
+
+    if selected_city == 0:
+        return render_template("db_request.html", done=True, cities=get_city_list())
+    
     if selected_street == 0: # 0 = toutes les rues
         city_data = search_by_postal_code(selected_city)
         city_data = city_data.get_city_traffic_proportions()
@@ -26,7 +30,7 @@ def get_stats():
             done=True,
             cities=get_city_list(),
             selected_city=selected_city,
-            city_data=str(city_data),
+            city_data=city_data,
             streets=get_street_list_for_city(selected_city))
 
     city_data = search_by_postal_code(selected_city)
@@ -38,6 +42,6 @@ def get_stats():
         cities=get_city_list(),
         selected_city=selected_city,
         selected_street=selected_street,
-        city_data=str(city_data),
+        city_data=city_data,
         streets=get_street_list_for_city(selected_city),
-        street_data=str(data.get_street_traffic_proportions_by_week_day()))
+        street_data=data.get_street_traffic_proportions_by_week_day())

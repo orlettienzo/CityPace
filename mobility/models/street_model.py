@@ -75,9 +75,9 @@ class Street:
                 t[key]["velo"] = 0
                 t[key]["pieton"] = 0
                 continue
-            t[key]["lourd"] = (t[key]["lourd"]/total) * 100
-            t[key]["voiture"] = (t[key]["voiture"]/total) * 100
-            t[key]["velo"] = (t[key]["velo"]/total) * 100
-            t[key]["pieton"] = (t[key]["pieton"]/total) * 100
+            t[key]["lourd"] = round((t[key]["lourd"]/total) * 100, 2)
+            t[key]["voiture"] = round((t[key]["voiture"]/total) * 100, 2)
+            t[key]["velo"] = round((t[key]["velo"]/total) * 100, 2)
+            t[key]["pieton"] = round((t[key]["pieton"]/total) * 100, 2)
 
         return t
