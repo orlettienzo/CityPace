@@ -103,14 +103,15 @@ def create_app(test_config=None) -> Flask:
     def statistics() -> str:
         """Page de statistiques."""
         if db_populated():
-            entry_list = get_entry_list()
-            number_of_streets_by_city = get_number_of_streets_by_city()
-            most_cyclable_cities = get_most_cyclable_cities()
-            return render_template("db_statistics.html", done=True, entry_list=entry_list, number_of_streets_by_city=number_of_streets_by_city, most_cyclable_cities=most_cyclable_cities)
+            return render_template("db_statistics.html",
+                                   done=True,
+                                   entry_list=get_entry_list(),
+                                   number_of_streets_by_city=get_number_of_streets_by_city(),
+                                   most_cyclable_cities=get_most_cyclable_cities())
         return render_template("db_statistics.html", done=False)
 
     @app.route('/resetdb', methods=['POST'])
-    @limiter.limit("1/minute")
+    @limiter.limit("1/minute") # limite à 1 requête par minute
     def populate_task() -> str:
         """Permet de réinitialiser la base de données du site."""
         data = request.get_json()

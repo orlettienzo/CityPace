@@ -15,9 +15,9 @@ def get_entry_list() -> sqlite3.Cursor:
 def get_number_of_streets_by_city() -> sqlite3.Cursor:
     """Retourne le nombre de rues par ville sous la forme d'un curseur sqlite3."""
     db = get_db()
-    return db.execute('SELECT ville.nom AS city_name, COUNT(rue.nom) AS number_of_streets FROM rue JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom')
+    return db.execute('SELECT ville.nom AS city_name, COUNT(rue.nom) AS number_of_streets FROM rue JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom ORDER BY number_of_streets DESC')
 
 def get_most_cyclable_cities() -> sqlite3.Cursor:
     """Retourne les villes les plus cyclables sous la forme d'un curseur sqlite3."""
     db = get_db()
-    return db.execute('SELECT ville.nom AS city_name, SUM(traffic.velo) AS number_of_cyclists FROM traffic JOIN rue ON traffic.rue_id = rue.rue_id JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom')
+    return db.execute('SELECT ville.nom AS city_name, SUM(traffic.velo) AS number_of_cyclists FROM traffic JOIN rue ON traffic.rue_id = rue.rue_id JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom ORDER BY number_of_cyclists DESC')
