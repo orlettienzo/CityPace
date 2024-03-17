@@ -7,7 +7,7 @@ from flask_limiter.util import get_remote_address
 from mobility.models.appdata_model import db_populated
 from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities
 import mobility.csv_converter
-from . import db, city, street, requests
+from . import db, requests
 from mobility.models.city_model import get_city_list
 from mobility.models.street_model import get_street_list
 
@@ -54,16 +54,18 @@ def create_app(test_config=None) -> Flask:
     def populate():
         mobility.csv_converter.populate_db()
 
-    
+
     # chargement des blueprints
-    app.register_blueprint(city.bp)
-    # app.register_blueprint(street.bp)
     app.register_blueprint(requests.bp)
 
-    app.add_url_rule('/', endpoint='index')
-    # app.add_url_rule('/street', endpoint='street_index')
     app.add_url_rule('/request', endpoint='request_index')
 
+    @app.route('/')
+    def index() -> str:
+        """Page d'accueil."""
+        if db_populated():
+            return render_template('index.html', done=True, cities=get_city_list())
+        return render_template('index.html')
 
     # chargement des routes
     @app.route('/about')
