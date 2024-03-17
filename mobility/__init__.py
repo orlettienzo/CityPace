@@ -8,6 +8,8 @@ from mobility.models.appdata_model import db_populated
 from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities
 import mobility.csv_converter
 from . import db, city, street, requests
+from mobility.models.city_model import get_city_list
+from mobility.models.street_model import get_street_list
 
 
 def create_app(test_config=None) -> Flask:
@@ -55,11 +57,11 @@ def create_app(test_config=None) -> Flask:
     
     # chargement des blueprints
     app.register_blueprint(city.bp)
-    app.register_blueprint(street.bp)
+    # app.register_blueprint(street.bp)
     app.register_blueprint(requests.bp)
 
     app.add_url_rule('/', endpoint='index')
-    app.add_url_rule('/street', endpoint='street_index')
+    # app.add_url_rule('/street', endpoint='street_index')
     app.add_url_rule('/request', endpoint='request_index')
 
 
@@ -107,7 +109,10 @@ def create_app(test_config=None) -> Flask:
                                    done=True,
                                    entry_list=get_entry_list(),
                                    number_of_streets_by_city=get_number_of_streets_by_city(),
-                                   most_cyclable_cities=get_most_cyclable_cities())
+                                   most_cyclable_cities=get_most_cyclable_cities(),
+                                   city_list=get_city_list(),
+                                   street_list=get_street_list())
+
         return render_template("db_statistics.html", done=False)
 
     @app.route('/resetdb', methods=['POST'])

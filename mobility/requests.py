@@ -20,7 +20,10 @@ def get_stats():
         return render_template("db_request.html", done=False)
     # on récupère les valeurs des champs de la page de requête
     selected_city = int(request.form["ville"])
-    selected_street = int(request.form["rue"])
+    try:
+        selected_street = int(request.form["rue"])
+    except KeyError:
+        selected_street = 0
 
     if selected_city == 0:
         # si aucune ville n'est sélectionnée
