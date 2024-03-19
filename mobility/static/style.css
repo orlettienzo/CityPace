@@ -35,8 +35,8 @@
     --success: ;
     --side-padding-width: 80px;
 
-    --paragraph: 1.25rem;
-    --line-size: 2rem;
+    font-size: calc(1rem + 0.5vh);
+    line-height: 1.5;
 }
 
 ::-moz-selection {
@@ -75,16 +75,15 @@ body {
     padding: 0;
 }
 
-p, a {
-    font-size: var(--paragraph);
-    line-height: var(--line-size)
-}
-
 section {
-    padding-top: 80px;
     padding-left: var(--side-padding-width);
     padding-right: var(--side-padding-width);
-    padding-bottom: 80px;
+    padding-bottom: 20px;
+}
+
+/* the first section in the document */
+section:first-child {
+    padding-top: 80px;
 }
 
 h1 {
@@ -101,7 +100,6 @@ h2 {
 table, .db-error {
     background-color: var(--surface0);
     border-radius: 5px;
-    font-size: var(--paragraph);
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -130,15 +128,32 @@ input, button {
     padding: 0.4rem;
     border-radius: 5px;
     margin-top: 10px;
-    font-size: var(--paragraph);
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
 }
 
 form {
-    font-size: var(--paragraph);
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
+}
+
+select {
+    background: var(--surface0);
+    color: var(--text);
+    border: var(--surface1) 1px solid;
+    padding: 0.4rem;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-family: neulis-sans, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    appearance:none;
+    /* add an arrow in the content */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cdd6f4' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .7rem top 50%, 0 0;
+    background-size: 1.5rem auto;
+    width: 300px;
 }
 
 .navbar {
@@ -244,7 +259,6 @@ form {
 }
 
 .navbar-link, .hamburger-link {
-    font-size: var(--paragraph);
     text-decoration: none;
     font-weight: 600;
 }
@@ -278,14 +292,21 @@ form {
     radial-gradient(at 74% 97%, hsla(247,73%,60%,1) 0px, transparent 50%),
     radial-gradient(at 0% 100%, rgb(113, 97, 233) 0px, transparent 50%),
     radial-gradient(at 57% 57%, hsla(302,99%,71%,1) 0px, transparent 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .title {
-    margin-top: 10rem;
+    /* flex: 1; */
+}
+
+.traffic-image {
+    width: 100%;
 }
 
 .description {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .subtext {
@@ -396,10 +417,6 @@ form {
 
 .suggestions li:hover {
     background-color: var(--pink);
-}
-
-select { 
-    color: black;
 }
 
 .request-form {

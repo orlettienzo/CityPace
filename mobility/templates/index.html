@@ -4,32 +4,31 @@
 {% block content %}
 
 <section class="display-title">
-    <div>
-        <h1 class="title">Le <span class="special">Rythme</span> de votre ville.</h1>
+    <div class="title">
+        <h1>Le <span class="special">Rythme</span> de votre ville.</h1>
         <p class="description">CityPace vous fournit des informations en direct sur le traffic autour de vous. </p>
     </div>
+    <div>
+        <!-- <img src="{{ url_for('static', filename='traffic.png') }}" alt="Traffic" class="traffic-image"> -->
+    </div>
 </section>
-<section class="section-city">
-    <h2>Demo : Liste des villes</h2>
+<section>
+    <h2>Voir les statistiques</h2>
     {% if done %}
-        <table>
-            <tr>
-                <th>Code postal</th>
-                <th>Nom</th>
-                <th>Population</th>
-            </tr>
-            {% for city in cities %}
-            <tr>
-                <td>{{ city.code_postal }}</td>
-                <td>{{ city.nom }}</td>
-                <td>{{ city.population }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <div class="db-error">
-            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+    <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
+        <div class="city-select">
+            <select name="ville" id="ville" onchange="this.form.submit();">
+                <option value="0">Sélectionnez une ville</option>
+                {% for city in cities %}
+                <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
+                {% endfor %}
+            </select>
         </div>
+    </form>
+    {% else %}
+    <div class="db-error">
+        La base de données est en train de s'initialiser en ce moment. Veuillez revenir plus tard.
+    </div>
     {% endif %}
 </section>
     
