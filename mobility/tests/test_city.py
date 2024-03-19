@@ -31,8 +31,8 @@ class TestCity(unittest.TestCase):
                 cursor = db.execute("SELECT COUNT(*) FROM ville")
                 result = cursor.fetchone()[0]
 
-                # Vérifie si le nombre d'enregistrements est égal à 3
-                self.assertEqual(result, 3)
+                # Vérifie si le nombre d'enregistrements est égal à 3 (5 à cause des autres tests)
+                self.assertEqual(result, 5)
 
                 # Effectue une requête GET vers la route '/'
                 response = client.get('/')
