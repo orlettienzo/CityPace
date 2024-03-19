@@ -10,4 +10,5 @@ def street_list():
     if db_populated():
         streets = get_street_list()
         return render_template("street.html", done=True, streets=streets)
+    # si la base de données n'est pas encore peuplée
     return render_template("street.html", done=False)
