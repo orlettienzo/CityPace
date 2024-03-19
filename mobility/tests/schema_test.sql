@@ -1,6 +1,8 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
+--Todo : add your test database
+
 DROP TABLE IF EXISTS rue;
 CREATE TABLE IF NOT EXISTS rue (
     rue_id INTEGER,
@@ -26,5 +28,9 @@ INSERT INTO ville (code_postal, nom, population) VALUES (1000, 'Ville A', 12000)
 INSERT INTO ville (code_postal, nom, population) VALUES (3000, 'Ville B', 36000);
 INSERT INTO ville (code_postal, nom, population) VALUES (5200, 'Ville C', 500);
 
+INSERT INTO ville (code_postal, nom, population)
+VALUES
+  (4000, 'Liège', 250000),
+  (5000, 'Namur', 100000);
 
 COMMIT;
