@@ -7,6 +7,69 @@
     <div class="title">
         <h1>Le <span class="special">Rythme</span> de votre ville.</h1>
         <p class="description">CityPace vous fournit des informations en direct sur le traffic autour de vous. </p>
+        <div class="actions">
+            {% if done %}
+            <div class="custom-dropdown">
+                <div class="default-option-custom-dropdown">
+                    <span class="default-option-custom-dropdown-txt">Statistiques par ville</span>
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <ul class="options">
+                    {% for city in cities %}
+                    <li class="option" data-code-postal="{{ city.code_postal }}">{{ city.nom }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <script>
+                const customDropdown = document.querySelector('.custom-dropdown'),
+                    defaultOption = customDropdown.querySelector('.default-option-custom-dropdown'),
+                    options = customDropdown.querySelectorAll('.option'),
+                    defaultOptionText = customDropdown.querySelector('.default-option-custom-dropdown-txt');
+
+                defaultOption.addEventListener('click', () => customDropdown.classList.toggle('active'));
+
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        let selectedOption = option.textContent;
+                        // defaultOptionText.textContent = selectedOption; // maybe not necessary
+                        // read "data-code-postal" attribute from the selected option
+                        let codePostal = option.getAttribute('data-code-postal');
+                        // console.log(codePostal); // debug
+                        // make a post request to {{ url_for('requests.get_stats') }} with the postal code
+
+                        // close the dropdown
+                        customDropdown.classList.remove('active');
+
+                        const form = document.createElement('form');
+                        form.method = 'post';
+                        form.action = "{{ url_for('requests.get_stats') }}";
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'ville';
+                        input.value = codePostal;
+                        form.appendChild(input);
+                        document.body.appendChild(form);
+                        form.submit();
+
+                });
+                });
+            </script>
+            {% else %}
+            <!-- mettre un bouton vers about si la db n'est pas chargée -->
+            <a href="/" class="button-primary">Ne rien faire</a>
+            {% endif %}
+            <a href="/statistics" class="button-primary">Statistiques globales</a>
+        </div>
+        <!-- <form method="post" action="{{ url_for('requests.get_stats') }}">
+            <div class="city-select">
+                <select name="ville" id="ville" onchange="this.form.submit();">
+                    <option value="0">Statistiques pour</option>
+                    {% for city in cities %}
+                    <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form> -->
     </div>
     <div>
         <!-- <img src="{{ url_for('static', filename='traffic.png') }}" alt="Traffic" class="traffic-image"> -->
@@ -14,22 +77,7 @@
 </section>
 <section>
     <h2>Voir les statistiques</h2>
-    {% if done %}
-    <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
-        <div class="city-select">
-            <select name="ville" id="ville" onchange="this.form.submit();">
-                <option value="0">Sélectionnez une ville</option>
-                {% for city in cities %}
-                <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </form>
-    {% else %}
-    <div class="db-error">
-        La base de données est en train de s'initialiser en ce moment. Veuillez revenir plus tard.
-    </div>
-    {% endif %}
+    
 </section>
     
 

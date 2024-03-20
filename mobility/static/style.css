@@ -99,7 +99,7 @@ h2 {
 
 table, .db-error {
     background-color: var(--surface0);
-    border-radius: 5px;
+    border-radius: 8px;
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -126,7 +126,7 @@ input, button {
     color: var(--text);
     border: none;
     padding: 0.4rem;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-top: 10px;
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
@@ -141,8 +141,8 @@ select {
     background: var(--surface0);
     color: var(--text);
     border: var(--surface1) 1px solid;
-    padding: 0.4rem;
-    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     margin-top: 10px;
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
@@ -180,6 +180,96 @@ select {
 
     transition: background 0.5s, border-bottom 0.5s, height 0.5s;
 }
+
+.button-primary {
+    background: var(--primary);
+    color: var(--crust);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.button-secondary {
+    background: var(--surface0);
+    border: var(--surface1) 1px solid;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+
+.button-tertiary {
+    background: transparent;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: var(--text) 1px solid;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+.custom-dropdown .default-option-custom-dropdown{
+    display: flex;
+    /* height: 55px; */
+    background: var(--surface0);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 1rem;
+}
+
+.custom-dropdown .options {
+    /* position: relative; */
+    position: absolute;
+    padding: 0.5rem;
+    background: var(--surface1);
+    border-radius: 0 0 8px 8px;
+    /* margin should evetually go here */
+    display: none;
+    margin: 0;
+    left: 0;
+    right: 0;
+}
+
+.options .option {
+    display: flex;
+    /* height: 55px; */
+    cursor: pointer;
+    align-items: center;
+    border-radius: calc(8px - 0.5rem);
+    padding: 0.5rem;
+}
+
+.options .option:hover {
+    background: var(--surface2);
+}
+
+.custom-dropdown.active .default-option-custom-dropdown{
+    border-radius: 8px 8px 0 0;
+}
+
+.custom-dropdown.active .options {
+    display: block;
+}
+
+.custom-dropdown.active .default-option-custom-dropdown .dropdown-arrow {
+    transform: rotate(180deg);
+
+}
+
 
 .hamburger-menu-button {
     display: none;
@@ -338,7 +428,6 @@ select {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* height: 40rem; */
 }
 
 .search-form {
@@ -377,7 +466,7 @@ select {
 }
 
 ::placeholder {
-    color: --;
+    /* color:  */
     opacity: 1;
 }
 
@@ -412,7 +501,7 @@ select {
     width: 100%;
     text-align: left;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .suggestions li:hover {
