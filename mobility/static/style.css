@@ -83,7 +83,7 @@ section {
 }
 
 /* the first section in the document */
-section:first-child {
+section:first-child:not(.display-title) {
     padding-top: 80px;
 }
 
@@ -416,6 +416,7 @@ select {
     align-items: center;
     justify-content: left;
     padding-bottom: 10rem;
+    padding-top: 10rem;
 }
 
 .description {
