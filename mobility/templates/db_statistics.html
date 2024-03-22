@@ -115,4 +115,16 @@
         </div>
         {% endif %}
     </section>
+    <section>
+        <h2>Ratio de cyclistes les jours de plaine lune</h2>
+        {% if done %}
+        <p>
+            Le ratio de cyclistes les jours de pleine lune est de {{ bike_ratio_on_full_moon_days }}%.
+        </p>
+        {% else %}
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+        {% endif %}
+    </section>
 {% endblock %}

@@ -5,7 +5,7 @@ from flask_executor import Executor
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mobility.models.appdata_model import db_populated
-from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities
+from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities, get_bike_ratio_on_full_moon_days
 import mobility.csv_converter
 from . import db, requests
 from mobility.models.city_model import get_city_list
@@ -113,7 +113,8 @@ def create_app(test_config=None) -> Flask:
                                    number_of_streets_by_city=get_number_of_streets_by_city(),
                                    most_cyclable_cities=get_most_cyclable_cities(),
                                    city_list=get_city_list(),
-                                   street_list=get_street_list())
+                                   street_list=get_street_list(),
+                                   bike_ratio_on_full_moon_days=get_bike_ratio_on_full_moon_days())
 
         return render_template("db_statistics.html", done=False)
 
