@@ -189,6 +189,7 @@ select {
     left: 0;
 
     transition: background 0.5s, border-bottom 0.5s, height 0.5s;
+    z-index: 2;
 }
 
 .button-primary {
@@ -208,7 +209,6 @@ select {
     border-radius: 8px;
     text-decoration: none;
 }
-
 
 .button-tertiary {
     background: transparent;
@@ -267,6 +267,7 @@ select {
     overflow-y: scroll;
     border: var(--surface1) 1px solid;
     border-top: none;
+    z-index: 1;
 }
 
 .disabled-dropdown .default-option-custom-dropdown *{
@@ -321,7 +322,7 @@ select {
 
 .hamburger-menu {
     height: 100%;
-    width: 70%;
+    width: 40%;
     background: var(--mantle);
     border-left: 1px solid var(--surface0);
     /* padding-top: 80px; */
@@ -329,20 +330,19 @@ select {
 
     position: fixed;
     top: 0;
-    right: -70%;
+    right: -40%;
 
     display: flex;
     flex-direction: column;
     /* align-items: center; */
     gap: 3rem;
-    /* z-index: 3; */
-    transition: right 0.3s;
+    transition: right 0.2s ease-out;
 }
 
 .hamburger-menu.active {
     display: flex;
     right: 0;
-    transition: right 0.3s;
+    transition: right 0.2s ease-out;
 }
 
 .dimmer {
@@ -388,7 +388,7 @@ select {
     border-bottom: 1px solid var(--surface0);
     color: var(--text);
     transition: background 0.1s, border-bottom 0.5s, height 0.5s;
-    z-index: 2;
+    
 }
 
 .footer {
@@ -415,14 +415,7 @@ select {
     display: flex;
     align-items: center;
     justify-content: left;
-}
-
-.title {
-    /* flex: 1; */
-}
-
-.traffic-image {
-    width: 100%;
+    padding-bottom: 10rem;
 }
 
 .description {
@@ -546,6 +539,14 @@ select {
 }
 
 @media (max-width: 800px) {
+    table {
+        font-size: 18px;
+    }
+
+    footer {
+        padding-bottom: 2rem;
+    }
+
     .section {
         width: 100%;
     }
@@ -567,43 +568,37 @@ select {
         width: 30px;
     }
 
-    .logo {
-        /* height: 82px; */
-    }
-
-    .navbar {
-        /* height: 80px; */
-    }
-
-    section {
-        /* padding-top: 120px;
-        padding-bottom: 120px; */
-    }
-
-    /* multiplay all font sizes by 2 */
-    h1 {
-        /* font-size: 4rem; */
-    }
-
-    h2 {
-        /* font-size: 3rem; */
-    }
-
-    table {
-        font-size: 18px;
-    }
-
     .illustraded-paragraph {
         flex-direction: column;
-    
-    }
-
+    }   
 }
 
-@media (max-width: 500px) {
+@media (max-width: 720px) {
     :root {
         --side-padding-width: 40px;
     }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    table {
+        font-size: 16px;
+    }
+
+    .hide-on-mobile {
+        display: none;
+    }
+
+    .hamburger-menu {
+        width: 80%;
+        right: -80%;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: start;
+    } 
 }
 
 @media (min-width: 1500px) {

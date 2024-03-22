@@ -70,16 +70,16 @@
         <h2>Liste des rues</h2>
         <table>
             <tr>
-                <th>Identifiant de la rue</th>
+                <th class="hide-on-mobile">Identifiant de la rue</th>
                 <th>Nom</th>
-                <th>Code postal</th>
+                <th class="hide-on-mobile">Code postal</th>
                 <th>Ville</th>
             </tr>
             {% for street in street_list %}
             <tr>
-                <td>{{ street.rue_id }}</td>
+                <td class="hide-on-mobile">{{ street.rue_id }}</td>
                 <td>{{ street.nom }}</td>
-                <td>{{ street.code_postal }}</td>
+                <td class="hide-on-mobile">{{ street.code_postal }}</td>
                 <td>{{ street.city_name }}</td>
 
             </tr>
