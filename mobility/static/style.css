@@ -239,21 +239,23 @@ select {
 
 .border .default-option-custom-dropdown {
     border: var(--surface1) 1px solid;
-    border-radius: ;
 }
 
 .custom-dropdown .options {
     /* position: relative; */
     position: absolute;
-    padding: 0.5rem;
+    /* padding: 0.5rem; */
     background: var(--surface0);
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 12px 12px;
     /* margin should evetually go here */
     display: none;
     margin: 0;
     left: 0;
     right: 0;
+    padding: 0;
     overflow-y: scroll;
+    border: var(--surface1) 1px solid;
+    border-top: none;
 }
 
 .disabled-dropdown .default-option-custom-dropdown *{
@@ -266,7 +268,7 @@ select {
     cursor: pointer;
     align-items: center;
     border-radius: calc(8px - 0.5rem);
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
 }
 
 .options .option:hover {
