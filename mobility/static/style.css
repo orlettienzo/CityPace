@@ -222,26 +222,31 @@ select {
 .custom-dropdown .default-option-custom-dropdown{
     display: flex;
     /* height: 55px; */
-    background: var(--surface0);
+    background: var(--base);
     padding: 0.5rem 1rem;
     border-radius: 8px;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
     gap: 1rem;
+    z-index: 1;
+    overflow: hidden;
+    border: var(--surface1) 1px solid;
+    min-width: 300px;
 }
 
 .custom-dropdown .options {
     /* position: relative; */
     position: absolute;
     padding: 0.5rem;
-    background: var(--surface1);
+    background: var(--surface0);
     border-radius: 0 0 8px 8px;
     /* margin should evetually go here */
     display: none;
     margin: 0;
     left: 0;
     right: 0;
+    overflow-y: scroll;
 }
 
 .options .option {
@@ -254,7 +259,7 @@ select {
 }
 
 .options .option:hover {
-    background: var(--surface2);
+    background: var(--surface1);
 }
 
 .custom-dropdown.active .default-option-custom-dropdown{
@@ -359,6 +364,7 @@ select {
     border-bottom: 1px solid var(--surface0);
     color: var(--text);
     transition: background 0.1s, border-bottom 0.5s, height 0.5s;
+    z-index: 2;
 }
 
 .footer {

@@ -3,23 +3,130 @@
 
 {% block content %}
 <section class="search-section">
-    <!-- <form action="" class="search-form">
-        <div class="search">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="search" id="search-input" placeholder="Rechercher une ville ou une rue" autocomplete="off">
-        </div>
-        <div class="suggestions">
-            <ul id="suggestions-list">
-
-            </ul>
-        </div>
-        <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
-    </form> -->
     {% if done %}
         <h2>Demo : Requêtes</h2>
-        <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
+        <div class="actions">
+            <div class="custom-dropdown" data-name="ville">
+                <div class="default-option-custom-dropdown">
+                    <span class="default-option-custom-dropdown-txt">Sélectionnez une ville</span>
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    <!-- Changer la couleur!!! -->
+                </div>
+                <ul class="options">
+                    {% for city in cities %}
+                    <li class="option" data-value="{{ city.code_postal }}">{{ city.nom }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="custom-dropdown" data-name="rue">
+                <div class="default-option-custom-dropdown">
+                    <span class="default-option-custom-dropdown-txt">Sélectionnez une rue</span>
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    <!-- Changer la couleur!!! -->
+                </div>
+                <ul class="options">
+                    {% for street in streets %}
+                    <li class="option" data-value="{{ street.rue_id }}">{{ street.nom }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <script>
+            function initializeDropdown(customDropdown, inputName) {
+                    const defaultOption = customDropdown.querySelector('.default-option-custom-dropdown');
+                    const options = customDropdown.querySelectorAll('.option');
+                    const defaultOptionText = customDropdown.querySelector('.default-option-custom-dropdown-txt');
+
+                    defaultOption.addEventListener('click', () => {
+                        customDropdown.classList.toggle('active');
+                        // remove the active class from all other dropdowns
+                        const allDropdowns = document.querySelectorAll('.custom-dropdown');
+                        allDropdowns.forEach(dropdown => {
+                            if (dropdown !== customDropdown) {
+                                dropdown.classList.remove('active');
+                            }
+                        });
+                    });
+
+
+                    options.forEach(option => {
+                        if (option.getAttribute('data-value') == '{{ selected_city }}') {
+                            defaultOptionText.textContent = option.textContent;
+                            const form = document.createElement('form');
+                            form.method = 'post';
+                            form.action = "{{ url_for('requests.get_stats') }}";
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'ville';
+                            input.value = '{{ selected_city }}';
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+                        }
+                        if (option.getAttribute('data-value') == '{{ selected_street }}') {
+                            defaultOptionText.textContent = option.textContent;
+                            const form = document.createElement('form');
+                            form.method = 'post';
+                            form.action = "{{ url_for('requests.get_stats') }}";
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'rue';
+                            input.value = '{{ selected_street }}';
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+                        }
+
+                        option.addEventListener('click', () => {
+                            let selectedOption = option.textContent;
+                            let codePostal = option.getAttribute('data-value');
+
+                            // read "data-value" attribute from the selected option
+                            // console.log(codePostal); // debug
+                            
+                            // close the dropdown
+                            customDropdown.classList.remove('active');
+                            
+                            // make a post request to {{ url_for('requests.get_stats') }} with the postal code
+                            if (inputName === 'ville') {
+                                const form = document.createElement('form');
+                                form.method = 'post';
+                                form.action = "{{ url_for('requests.get_stats') }}";
+                                const input = document.createElement('input');
+                                input.type = 'hidden';
+                                input.name = inputName;
+                                input.value = codePostal;
+                                form.appendChild(input);
+                                document.body.appendChild(form);
+                                form.submit();
+                            } else if (inputName === 'rue') {
+                                const form = document.createElement('form');
+                                form.method = 'post';
+                                form.action = "{{ url_for('requests.get_stats') }}";
+                                const input = document.createElement('input');
+                                input.type = 'hidden';
+                                input.name = inputName;
+                                input.value = codePostal;
+                                form.appendChild(input);
+                                const input2 = document.createElement('input');
+                                input2.type = 'hidden';
+                                input2.name = 'ville';
+                                input2.value = '{{ selected_city }}';
+                                form.appendChild(input2);
+                                document.body.appendChild(form);
+                                form.submit();
+                            }
+                        });
+                    });
+                }
+
+                // Call the function for each dropdown element
+                const dropdowns = document.querySelectorAll('.custom-dropdown');
+                dropdowns.forEach(dropdown => {
+                    initializeDropdown(dropdown, dropdown.getAttribute('data-name'));
+                });
+        </script>
+        <!-- <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
             <div class="city-select">
-                <!-- <label for="ville">Sélectionnez une ville :</label> -->
                 <select name="ville" id="ville" onchange="document.getElementById('rue').value = '0'; this.form.submit();">
                     <option value="0">Sélectionnez une ville</option>
                     {% for city in cities %}
@@ -28,7 +135,6 @@
                 </select>
             </div>
             <div class="street-select">
-                <!-- <label for="rue">Sélectionnez une rue :</label> -->
                 <select name="rue" id="rue" onchange="submit()">
                     <option value="0">Toutes les rues</option>
                     {% for street in streets %}
@@ -36,7 +142,7 @@
                     {% endfor %}
                 </select>
             </div>
-        </form>
+        </form>  -->
 </section>
     {% if city_data %}
     <section>
