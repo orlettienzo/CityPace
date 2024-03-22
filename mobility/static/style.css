@@ -27,7 +27,7 @@
     --crust: #11111b;
 
     --primary: var(--mauve);
-    --secondary: var(--teal);
+    --secondary: var(--pink);
     --tertiary: var(--yellow);
     --disabled: ;
     --enabled: ;
@@ -78,7 +78,8 @@ body {
 section {
     padding-left: var(--side-padding-width);
     padding-right: var(--side-padding-width);
-    padding-bottom: 20px;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
 }
 
 /* the first section in the document */
@@ -95,6 +96,15 @@ h1 {
 h2 {
     font-weight: 700;
     font-size: 2rem;
+    margin: 1rem 0;
+}
+
+p {
+    margin: 0;
+}
+
+p a {
+    color: var(--secondary);
 }
 
 table, .db-error {
@@ -213,6 +223,7 @@ select {
     display: flex;
     gap: 1rem;
     align-items: center;
+    margin: 1rem 0;
 }
 
 .custom-dropdown {

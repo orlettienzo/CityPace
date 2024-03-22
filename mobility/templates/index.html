@@ -13,8 +13,7 @@
             <div class="custom-dropdown">
                 <div class="default-option-custom-dropdown">
                     <span class="default-option-custom-dropdown-txt">Statistiques par ville</span>
-                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
-                    <!-- Changer la couleur!!! -->
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
                 </div>
                 <ul class="options">
                     {% for city in cities %}
@@ -57,7 +56,6 @@
                     });
                 }
 
-                // Call the function for each dropdown element
                 const dropdowns = document.querySelectorAll('.custom-dropdown');
                 dropdowns.forEach(dropdown => {
                     initializeDropdown(dropdown);
@@ -65,19 +63,9 @@
             </script>
             {% else %}
             <!-- mettre un bouton vers about si la db n'est pas chargée -->
-            <a href="/" class="button-primary">Ne rien faire</a>
+            <a href="/about" class="button-secondary">Apprendre plus sur nous</a>
             {% endif %}
         </div>
-        <!-- <form method="post" action="{{ url_for('requests.get_stats') }}">
-            <div class="city-select">
-                <select name="ville" id="ville" onchange="this.form.submit();">
-                    <option value="0">Statistiques pour</option>
-                    {% for city in cities %}
-                    <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </form> -->
     </div>
     <div>
         <!-- <img src="{{ url_for('static', filename='traffic.png') }}" alt="Traffic" class="traffic-image"> -->
@@ -86,11 +74,14 @@
 <section>
     <h2>La <span class="special">mobilité</span> est au coeur de nos vies</h2>
     <p>CityPace vous permet de suivre en temps réel le trafic autour de vous. Vous pouvez également consulter des statistiques globales ou par ville. </p>
+</section>
+<section>
     <h2><span class="special">Toujours</span> accessible</h2>
     <p>CityPace a été construit de manière à ne jamais être innaccesible. Même pendant l'initialisation de la base de données, vous pouvez acceder à notre application.</p>
+</section>
+<section>
     <h2>Des <span class="special">statistiques</span> précises</h2>
     <p>CityPace vous fournit des statistiques précises sur le trafic dans votre ville. Vous pouvez également consulter des statistiques globales. </p>
-    
 </section>
     
 
