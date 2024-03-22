@@ -231,8 +231,15 @@ select {
     gap: 1rem;
     z-index: 1;
     overflow: hidden;
-    border: var(--surface1) 1px solid;
     min-width: 300px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.border .default-option-custom-dropdown {
+    border: var(--surface1) 1px solid;
+    border-radius: ;
 }
 
 .custom-dropdown .options {
@@ -247,6 +254,10 @@ select {
     left: 0;
     right: 0;
     overflow-y: scroll;
+}
+
+.disabled-dropdown .default-option-custom-dropdown *{
+    color: var(--surface1);
 }
 
 .options .option {

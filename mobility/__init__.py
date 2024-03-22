@@ -141,6 +141,11 @@ def create_app(test_config=None) -> Flask:
         """Retourne le pourcentage de progression de la réinitialisation de la base de données si vous avez de la chance."""
         # progress variable from mobility.csv_converter
         return f"{round(mobility.csv_converter.progress/18048*100, 1)}% done."
+    
+    @app.route('/moon')
+    def moon() -> str:
+        """Page de la lune."""
+        return render_template('moon.html')
 
     @app.errorhandler(404)
     def page_not_found(e) -> str:
