@@ -3,43 +3,149 @@
 
 {% block content %}
 <section class="search-section">
-    <!-- <form action="" class="search-form">
-        <div class="search">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="search" id="search-input" placeholder="Rechercher une ville ou une rue" autocomplete="off">
-        </div>
-        <div class="suggestions">
-            <ul id="suggestions-list">
-
-            </ul>
-        </div>
-        <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
-    </form> -->
     {% if done %}
         <h2>Demo : Requêtes</h2>
-        <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
-            <div class="city-select">
-                <!-- <label for="ville">Sélectionnez une ville :</label> -->
-                <select name="ville" id="ville" onchange="document.getElementById('rue').value = '0'; this.form.submit();">
-                    <option value="0">Sélectionnez une ville</option>
+        <div class="actions">
+            <div class="custom-dropdown border" data-name="ville">
+                <div class="default-option-custom-dropdown">
+                    <span class="default-option-custom-dropdown-txt">Sélectionnez une ville</span>
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    <!-- Changer la couleur!!! -->
+                </div>
+                <ul class="options">
                     {% for city in cities %}
-                    <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
+                    <li class="option" data-value="{{ city.code_postal }}">{{ city.nom }}</li>
                     {% endfor %}
-                </select>
+                </ul>
             </div>
-            <div class="street-select">
-                <!-- <label for="rue">Sélectionnez une rue :</label> -->
-                <select name="rue" id="rue" onchange="submit()">
-                    <option value="0">Toutes les rues</option>
+
+            <div class="custom-dropdown border disabled-dropdown" data-name="rue">
+                <div class="default-option-custom-dropdown">
+                    <span class="default-option-custom-dropdown-txt">Sélectionnez une rue</span>
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    <!-- Changer la couleur!!! -->
+                </div>
+                <ul class="options">
                     {% for street in streets %}
-                    <option value="{{ street.rue_id }}" {% if street.rue_id == selected_street %}selected="selected"{% endif %}>{{ street.nom }}</option>
+                    <li class="option" data-value="{{ street.rue_id }}">{{ street.nom }}</li>
                     {% endfor %}
-                </select>
+                </ul>
             </div>
-        </form>
+        </div>
+        <script>
+            const allDropdowns = document.querySelectorAll('.custom-dropdown');
+            function createFormFromDict(dict, submit) {
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = "{{ url_for('requests.get_stats') }}";
+                for (const key in dict) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = dict[key];
+                    form.appendChild(input);
+                }
+                document.body.appendChild(form);
+                if (submit) {
+                    form.submit();
+                }
+            }
+            function initializeDropdown(customDropdown, inputName) {
+                    const defaultOption = customDropdown.querySelector('.default-option-custom-dropdown');
+                    const options = customDropdown.querySelectorAll('.option');
+                    const defaultOptionText = customDropdown.querySelector('.default-option-custom-dropdown-txt');
+
+                    // listen for click events on the dropdown
+                    defaultOption.addEventListener('click', () => {
+                        // open if the dropdown is not disabled
+                        if (!customDropdown.classList.contains('disabled-dropdown')) {
+                            customDropdown.classList.toggle('active');
+                        }
+                        // remove the active class from all other dropdowns
+                        allDropdowns.forEach(dropdown => {
+                            if (dropdown !== customDropdown) {
+                                dropdown.classList.remove('active');
+                            }
+                        });
+                    });
+
+                    options.forEach(option => {
+                        // set the default option text to the selected option
+                        if (option.getAttribute('data-value') == '{{ selected_city }}') {
+                            defaultOptionText.textContent = option.textContent;
+                            // remove dropdown-disabled class from the street dropdown
+                            document.querySelector('.custom-dropdown[data-name="rue"]').classList.remove('disabled-dropdown');
+                        }
+                        if (option.getAttribute('data-value') == '{{ selected_street }}') {
+                            defaultOptionText.textContent = option.textContent;
+                        }
+
+                        // listen for click events on the options
+                        option.addEventListener('click', () => {
+                            let selectedOption = option.textContent;
+                            let codePostal = option.getAttribute('data-value');
+                            
+                            // make a post request to {{ url_for('requests.get_stats') }} with the postal code
+                            if (inputName === 'ville') {
+                                createFormFromDict({ville: codePostal}, true)
+                            } else if (inputName === 'rue') {
+                                createFormFromDict({rue: codePostal, ville: '{{ selected_city }}'}, true)
+                            }
+                            
+                            // close the dropdown
+                            customDropdown.classList.remove('active');
+                        });
+                        window.addEventListener('click', e => {
+                            if (!customDropdown.contains(e.target)) {
+                                customDropdown.classList.remove('active');
+                            }
+                        });
+                    });
+                }
+                allDropdowns.forEach(dropdown => {
+                    initializeDropdown(dropdown, dropdown.getAttribute('data-name'));
+                });
+        </script>
 </section>
-    {% if city_data %}
+{% if city_data %}
     <section>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            const ctx = document.getElementById('myChart');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                labels: [
+                    {% for key, value in city_data.items() %}capitalizeFirstLetter('{{ key }}'),{% endfor %}
+                ],
+                datasets: [{
+                    label: 'Pourcentage du trafic',
+                    data: [
+                        {% for key, value in city_data.items() %}{{ value }},{% endfor %}
+                    ],
+                    borderWidth: 1,
+                    backgroundColor: [
+                        '#b4befe',
+                    ],
+                }]
+                },
+                options: {
+                scales: {
+                    y: {
+                    beginAtZero: true
+                    }
+                }
+                }
+            });
+        </script>
         <table>
             {% for key, value in city_data.items() %}
             <tr>

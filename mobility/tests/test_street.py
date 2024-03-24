@@ -73,6 +73,30 @@ class TestStreet(unittest.TestCase):
         self.assertIn(b"Liste des rues", rendered_template_bytes)
 
 
+    def test_street_list_with_rue_id_unique(self):
+        with self.app.test_client() as client:
+            with self.app.app_context():
+                db = get_db()
+
+                # Requête pour vérifier si les valeurs de 'rue_id' sont toutes différentes
+                cursor = db.execute("SELECT COUNT(DISTINCT rue_id) FROM rue")
+                result = cursor.fetchone()[0]
+
+                # Vérifier si le nombre de valeurs distinctes de 'rue_id' est égal au nombre
+                # total d'enregistrements dans la table 'rue'
+                total_records_cursor = db.execute("SELECT COUNT(*) FROM rue")
+                total_records = total_records_cursor.fetchone()[0]
+
+                self.assertEqual(result, total_records)
+                self.assertNotEqual(result, 0)
+                # print("Tous les valeurs de 'rue_id' sont distincts".)
+
+            # Effectue une requête GET vers la route '/'
+            #response = client.get('/')
+
+            # Vérifie si la réponse a le code 200 (OK)
+            #self.assertEqual(response.status_code, 200)
+
     def dbDown(self):
         # closing the db and cleaning the temp file
         close_db()

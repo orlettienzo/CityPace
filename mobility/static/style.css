@@ -27,7 +27,7 @@
     --crust: #11111b;
 
     --primary: var(--mauve);
-    --secondary: var(--teal);
+    --secondary: var(--lavander);
     --tertiary: var(--yellow);
     --disabled: ;
     --enabled: ;
@@ -78,15 +78,17 @@ body {
 section {
     padding-left: var(--side-padding-width);
     padding-right: var(--side-padding-width);
-    padding-bottom: 20px;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
 }
 
 /* the first section in the document */
-section:first-child {
+section:first-child:not(.display-title) {
     padding-top: 80px;
 }
 
 h1 {
+    font-family: neulis-neue, sans-serif;
     font-weight: 700;
     margin: 1rem 0;
     font-size: 4rem;
@@ -95,11 +97,20 @@ h1 {
 h2 {
     font-weight: 700;
     font-size: 2rem;
+    margin: 1rem 0;
+}
+
+p {
+    margin: 0;
+}
+
+p a {
+    color: var(--secondary);
 }
 
 table, .db-error {
     background-color: var(--surface0);
-    border-radius: 5px;
+    border-radius: 8px;
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -126,7 +137,7 @@ input, button {
     color: var(--text);
     border: none;
     padding: 0.4rem;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-top: 10px;
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
@@ -141,8 +152,8 @@ select {
     background: var(--surface0);
     color: var(--text);
     border: var(--surface1) 1px solid;
-    padding: 0.4rem;
-    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     margin-top: 10px;
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
@@ -154,6 +165,10 @@ select {
     background-position: right .7rem top 50%, 0 0;
     background-size: 1.5rem auto;
     width: 300px;
+}
+
+footer {
+    padding-bottom: 2rem;
 }
 
 .navbar {
@@ -179,7 +194,117 @@ select {
     left: 0;
 
     transition: background 0.5s, border-bottom 0.5s, height 0.5s;
+    z-index: 2;
 }
+
+.button-primary {
+    background: var(--primary);
+    color: var(--crust);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.button-secondary {
+    background: var(--surface0);
+    border: var(--surface1) 1px solid;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.button-tertiary {
+    background: transparent;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: var(--text) 1px solid;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+.custom-dropdown .default-option-custom-dropdown{
+    display: flex;
+    /* height: 55px; */
+    background: var(--base);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 1rem;
+    z-index: 1;
+    overflow: hidden;
+    min-width: 300px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.border .default-option-custom-dropdown {
+    border: var(--surface1) 1px solid;
+}
+
+.custom-dropdown .options {
+    /* position: relative; */
+    position: absolute;
+    /* padding: 0.5rem; */
+    background: var(--surface0);
+    border-radius: 0 0 12px 12px;
+    /* margin should evetually go here */
+    display: none;
+    margin: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    overflow-y: scroll;
+    border: var(--surface1) 1px solid;
+    border-top: none;
+    z-index: 1;
+}
+
+.disabled-dropdown .default-option-custom-dropdown *{
+    color: var(--surface1);
+}
+
+.options .option {
+    display: flex;
+    /* height: 55px; */
+    cursor: pointer;
+    align-items: center;
+    border-radius: calc(8px - 0.5rem);
+    padding: 0.5rem 1rem;
+}
+
+.options .option:hover {
+    background: var(--surface1);
+}
+
+.custom-dropdown.active .default-option-custom-dropdown{
+    border-radius: 8px 8px 0 0;
+}
+
+.custom-dropdown.active .options {
+    display: block;
+}
+
+.custom-dropdown.active .default-option-custom-dropdown .dropdown-arrow {
+    transform: rotate(180deg);
+
+}
+
 
 .hamburger-menu-button {
     display: none;
@@ -202,7 +327,7 @@ select {
 
 .hamburger-menu {
     height: 100%;
-    width: 70%;
+    width: 40%;
     background: var(--mantle);
     border-left: 1px solid var(--surface0);
     /* padding-top: 80px; */
@@ -210,20 +335,19 @@ select {
 
     position: fixed;
     top: 0;
-    right: -70%;
+    right: -40%;
 
     display: flex;
     flex-direction: column;
     /* align-items: center; */
     gap: 3rem;
-    /* z-index: 3; */
-    transition: right 0.3s;
+    transition: right 0.2s ease-out;
 }
 
 .hamburger-menu.active {
     display: flex;
     right: 0;
-    transition: right 0.3s;
+    transition: right 0.2s ease-out;
 }
 
 .dimmer {
@@ -269,6 +393,7 @@ select {
     border-bottom: 1px solid var(--surface0);
     color: var(--text);
     transition: background 0.1s, border-bottom 0.5s, height 0.5s;
+    
 }
 
 .footer {
@@ -279,6 +404,20 @@ select {
 .special {
     font-family: neulis-cursive, neulis-sans;
     font-weight: 700;
+    background: linear-gradient(45deg, var(--mauve), var(--peach), var(--green), var(--saphire), var(--lavander));
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: transparent; */
+    color: transparent;
+    /* make the font color a gradient */
+}
+
+.special2 {
+    font-family: neulis-neue, neulis-sans;
+    font-weight: 700;
+    /* make the font color a gradient */
+    background: linear-gradient(45deg, var(--mauve), var(--lavander), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .display-title {
@@ -294,15 +433,9 @@ select {
     radial-gradient(at 57% 57%, hsla(302,99%,71%,1) 0px, transparent 50%);
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-
-.title {
-    /* flex: 1; */
-}
-
-.traffic-image {
-    width: 100%;
+    justify-content: left;
+    padding-bottom: 10rem;
+    padding-top: 10rem;
 }
 
 .description {
@@ -338,7 +471,6 @@ select {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* height: 40rem; */
 }
 
 .search-form {
@@ -377,7 +509,7 @@ select {
 }
 
 ::placeholder {
-    color: --;
+    /* color:  */
     opacity: 1;
 }
 
@@ -412,7 +544,7 @@ select {
     width: 100%;
     text-align: left;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .suggestions li:hover {
@@ -427,6 +559,10 @@ select {
 }
 
 @media (max-width: 800px) {
+    table {
+        font-size: 18px;
+    }
+
     .section {
         width: 100%;
     }
@@ -448,43 +584,37 @@ select {
         width: 30px;
     }
 
-    .logo {
-        /* height: 82px; */
-    }
-
-    .navbar {
-        /* height: 80px; */
-    }
-
-    section {
-        /* padding-top: 120px;
-        padding-bottom: 120px; */
-    }
-
-    /* multiplay all font sizes by 2 */
-    h1 {
-        /* font-size: 4rem; */
-    }
-
-    h2 {
-        /* font-size: 3rem; */
-    }
-
-    table {
-        font-size: 18px;
-    }
-
     .illustraded-paragraph {
         flex-direction: column;
-    
-    }
-
+    }   
 }
 
-@media (max-width: 500px) {
+@media (max-width: 720px) {
     :root {
         --side-padding-width: 40px;
     }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    table {
+        font-size: 16px;
+    }
+
+    .hide-on-mobile {
+        display: none;
+    }
+
+    .hamburger-menu {
+        width: 80%;
+        right: -80%;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: start;
+    } 
 }
 
 @media (min-width: 1500px) {

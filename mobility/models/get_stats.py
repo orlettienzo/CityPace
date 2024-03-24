@@ -1,5 +1,7 @@
 from mobility.db import get_db
 import sqlite3
+from moon_utils import age, phase, MoonPhase
+from datetime import datetime
 
 def get_entry_list() -> sqlite3.Cursor:
     """Retourne la liste du nombre d'entrées dans chaque table de la base de données sous la forme d'un curseur sqlite3."""
@@ -21,3 +23,26 @@ def get_most_cyclable_cities() -> sqlite3.Cursor:
     """Retourne les villes les plus cyclables sous la forme d'un curseur sqlite3."""
     db = get_db()
     return db.execute('SELECT ville.nom AS city_name, SUM(traffic.velo) AS number_of_cyclists FROM traffic JOIN rue ON traffic.rue_id = rue.rue_id JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom ORDER BY number_of_cyclists DESC')
+
+def get_bike_ratio_on_full_moon_days() -> float:
+    """Retourne le ratio de cyclistes les jours de pleine lune."""
+    db = get_db()
+    data = db.execute('SELECT DATE(traffic.date) AS date, SUM(traffic.velo) AS number_of_cyclists FROM traffic GROUP BY DATE(traffic.date) ORDER BY number_of_cyclists DESC').fetchall()
+
+    full_moon_bikes = 0
+    other_days_bikes = 0
+    full_moon_days = 0
+    other_days = 0
+
+    for row in data:
+        date = datetime.strptime(row['date'], '%Y-%m-%d').date()
+        bikes = row['number_of_cyclists']
+
+        if phase(age(date)) == MoonPhase.FULL_MOON:
+            full_moon_bikes += bikes
+            full_moon_days += 1
+        else:
+            other_days_bikes += bikes
+            other_days += 1
+
+    return round((full_moon_bikes / full_moon_days) / (other_days_bikes / other_days), 2)

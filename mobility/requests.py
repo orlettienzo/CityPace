@@ -19,7 +19,11 @@ def get_stats():
     if not db_populated(): # au cas où la base de données n'est pas encore peuplée
         return render_template("db_request.html", done=False)
     # on récupère les valeurs des champs de la page de requête
+    # try:
     selected_city = int(request.form["ville"])
+    # except KeyError:
+    #     selected_city = 0
+
     try:
         selected_street = int(request.form["rue"])
     except KeyError:

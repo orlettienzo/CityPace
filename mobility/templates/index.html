@@ -6,31 +6,90 @@
 <section class="display-title">
     <div class="title">
         <h1>Le <span class="special">Rythme</span> de votre ville.</h1>
-        <p class="description">CityPace vous fournit des informations en direct sur le traffic autour de vous. </p>
-    </div>
-    <div>
-        <!-- <img src="{{ url_for('static', filename='traffic.png') }}" alt="Traffic" class="traffic-image"> -->
+        <p class="description">CityPace vous fournit des informations en direct sur le trafic autour de vous.</p>
+        <div class="actions">
+            <a href="/statistics" class="button-primary">Statistiques globales</a>
+            {% if done %}
+            <div class="custom-dropdown">
+                <div class="default-option-custom-dropdown">
+                    <span class="default-option-custom-dropdown-txt">Statistiques par ville</span>
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <ul class="options">
+                    {% for city in cities %}
+                    <li class="option" data-code-postal="{{ city.code_postal }}">{{ city.nom }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <script>
+                function initializeDropdown(customDropdown) {
+                    const defaultOption = customDropdown.querySelector('.default-option-custom-dropdown');
+                    const options = customDropdown.querySelectorAll('.option');
+                    const defaultOptionText = customDropdown.querySelector('.default-option-custom-dropdown-txt');
+
+                    defaultOption.addEventListener('click', () => customDropdown.classList.toggle('active'));
+
+                    options.forEach(option => {
+                        option.addEventListener('click', () => {
+                            let selectedOption = option.textContent;
+                            // defaultOptionText.textContent = selectedOption; // maybe not necessary
+                            // read "data-code-postal" attribute from the selected option
+                            let codePostal = option.getAttribute('data-code-postal');
+                            // console.log(codePostal); // debug
+                            // make a post request to {{ url_for('requests.get_stats') }} with the postal code
+
+                            // close the dropdown
+                            customDropdown.classList.remove('active');
+
+                            const form = document.createElement('form');
+                            form.method = 'post';
+                            form.action = "{{ url_for('requests.get_stats') }}";
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'ville';
+                            input.value = codePostal;
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+                            form.submit();
+                        });
+                    });
+                }
+
+                const dropdowns = document.querySelectorAll('.custom-dropdown');
+                dropdowns.forEach(dropdown => {
+                    initializeDropdown(dropdown);
+                });
+            </script>
+            {% else %}
+            <!-- mettre un bouton vers about si la db n'est pas chargée -->
+            <a href="/about" class="button-secondary">Apprendre plus sur nous</a>
+            {% endif %}
+        </div>
     </div>
 </section>
 <section>
-    <h2>Voir les statistiques</h2>
-    {% if done %}
-    <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
-        <div class="city-select">
-            <select name="ville" id="ville" onchange="this.form.submit();">
-                <option value="0">Sélectionnez une ville</option>
-                {% for city in cities %}
-                <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </form>
-    {% else %}
-    <div class="db-error">
-        La base de données est en train de s'initialiser en ce moment. Veuillez revenir plus tard.
-    </div>
-    {% endif %}
+    <h2>La <span class="special2">mobilité</span> est au cœur de nos vies</h2>
+    <p>
+        Tous les jours, nous nous déplaçons pour aller travailler, faire des courses, ou simplement pour nous promener. CityPace vous permet de consulter façilement les statistiques de trafic de votre ville en temps réel.
+    </p>
 </section>
+<section>
+    <h2><span class="special2">Toujours</span> accessible!</h2>
+    <p>CityPace a été construit de manière à ne jamais être innaccesible. Même pendant l'initialisation de la base de données, vous pouvez acceder à notre application!</p>
+</section>
+<section>
+    <h2>Des <span class="special2">statistiques</span> précises</h2>
+    <p>
+        Nos données sont mises à jour en temps réel, et sont extrêmement précises. Nous utilisons les capteurs de <a href="https://telraam.net/fr/what-is-telraam">Telraam</a> dernière génération pour vous fournir les informations les plus fiables. (Ok d'accord, elles datent de janvier mais ça va changer 👀).
+
+    </p>
+</section>
+<!-- villes les plus cyclables -->
+<!-- voitures/heure -->
+<!-- rues où les véhicules sont les plus rapides -->
+<!-- rues les plus fréquentées -->
+
     
 
 {% endblock %}

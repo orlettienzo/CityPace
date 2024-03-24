@@ -5,7 +5,7 @@ from flask_executor import Executor
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mobility.models.appdata_model import db_populated
-from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities
+from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities, get_bike_ratio_on_full_moon_days
 import mobility.csv_converter
 from . import db, requests
 from mobility.models.city_model import get_city_list
@@ -73,31 +73,6 @@ def create_app(test_config=None) -> Flask:
         """Page 'À propos' du site."""
         return render_template('about.html')
 
-    @app.route('/enzo')
-    def enzo() -> str:
-        """Page perso d'Enzo."""
-        return render_template('enzo.html')
-
-    @app.route('/tom')
-    def tom() -> str:
-        """Page perso de Tom."""
-        return render_template('tom.html')
-
-    @app.route('/nicolas')
-    def nicolas() -> str:
-        """Page perso de Nicolas."""
-        return render_template('nicolas.html')
-
-    @app.route('/johannes')
-    def johannes() -> str:
-        """Page perso de Johannes."""
-        return render_template('johannes.html')
-
-    @app.route('/liam')
-    def liam() -> str:
-        """Page perso de Liam."""
-        return render_template('liam.html')
-
     @app.route('/robots.txt')
     def robots() -> str:
         """Page 'robots.txt' du site."""
@@ -113,7 +88,8 @@ def create_app(test_config=None) -> Flask:
                                    number_of_streets_by_city=get_number_of_streets_by_city(),
                                    most_cyclable_cities=get_most_cyclable_cities(),
                                    city_list=get_city_list(),
-                                   street_list=get_street_list())
+                                   street_list=get_street_list(),
+                                   bike_ratio_on_full_moon_days=get_bike_ratio_on_full_moon_days())
 
         return render_template("db_statistics.html", done=False)
 
@@ -141,6 +117,11 @@ def create_app(test_config=None) -> Flask:
         """Retourne le pourcentage de progression de la réinitialisation de la base de données si vous avez de la chance."""
         # progress variable from mobility.csv_converter
         return f"{round(mobility.csv_converter.progress/18048*100, 1)}% done."
+    
+    @app.route('/moon')
+    def moon() -> str:
+        """Page de la lune."""
+        return render_template('moon.html')
 
     @app.errorhandler(404)
     def page_not_found(e) -> str:
