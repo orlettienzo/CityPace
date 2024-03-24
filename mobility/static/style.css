@@ -27,7 +27,7 @@
     --crust: #11111b;
 
     --primary: var(--mauve);
-    --secondary: var(--pink);
+    --secondary: var(--lavander);
     --tertiary: var(--yellow);
     --disabled: ;
     --enabled: ;
@@ -88,6 +88,7 @@ section:first-child:not(.display-title) {
 }
 
 h1 {
+    font-family: neulis-neue, sans-serif;
     font-weight: 700;
     margin: 1rem 0;
     font-size: 4rem;
@@ -399,6 +400,19 @@ select {
 .special {
     font-family: neulis-cursive, neulis-sans;
     font-weight: 700;
+    background: linear-gradient(45deg, var(--mauve), var(--peach), var(--green), var(--saphire), var(--lavander));
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: transparent; */
+    color: transparent;
+    /* make the font color a gradient */
+}
+
+.special2 {
+    font-weight: 700;
+    /* make the font color a gradient */
+    background: linear-gradient(45deg, var(--mauve), var(--lavander), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .display-title {

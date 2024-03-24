@@ -73,31 +73,6 @@ def create_app(test_config=None) -> Flask:
         """Page 'À propos' du site."""
         return render_template('about.html')
 
-    @app.route('/enzo')
-    def enzo() -> str:
-        """Page perso d'Enzo."""
-        return render_template('enzo.html')
-
-    @app.route('/tom')
-    def tom() -> str:
-        """Page perso de Tom."""
-        return render_template('tom.html')
-
-    @app.route('/nicolas')
-    def nicolas() -> str:
-        """Page perso de Nicolas."""
-        return render_template('nicolas.html')
-
-    @app.route('/johannes')
-    def johannes() -> str:
-        """Page perso de Johannes."""
-        return render_template('johannes.html')
-
-    @app.route('/liam')
-    def liam() -> str:
-        """Page perso de Liam."""
-        return render_template('liam.html')
-
     @app.route('/robots.txt')
     def robots() -> str:
         """Page 'robots.txt' du site."""

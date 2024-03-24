@@ -106,27 +106,46 @@
                     initializeDropdown(dropdown, dropdown.getAttribute('data-name'));
                 });
         </script>
-        <!-- <form method="post" action="{{ url_for('requests.get_stats') }}" class="request-form">
-            <div class="city-select">
-                <select name="ville" id="ville" onchange="document.getElementById('rue').value = '0'; this.form.submit();">
-                    <option value="0">Sélectionnez une ville</option>
-                    {% for city in cities %}
-                    <option value="{{ city.code_postal }}" {% if city.code_postal == selected_city %}selected="selected"{% endif %}>{{ city.nom }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="street-select">
-                <select name="rue" id="rue" onchange="submit()">
-                    <option value="0">Toutes les rues</option>
-                    {% for street in streets %}
-                    <option value="{{ street.rue_id }}" {% if street.rue_id == selected_street %}selected="selected"{% endif %}>{{ street.nom }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </form>  -->
 </section>
-    {% if city_data %}
+{% if city_data %}
     <section>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            const ctx = document.getElementById('myChart');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                labels: [
+                    {% for key, value in city_data.items() %}capitalizeFirstLetter('{{ key }}'),{% endfor %}
+                ],
+                datasets: [{
+                    label: 'Pourcentage du trafic',
+                    data: [
+                        {% for key, value in city_data.items() %}{{ value }},{% endfor %}
+                    ],
+                    borderWidth: 1,
+                    backgroundColor: [
+                        '#b4befe',
+                    ],
+                }]
+                },
+                options: {
+                scales: {
+                    y: {
+                    beginAtZero: true
+                    }
+                }
+                }
+            });
+        </script>
         <table>
             {% for key, value in city_data.items() %}
             <tr>
