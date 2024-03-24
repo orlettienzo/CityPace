@@ -167,6 +167,10 @@ select {
     width: 300px;
 }
 
+footer {
+    padding-bottom: 2rem;
+}
+
 .navbar {
     position:fixed;
     
@@ -408,6 +412,7 @@ select {
 }
 
 .special2 {
+    font-family: neulis-neue, neulis-sans;
     font-weight: 700;
     /* make the font color a gradient */
     background: linear-gradient(45deg, var(--mauve), var(--lavander), var(--teal));
@@ -556,10 +561,6 @@ select {
 @media (max-width: 800px) {
     table {
         font-size: 18px;
-    }
-
-    footer {
-        padding-bottom: 2rem;
     }
 
     .section {
