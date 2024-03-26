@@ -2,30 +2,28 @@ import sqlite3
 from flask import current_app, g
 
 def get_db() -> sqlite3.Connection:
-    """Returns the database connection. Create the connection if needed.
+    """Renvoie la connexion à la base de données. Crée la connexion si nécessaire.
 
     Returns:
-        db: The db connection to be used for SQL functions
+        db: La connexion à la base de données à utiliser pour les fonctions SQL
     """
-    #g is the shorthand for "globals" and allows registering available in the whole Flask app
     if 'db' not in g:
-        #If it's not there, let's create the db connection
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         print(current_app.config['DATABASE'])
 
-        # Instead of getting "tuple" out of queries, we'll get dictionaries of column->value
+        # Au lieu d'obtenir un "tuple" à partir des requêtes, nous obtiendrons des dictionnaires de colonne->valeur
         g.db.row_factory = sqlite3.Row
 
     return g.db
 
 def close_db(e=None) -> None:
-    """Close the database
+    """Ferme la base de données.
 
     Args:
-        e: unused
+        e: non utilisé
     """
     db = g.pop('db', None)
 
@@ -33,16 +31,17 @@ def close_db(e=None) -> None:
         db.close()
 
 def init_db() -> None:
-    """Reinitialisation de la base de données."""
+    """Réinitialisation de la base de données."""
     db = get_db()
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
 def init_app(app) -> None:
-    """To be called when an app is initialized
+    """À appeler lorsque une application est initialisée.
 
-    Asks to call close_db when the app is closed
+    Demande d'appeler close_db lorsque l'application est fermée.
+    
     Args:
-        app: the application context
+        app: le contexte de l'application
     """
     app.teardown_appcontext(close_db)
