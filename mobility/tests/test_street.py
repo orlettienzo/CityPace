@@ -98,7 +98,7 @@ class TestStreet(unittest.TestCase):
             #self.assertEqual(response.status_code, 200)
 
     def dbDown(self):
-        # closing the db and cleaning the temp file
+        # fermeture de la base de données et nettoyage du fichier temporaire
         close_db()
         os.close(self.db_fd)
         os.unlink(self.db_path)

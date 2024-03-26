@@ -59,10 +59,8 @@ class TestCity(unittest.TestCase):
                 # Effectue une requête GET vers la route '/'
                 response = client.get('/')
 
-
             # Vérifie si la réponse a le code 200 (OK)
             self.assertEqual(response.status_code, 200)
-
 
     def test_city_list_with_code_postal_unique(self):
         with self.app.test_client() as client:
@@ -88,9 +86,8 @@ class TestCity(unittest.TestCase):
             # Vérifie si la réponse a le code 200 (OK)
             #self.assertEqual(response.status_code, 200)
 
-
     def dbDown(self):
-        # closing the db and cleaning the temp file
+        # Ferme la base de données et supprime le fichier temporaire
         close_db()
         os.close(self.db_fd)
         os.unlink(self.db_path)
