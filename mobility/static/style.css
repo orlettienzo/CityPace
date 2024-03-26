@@ -593,7 +593,12 @@ footer {
 
     .illustraded-paragraph {
         flex-direction: column;
-    }   
+    }
+
+    .display-title {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
 }
 
 @media (max-width: 720px) {
