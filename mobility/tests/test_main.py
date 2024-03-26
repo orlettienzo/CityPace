@@ -11,7 +11,7 @@ class TestMoonUtils(unittest.TestCase):
     def test_phase(self):
         my_fixture = datetime.date(2019, 1, 21)
         expected = moon_utils.MoonPhase.FULL_MOON
-        # test phase with assert calls
+        # phase de test avec des appels assert
         self.assertEqual(moon_utils.phase(moon_utils.age(my_fixture)), expected, msg=f'My error message on pl.f({my_fixture}) different than {expected}')
 
 if __name__ == '__main__':

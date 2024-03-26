@@ -13,7 +13,7 @@ progress = 0
 done = False
 
 def populate_db() -> None:
-    """Populates the database with the ugly_csv.csv file."""
+    """Peuple la base de données avec le fichier ugly_csv.csv."""
     global progress, done
 
     POPULATION = {"bruxelles":1_222_657,
@@ -31,13 +31,13 @@ def populate_db() -> None:
     previous_street_id = 0
     path = os.path.join(os.path.dirname(__file__), "ugly_csv.csv")
     with open(path, "r", encoding="utf-8") as file:
-        print("populating database with ugly_csv.csv...")
+        print("Peuplement de la base de données avec le fichier ugly_csv.csv...")
 
         reader = csv.DictReader(file)
 
         for row in reader:
             if reader.line_num % 1000 == 0:
-                print(f"{reader.line_num}/18048 lines processed")
+                print(f"{reader.line_num}/18048 lignes traitées")
 
             progress = reader.line_num
 
@@ -63,12 +63,12 @@ def populate_db() -> None:
                 speed.add()
 
             # v85
-            # check if there is a value for row["v85"]
+            # vérifie s'il y a une valeur pour row["v85"]
             if row["v85"] != "":
                 v85 = mobility.models.v85_model.v85(row["rue_id"], row["date"], row["v85"])
                 v85.add()
 
-            # traffic
+            # trafic
             traffic = mobility.models.traffic_model.Traffic(row["rue_id"], row["date"], round(float(row["lourd"])), round(float(row["voiture"])), round(float(row["velo"])), round(float(row["pieton"])))
             traffic.add()
 
@@ -76,4 +76,4 @@ def populate_db() -> None:
     db.execute("INSERT INTO appdata(data_id, data_name, data_value) VALUES(?, ?, ?)", (1, "db_populated", 1))
     db.commit()
 
-    print("done!")
+    print("Terminé!")
