@@ -251,6 +251,10 @@ footer {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    /* TODO: change to this in stead of border outside*/
+    /* -webkit-box-shadow:inset 0px 0px 0px 1px #f00;
+    -moz-box-shadow:inset 0px 0px 0px 1px #f00;
+    box-shadow:inset 0px 0px 0px 1px #f00; */
 }
 
 .border .default-option-custom-dropdown {
@@ -275,13 +279,16 @@ footer {
     z-index: 1;
 }
 
+.disabled-dropdown .default-option-custom-dropdown {
+    cursor: not-allowed;
+}
+
 .disabled-dropdown .default-option-custom-dropdown *{
     color: var(--surface1);
 }
 
 .options .option {
     display: flex;
-    /* height: 55px; */
     cursor: pointer;
     align-items: center;
     border-radius: calc(8px - 0.5rem);
@@ -294,6 +301,7 @@ footer {
 
 .custom-dropdown.active .default-option-custom-dropdown{
     border-radius: 8px 8px 0 0;
+    border: var(--surface1) 1px solid;
 }
 
 .custom-dropdown.active .options {
