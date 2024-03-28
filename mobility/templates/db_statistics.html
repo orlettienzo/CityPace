@@ -93,9 +93,11 @@
         </p>
     </section>
     {% else %}
-    <div class="db-error">
-        La base de données est en train de s'initialiser. Veuillez revenir plus tard.
-    </div>
+    <section>
+        <div class="db-error">
+            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        </div>
+    </section>
     {% endif %}
 
 {% endblock %}

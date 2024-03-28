@@ -53,7 +53,7 @@ def create_app(test_config=None) -> Flask:
     db.init_app(app)
 
     def populate():
-        mobility.models.utils.csv_converter.populate_db()
+        mobility.utils.csv_converter.populate_db()
 
 
     # chargement des blueprints
@@ -117,7 +117,7 @@ def create_app(test_config=None) -> Flask:
     def progress() -> str:
         """Retourne le pourcentage de progression de la réinitialisation de la base de données si vous avez de la chance."""
         # progress variable from mobility.csv_converter
-        return f"{round(mobility.models.utils.csv_converter.progress/18048*100, 1)}% done."
+        return f"{round(mobility.utils.csv_converter.progress/18048*100, 1)}% done."
     
     @app.route('/moon')
     def moon() -> str:

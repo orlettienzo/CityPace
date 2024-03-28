@@ -15,6 +15,7 @@ done = False
 def populate_db() -> None:
     """Peuple la base de données avec le fichier ugly_csv.csv."""
     global progress, done
+    print("Peuplement de la base de données avec le fichier ugly_csv.csv...")
 
     POPULATION = {"bruxelles":1_222_657,
               "grobbendonk":11_249,
@@ -31,7 +32,7 @@ def populate_db() -> None:
     previous_street_id = 0
     path = os.path.join(os.path.dirname(__file__), "ugly_csv.csv")
     with open(path, "r", encoding="utf-8") as file:
-        print("Peuplement de la base de données avec le fichier ugly_csv.csv...")
+        print("fichier ouvert")
 
         reader = csv.DictReader(file)
 
