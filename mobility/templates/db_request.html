@@ -124,7 +124,7 @@
                 type: 'bar',
                 data: {
                 labels: [
-                    {% for key, value in city_data.items() %}capitalizeFirstLetter('{{ key }}'),{% endfor %}
+                    {% for key, value in city_data.items() %}'{{ key }}',{% endfor %}
                 ],
                 datasets: [{
                     label: 'Pourcentage du trafic',
