@@ -1,5 +1,5 @@
 import unittest
-import moon_utils
+import mobility.utils.moon_utils as moon_utils
 import datetime
 
 class TestMoonUtils(unittest.TestCase):

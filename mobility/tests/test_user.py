@@ -3,7 +3,7 @@ import tempfile
 import unittest
 
 from mobility import create_app
-from mobility.db import get_db, close_db
+from mobility.models.utils.db import get_db, close_db
 
 
 class TestUser(unittest.TestCase):

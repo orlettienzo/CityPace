@@ -5,7 +5,7 @@ import unittest
 from flask import render_template_string
 
 from mobility import create_app
-from mobility.db import init_db, get_db
+from mobility.models.utils.db import init_db, get_db
 
 class TestStreet(unittest.TestCase):
     def setUp(self):

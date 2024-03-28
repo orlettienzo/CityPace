@@ -6,8 +6,9 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mobility.models.appdata_model import db_populated
 from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities, get_bike_ratio_on_full_moon_days
-import mobility.csv_converter
-from . import db, requests
+import mobility.utils.csv_converter
+from mobility.utils import db_requests
+from mobility.utils import db
 from mobility.models.city_model import get_city_list
 from mobility.models.street_model import get_street_list
 
@@ -52,11 +53,11 @@ def create_app(test_config=None) -> Flask:
     db.init_app(app)
 
     def populate():
-        mobility.csv_converter.populate_db()
+        mobility.models.utils.csv_converter.populate_db()
 
 
     # chargement des blueprints
-    app.register_blueprint(requests.bp)
+    app.register_blueprint(db_requests.bp)
 
     app.add_url_rule('/request', endpoint='request_index')
 
@@ -116,7 +117,7 @@ def create_app(test_config=None) -> Flask:
     def progress() -> str:
         """Retourne le pourcentage de progression de la réinitialisation de la base de données si vous avez de la chance."""
         # progress variable from mobility.csv_converter
-        return f"{round(mobility.csv_converter.progress/18048*100, 1)}% done."
+        return f"{round(mobility.models.utils.csv_converter.progress/18048*100, 1)}% done."
     
     @app.route('/moon')
     def moon() -> str:
