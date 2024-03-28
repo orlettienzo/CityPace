@@ -1,4 +1,4 @@
-from mobility.db import get_db
+from mobility.utils.db import get_db
 
 class Traffic:
     """Classe représentant le traffic dans une rue à une date/heure donnée."""

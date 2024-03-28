@@ -1,6 +1,6 @@
-from mobility.db import get_db
+from mobility.utils.db import get_db
 import sqlite3
-from moon_utils import age, phase, MoonPhase
+from mobility.utils.moon_utils import age, phase, MoonPhase
 from datetime import datetime
 
 def get_entry_list() -> sqlite3.Cursor:

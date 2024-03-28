@@ -1,4 +1,4 @@
-from mobility.db import get_db
+from mobility.utils.db import get_db
 import sqlite3
 
 def db_populated() -> bool:

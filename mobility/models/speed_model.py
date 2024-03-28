@@ -1,4 +1,4 @@
-from mobility.db import get_db
+from mobility.utils.db import get_db
 
 class Speed:
     """Classe représentant une vitesse."""

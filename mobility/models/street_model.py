@@ -1,4 +1,4 @@
-from mobility.db import get_db
+from mobility.utils.db import get_db
 import datetime # requis pour la fonction get_street_traffic_proportions_by_week_day
 import sqlite3
 

@@ -6,7 +6,7 @@ import mobility.models.street_model
 import mobility.models.speed_model
 import mobility.models.v85_model
 import mobility.models.traffic_model
-from mobility.db import get_db
+from mobility.utils.db import get_db
 
 
 progress = 0
