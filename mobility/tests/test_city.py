@@ -3,7 +3,7 @@ import tempfile
 import unittest
 
 from mobility import create_app
-from mobility.db import init_db, get_db
+from mobility.utils.db import init_db, get_db
 
 
 class TestCity(unittest.TestCase):

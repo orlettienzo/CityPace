@@ -207,7 +207,7 @@ footer {
 }
 
 .button-secondary {
-    background: var(--surface0);
+    background: var(--base);
     border: var(--surface1) 1px solid;
     cursor: pointer;
     padding: 0.5rem 1rem;

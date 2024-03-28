@@ -1,4 +1,4 @@
-from mobility.db import get_db
+from mobility.utils.db import get_db
 
 class v85:
     """Classe représentant une v85 (vitesse à laquelle 85% des véhicules roulent)."""

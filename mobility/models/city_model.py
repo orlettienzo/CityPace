@@ -1,4 +1,4 @@
-from mobility.db import get_db
+from mobility.utils.db import get_db
 import sqlite3
 
 def get_city_list() -> sqlite3.Cursor:
@@ -68,7 +68,7 @@ class City:
         total = lourd + voiture + velo + pieton
 
         # calcul de la proportion de chaque type de vehicule
-        return {"lourd": round((lourd/total) * 100, 2),
-            "voiture": round((voiture/total) * 100, 2), 
-            "velo": round((velo/total) * 100, 2), 
-            "pieton": round((pieton/total) * 100, 2)}
+        return {"Lourd": round((lourd/total) * 100, 2),
+            "Voiture": round((voiture/total) * 100, 2), 
+            "Vélo": round((velo/total) * 100, 2), 
+            "Piéton": round((pieton/total) * 100, 2)}
