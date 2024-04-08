@@ -50,7 +50,13 @@ def populate_db() -> None:
 
             # rues
             street = mobility.models.street_model.Street(row["nom_de_rue"], row["code_postal"], row["rue_id"])
+            
             if row["rue_id"] != previous_street_id:
+                if row["nom_de_rue"] == "Condereef":
+                    street.name = "Condédreef"
+                if row["nom_de_rue"] == "Montagne SainteBarbe":
+                    street.name = "Montagne Sainte Barbe"
+                # oui il y a des fautes dans le fichier csv
                 street.add()
             previous_street_id = row["rue_id"]
 

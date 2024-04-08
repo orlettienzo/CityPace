@@ -171,6 +171,10 @@ footer {
     padding-bottom: 2rem;
 }
 
+.content {
+    z-index: 0;
+}
+
 .navbar {
     position:fixed;
     
@@ -563,6 +567,25 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 1rem;
+}
+
+#map {
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    border: none;
+}
+
+.leaflet-bar a {
+    background: var(--base);
+    border: none;
+    /* border-radius: 8px; */
+}
+
+.leaflet-bar a:hover {
+    background: var(--surface1);
 }
 
 @media (max-width: 800px) {

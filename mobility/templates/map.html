@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Map{% endblock %}
+{% block body_data %}data-disable-scroll-script="true"{% endblock %}
+
+{% block content %}
+{% if done %}
+
+<div id="map"></div>
+<script>
+    var map = L.map('map', {editable: true}).setView([50.84, 4.36], 12);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    // plugins to (maybe) use :
+    // Leaflet.js Editable Polylines plugin
+    // Leaflet grayscale master
+    // Leaflet utilities
+    // Leaflet Ajax??
+    // Leaflet terminator
+    // Leaflet touch helper
+
+    // var line = [
+    //     [50.84222,4.36486],
+    //     [50.84580,4.36670],
+    //     [50.84606,4.36689],
+    //     [50.84715,4.36742],
+    //     [50.84734,4.36802]
+    // ]
+    // var polyline = L.polyline(line, {
+    //     opacity: 0.5,
+    //     color: 'red',
+    //     weight: 10
+    // }).addTo(map);
+
+    {% for marker in markers %}
+    L.marker([{{marker}}]).addTo(map);
+    {% endfor %}
+
+    // make it full opacity when mouseover
+    // polyline.on('mouseover', function() {
+    //     this.setStyle({ opacity: 1 });
+    // });
+
+    // polyline.on('mouseout', function() {
+    //     this.setStyle({ opacity: 0.5 });
+    // });
+
+</script>
+</section>
+{% else %}
+<section>
+    <div class="db-error">
+        La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+    </div>
+
+{% endif %}
+{% endblock %}

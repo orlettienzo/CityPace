@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS rue (
     rue_id INTEGER,
     nom TEXT NOT NULL,
     code_postal INTEGER NOT NULL,
+    polyline TEXT,
     PRIMARY KEY (rue_id),
     FOREIGN KEY (code_postal) REFERENCES ville(code_postal)
 );
