@@ -7,7 +7,13 @@
 
 <div id="map"></div>
 <script>
-    var map = L.map('map', {editable: true}).setView([50.84, 4.36], 12);
+    var icon = L.icon({
+        iconUrl: '/static/marker-icon.svg',
+        iconSize: [48, 48],
+        iconAnchor: [24, 48],
+        popupAnchor: [0, -48]
+    });
+    var map = L.map('map').setView([{% if lat %}{{lat}}{% else %}50.84{% endif %}, {% if lon %}{{lon}}{% else %}4.36{% endif %}], 12);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -34,7 +40,7 @@
     // }).addTo(map);
 
     {% for marker in markers %}
-    L.marker([{{marker}}]).addTo(map);
+    L.marker([{{marker}}], {icon: icon}).addTo(map).bindPopup("Marker Popup");
     {% endfor %}
 
     // make it full opacity when mouseover
