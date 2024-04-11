@@ -18,20 +18,6 @@ def get_street_list_for_city(postal_code: int) -> sqlite3.Cursor:
                       FROM rue JOIN ville ON rue.code_postal = ville.code_postal\
                       WHERE rue.code_postal=?', (postal_code,))
 
-def search_street_id(street_id: int) -> "Street": # à retirer
-    """Retourne un objet Street qui a l'id passé en paramètre."""
-    db = get_db()
-    data = db.execute('SELECT * FROM rue WHERE rue_id=?', (street_id,)).fetchone()
-    return Street(data[1], data[2], data[0])
-
-def get_marker_list() -> list:
-    """Retourne la liste des marqueurs de la base de données."""
-    db = get_db()
-    cursor = db.execute('SELECT rue.polyline FROM rue')
-    result = cursor.fetchall()
-    polyline_list = [row[0] for row in result]
-    return polyline_list
-
 def get_street_mapinfo() -> sqlite3.Cursor:
     """Retourne les informations nécessaires pour la carte"""
     db = get_db()
@@ -55,7 +41,7 @@ class Street:
 
         if data is None:
             return None
-        return Street(data["nom"], data["name"], data["rue_id"], data["polyline"])
+        return Street(data[1], data[2], data[0], data[3])
 
     def delete(self):
         """Supprime la rue de la base de données."""

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
-from mobility.models.city_model import get_city_list, search_by_postal_code
-from mobility.models.street_model import search_street_id, get_street_list_for_city
+from mobility.models.city_model import get_city_list, City
+from mobility.models.street_model import get_street_list_for_city, Street
 from mobility.models.appdata_model import db_populated
 
 bp = Blueprint('requests', __name__)
@@ -35,7 +35,7 @@ def get_stats():
 
     if selected_street == 0:
         # 0 = toutes les rues, on retourne que les statistiques pour la ville sélectionnée
-        city_obj = search_by_postal_code(selected_city) # on récupère l'objet City correspondant à la ville sélectionnée
+        city_obj = City.get(selected_city) # on récupère l'objet City correspondant à la ville sélectionnée
         return render_template(
             "db_request.html", 
             done=True,
@@ -47,8 +47,8 @@ def get_stats():
 
     # une ville et une rue sont sélectionnées
     # on retourne donc les statistiques pour la rue sélectionnée
-    city_obj = search_by_postal_code(selected_city)
-    street_obj = search_street_id(selected_street)
+    city_obj = City.get(selected_city)
+    street_obj = Street.get(selected_street)
     return render_template(
         "db_request.html",
         done=True,

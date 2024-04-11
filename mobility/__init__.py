@@ -10,7 +10,7 @@ import mobility.utils.csv_converter
 from mobility.utils import db_requests
 from mobility.utils import db
 from mobility.models.city_model import get_city_list
-from mobility.models.street_model import get_street_list, get_marker_list, get_street_mapinfo
+from mobility.models.street_model import get_street_list, get_street_mapinfo
 
 
 def create_app(test_config=None) -> Flask:
