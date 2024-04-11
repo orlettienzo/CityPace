@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Map{% endblock %}
+{% block title %}Carte{% endblock %}
 {% block body_data %}data-disable-scroll-script="true"{% endblock %}
 
 {% block content %}
@@ -9,9 +9,9 @@
 <script>
     var icon = L.icon({
         iconUrl: '/static/marker-icon.svg',
-        iconSize: [48, 48],
-        iconAnchor: [24, 48],
-        popupAnchor: [0, -48]
+        iconSize: [24, 32],
+        iconAnchor: [12, 32],
+        popupAnchor: [0, -32]
     });
     var map = L.map('map').setView([{% if lat %}{{lat}}{% else %}50.84{% endif %}, {% if lon %}{{lon}}{% else %}4.36{% endif %}], 12);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -39,8 +39,8 @@
     //     weight: 10
     // }).addTo(map);
 
-    {% for marker in markers %}
-    L.marker([{{marker}}], {icon: icon}).addTo(map).bindPopup("Marker Popup");
+    {% for marker in mapdata %}
+    L.marker([{{marker.polyline}}], {icon: icon}).addTo(map).bindPopup("{{marker.nom}}, {{marker.code_postal}}<br>{{marker.city_name}}");
     {% endfor %}
 
     // make it full opacity when mouseover

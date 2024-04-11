@@ -35,22 +35,28 @@ def get_stats():
 
     if selected_street == 0:
         # 0 = toutes les rues, on retourne que les statistiques pour la ville sélectionnée
+        city_obj = search_by_postal_code(selected_city) # on récupère l'objet City correspondant à la ville sélectionnée
         return render_template(
             "db_request.html", 
             done=True,
             cities=get_city_list(),
             selected_city=selected_city, # pour que la ville sélectionnée reste sélectionnée
-            city_data=search_by_postal_code(selected_city).get_city_traffic_proportions(),
+            city_traffic_proportions=city_obj.get_city_traffic_proportions(),
+            city_name=city_obj.name,
             streets=get_street_list_for_city(selected_city))
 
     # une ville et une rue sont sélectionnées
     # on retourne donc les statistiques pour la rue sélectionnée
+    city_obj = search_by_postal_code(selected_city)
+    street_obj = search_street_id(selected_street)
     return render_template(
         "db_request.html",
         done=True,
         cities=get_city_list(),
         selected_city=selected_city, # pour que la ville sélectionnée reste sélectionnée
         selected_street=selected_street, # pour que la rue sélectionnée reste sélectionnée
-        city_data=search_by_postal_code(selected_city).get_city_traffic_proportions(),
+        city_traffic_proportions=city_obj.get_city_traffic_proportions(),
+        city_name=city_obj.name,
         streets=get_street_list_for_city(selected_city),
-        street_data=search_street_id(selected_street).get_street_traffic_proportions_by_week_day())
+        street_traffic_proportions_by_week_day=street_obj.get_street_traffic_proportions_by_week_day(),
+        street_name=street_obj.name)

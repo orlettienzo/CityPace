@@ -32,6 +32,12 @@ def get_marker_list() -> list:
     polyline_list = [row[0] for row in result]
     return polyline_list
 
+def get_street_mapinfo() -> sqlite3.Cursor:
+    """Retourne les informations nécessaires pour la carte"""
+    db = get_db()
+    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, rue.polyline, ville.nom AS city_name\
+                      FROM rue JOIN ville ON rue.code_postal = ville.code_postal')
+
 class Street:
     """Classe représentant une rue"""
     def __init__(self, name, postal_code, street_id, polyline="") -> None:

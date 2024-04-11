@@ -108,8 +108,9 @@
                 });
         </script>
 </section>
-{% if city_data %}
+{% if city_traffic_proportions %}
     <section>
+        <h2>{{city_name}}</h2>
         <div>
             <canvas id="myChart"></canvas>
         </div>
@@ -125,12 +126,12 @@
                 type: 'bar',
                 data: {
                 labels: [
-                    {% for key, value in city_data.items() %}'{{ key }}',{% endfor %}
+                    {% for key, value in city_traffic_proportions.items() %}'{{ key }}',{% endfor %}
                 ],
                 datasets: [{
                     label: 'Pourcentage du trafic',
                     data: [
-                        {% for key, value in city_data.items() %}{{ value }},{% endfor %}
+                        {% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}
                     ],
                     borderWidth: 1,
                     backgroundColor: [
@@ -148,7 +149,7 @@
             });
         </script>
         <table>
-            {% for key, value in city_data.items() %}
+            {% for key, value in city_traffic_proportions.items() %}
             <tr>
                 <td>{{ key }}</td>
                 <td>{{ value }}%</td>
@@ -157,10 +158,11 @@
         </table>
     </section>
     {% endif %}
-    {% if street_data %}
+    {% if street_traffic_proportions_by_week_day %}
     <section>
+        <h2>{{street_name}}</h2>
         <table>
-            {% for key, value in street_data.items() %}
+            {% for key, value in street_traffic_proportions_by_week_day.items() %}
             <tr>
                 <td>{{ key }}</td>
                 <td>
