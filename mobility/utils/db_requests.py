@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
-from mobility.models.city_model import get_city_list, search_by_postal_code
-from mobility.models.street_model import search_street_id, get_street_list_for_city
+from mobility.models.city_model import get_city_list, City
+from mobility.models.street_model import get_street_list_for_city, Street
 from mobility.models.appdata_model import db_populated
 
 bp = Blueprint('requests', __name__)
@@ -35,22 +35,28 @@ def get_stats():
 
     if selected_street == 0:
         # 0 = toutes les rues, on retourne que les statistiques pour la ville sélectionnée
+        city_obj = City.get(selected_city) # on récupère l'objet City correspondant à la ville sélectionnée
         return render_template(
             "db_request.html", 
             done=True,
             cities=get_city_list(),
             selected_city=selected_city, # pour que la ville sélectionnée reste sélectionnée
-            city_data=search_by_postal_code(selected_city).get_city_traffic_proportions(),
+            city_traffic_proportions=city_obj.get_city_traffic_proportions(),
+            city_name=city_obj.name,
             streets=get_street_list_for_city(selected_city))
 
     # une ville et une rue sont sélectionnées
     # on retourne donc les statistiques pour la rue sélectionnée
+    city_obj = City.get(selected_city)
+    street_obj = Street.get(selected_street)
     return render_template(
         "db_request.html",
         done=True,
         cities=get_city_list(),
         selected_city=selected_city, # pour que la ville sélectionnée reste sélectionnée
         selected_street=selected_street, # pour que la rue sélectionnée reste sélectionnée
-        city_data=search_by_postal_code(selected_city).get_city_traffic_proportions(),
+        city_traffic_proportions=city_obj.get_city_traffic_proportions(),
+        city_name=city_obj.name,
         streets=get_street_list_for_city(selected_city),
-        street_data=search_street_id(selected_street).get_street_traffic_proportions_by_week_day())
+        street_traffic_proportions_by_week_day=street_obj.get_street_traffic_proportions_by_week_day(),
+        street_name=street_obj.name)

@@ -10,7 +10,7 @@ import mobility.utils.csv_converter
 from mobility.utils import db_requests
 from mobility.utils import db
 from mobility.models.city_model import get_city_list
-from mobility.models.street_model import get_street_list
+from mobility.models.street_model import get_street_list, get_street_mapinfo
 
 
 def create_app(test_config=None) -> Flask:
@@ -93,6 +93,15 @@ def create_app(test_config=None) -> Flask:
                                    bike_ratio_on_full_moon_days=get_bike_ratio_on_full_moon_days())
 
         return render_template("db_statistics.html", done=False)
+    
+    @app.route('/map')
+    def map() -> str:
+        """Page de la carte."""
+        if db_populated():
+            return render_template('map.html',
+                                   done=True,
+                                   mapdata=get_street_mapinfo())
+        return render_template('map.html')
 
     @app.route('/resetdb', methods=['POST'])
     @limiter.limit("1/minute") # limite à 1 requête par minute
@@ -118,11 +127,6 @@ def create_app(test_config=None) -> Flask:
         """Retourne le pourcentage de progression de la réinitialisation de la base de données si vous avez de la chance."""
         # progress variable from mobility.csv_converter
         return f"{round(mobility.utils.csv_converter.progress/18048*100, 1)}% done."
-    
-    @app.route('/moon')
-    def moon() -> str:
-        """Page de la lune."""
-        return render_template('moon.html')
 
     @app.errorhandler(404)
     def page_not_found(e) -> str:

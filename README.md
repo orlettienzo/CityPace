@@ -15,7 +15,12 @@ CityPace utilise les données des capteurs [Telraam](https://telraam.net/en/what
 - [Johannes Radesey](https://g25.linfo1002.ovh/johannes)
 - [Liam Vander Becken](https://g25.linfo1002.ovh/liam)
 
-
+## Création de l'environnement
+```
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip3 install -r requirements.txt
+```
 
 ## Lancement
 ```

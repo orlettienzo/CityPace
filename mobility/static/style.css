@@ -28,11 +28,11 @@
 
     --primary: var(--mauve);
     --secondary: var(--lavander);
-    --tertiary: var(--yellow);
-    --disabled: ;
-    --enabled: ;
-    --warning: ;
-    --success: ;
+    --tertiary: var(--teal);
+    /* --disabled: ;  */
+    /* --enabled: ; */
+    /* --warning: ; */
+    /* --success: ; */
     --side-padding-width: 80px;
 
     font-size: calc(1rem + 0.5vh);
@@ -57,8 +57,7 @@
 html {
     margin: 0;
     padding: 0;
-    min-height: 100%;
-    max-height: 100%;
+    height: 100%;
 
     font-family: neulis-sans, sans-serif;
     font-weight: 400;
@@ -68,6 +67,7 @@ html {
 }
 
 body {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -98,6 +98,10 @@ h2 {
     font-weight: 700;
     font-size: 2rem;
     margin: 1rem 0;
+}
+
+h3 {
+    margin: 0;
 }
 
 p {
@@ -168,7 +172,16 @@ select {
 }
 
 footer {
+    flex-shrink: 0;
+    background: var(--mantle);
+    border-top: 1px solid var(--surface0);
     padding-bottom: 2rem;
+    margin-top: 2rem;
+}
+
+.content {
+    z-index: 0;
+    flex: 1 0 auto;
 }
 
 .navbar {
@@ -204,6 +217,18 @@ footer {
     padding: 0.5rem 1rem;
     border-radius: 8px;
     text-decoration: none;
+}
+
+.disabled {
+    background: var(--surface1);
+    color: var(--overlay0);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.disabled *{
+    color: var(--overlay0);
+    stroke: var(--overlay0);
 }
 
 .button-secondary {
@@ -252,14 +277,14 @@ footer {
     -ms-user-select: none;
     user-select: none;
     /* TODO: change to this in stead of border outside*/
-    /* -webkit-box-shadow:inset 0px 0px 0px 1px #f00;
-    -moz-box-shadow:inset 0px 0px 0px 1px #f00;
-    box-shadow:inset 0px 0px 0px 1px #f00; */
+    -webkit-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    box-shadow:inset 0px 0px 0px 1px var(--surface1);
 }
 
-.border .default-option-custom-dropdown {
+/* .border .default-option-custom-dropdown {
     border: var(--surface1) 1px solid;
-}
+} */
 
 .custom-dropdown .options {
     /* position: relative; */
@@ -272,9 +297,13 @@ footer {
     margin: 0;
     left: 0;
     right: 0;
+    top: calc(100% - 1px);
     padding: 0;
     overflow-y: scroll;
-    border: var(--surface1) 1px solid;
+    /* border: var(--surface1) 1px solid; */
+    -webkit-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    box-shadow:inset 0px 0px 0px 1px var(--surface1);
     border-top: none;
     z-index: 1;
 }
@@ -285,6 +314,7 @@ footer {
 
 .disabled-dropdown .default-option-custom-dropdown *{
     color: var(--surface1);
+    stroke: var(--surface1);
 }
 
 .options .option {
@@ -301,7 +331,10 @@ footer {
 
 .custom-dropdown.active .default-option-custom-dropdown{
     border-radius: 8px 8px 0 0;
-    border: var(--surface1) 1px solid;
+    /* border: var(--surface1) 1px solid; */
+    /* -webkit-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    box-shadow:inset 0px 0px 0px 1px var(--surface1); */
 }
 
 .custom-dropdown.active .options {
@@ -390,9 +423,13 @@ footer {
     justify-content: flex-end;
 }
 
-.navbar-link, .hamburger-link {
+.navbar-link, .hamburger-link , .footer-link{
     text-decoration: none;
     font-weight: 600;
+}
+
+.footer-link {
+    font-weight: 400;
 }
 
 .scrolled {
@@ -404,9 +441,15 @@ footer {
     
 }
 
-.footer {
+.footer-container {
+    padding-left: var(--side-padding-width);
+    padding-right: var(--side-padding-width);
+    display: flex;
     margin-top: 1rem;
-    text-align: center;
+}
+
+.footer-container > div {
+    flex: 1;
 }
 
 .special {
@@ -425,6 +468,17 @@ footer {
     background: linear-gradient(45deg, var(--mauve), var(--lavander), var(--teal));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.note {
+    font-size: 0.6rem;
+    color: var(--tertiary);
+
+    /* background-color: var(--tertiary);
+    color: var(--crust);
+    border-radius: 8px;
+    padding: 0.2rem;
+    padding-bottom: 0.1rem; */
 }
 
 .display-title {
@@ -451,6 +505,10 @@ footer {
 
 .subtext {
     color: var(--subtext0);
+}
+
+.align-right {
+    text-align: right;
 }
 
 .section {
@@ -537,11 +595,11 @@ footer {
     border-top: 1px solid var(--surface0);
 }
 
-.suggestions ul{
+ul{
     margin: 0;
-    padding: 1rem;
     width: 100%;
     list-style: none;
+    line-height: 2;
 }
 
 .suggestions li {
@@ -563,6 +621,11 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 1rem;
+}
+
+#map {
+    height: calc(100vh - 60px);
+    margin-top: 60px;
 }
 
 @media (max-width: 800px) {

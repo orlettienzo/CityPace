@@ -6,13 +6,6 @@ def get_city_list() -> sqlite3.Cursor:
     db = get_db()
     return db.execute('SELECT * FROM ville ORDER BY code_postal')
 
-def search_by_postal_code(postal_code: int) -> "City": # à retirer
-    """Retourne une liste de toutes les villes dans la base de données 
-    qui ont un code postal égal à celui passé en paramètre"""
-    db = get_db()
-    rawdata = db.execute('SELECT * FROM ville WHERE code_postal=?', (postal_code,)).fetchone()
-    return City(rawdata[1], rawdata[2], rawdata[0])
-
 class City:
     """Classe représentant une ville."""
     def __init__(self, name, population, postal_code=None) -> None:
@@ -29,7 +22,7 @@ class City:
 
         if data is None:
             return None
-        return City(data["nom"], data["population"], data["code_postal"])
+        return City(data[1], data[2], data[0])
 
     def delete(self) -> None:
         """Supprime la ville de la base de données."""
