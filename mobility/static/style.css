@@ -507,6 +507,10 @@ footer {
     color: var(--subtext0);
 }
 
+.align-right {
+    text-align: right;
+}
+
 .section {
     margin-top: 2rem;
     width: 30%;
