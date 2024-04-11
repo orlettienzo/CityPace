@@ -1,3 +1,7 @@
+"""Convertit le fichier ugly_csv.csv en données exploitables pour la base de données.
+Ne pas exécuter ce fichier! Utilisez le fichier reset_local_db.py ou reset_online_db.py.
+"""
+
 import os
 import csv
 import ast
@@ -45,6 +49,8 @@ def populate_db() -> None:
             # villes
             city = mobility.models.city_model.City(row["nom_de_ville"].capitalize(), POPULATION[row["nom_de_ville"].lower()], row["code_postal"])
             if row["code_postal"] != previous_city_code_postal:
+                if row["nom_de_ville"] == "Liege":
+                    city.name = "Liège"
                 city.add()
             previous_city_code_postal = row["code_postal"]
 
