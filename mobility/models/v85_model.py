@@ -17,6 +17,16 @@ class v85:
         )
         db.commit()
 
+    @staticmethod
+    def bulk_add(v85s: list) -> None:
+        """Ajoute une liste de v85 dans la base de données."""
+        db = get_db()
+        db.executemany(
+            "INSERT INTO v85 (rue_id, date, v85_value) VALUES (?, ?, ?)",
+            v85s
+        )
+        db.commit()
+
     def delete(self) -> None:
         """Supprime la v85 de la base de données."""
         db = get_db()

@@ -14,6 +14,9 @@ class City:
         self.population = population
         self.postal_code = postal_code
 
+    def __str__(self) -> str:
+        return f"{self.name} ({self.postal_code}), {self.population} habitants"
+
     @staticmethod
     def get(postal_code: int) -> "City":
         """Retourne une ville de la base de données qui a le code postal passé en paramètre."""
@@ -23,6 +26,13 @@ class City:
         if data is None:
             return None
         return City(data[1], data[2], data[0])
+
+    @staticmethod
+    def bulk_add(cities: list) -> None:
+        """Ajoute une liste de villes dans la base de données."""
+        db = get_db()
+        db.executemany("INSERT INTO ville(code_postal,nom, population ) VALUES(?, ?, ?)", cities)
+        db.commit()
 
     def delete(self) -> None:
         """Supprime la ville de la base de données."""
@@ -35,6 +45,42 @@ class City:
         db = get_db()
         db.execute("INSERT INTO ville(code_postal,nom, population ) VALUES(?, ?, ?)", ( self.postal_code,self.name, self.population))
         db.commit()
+
+    def get_total_lourd(self) -> int:
+        """Retourne le nombre total de véhicules lourds dans la ville."""
+        db = get_db()
+        streets = db.execute('SELECT * FROM rue WHERE code_postal=?', (self.postal_code,)).fetchall()
+        total = 0
+        for street in streets:
+            total += db.execute('SELECT SUM(lourd) FROM traffic WHERE rue_id=?', (street["rue_id"],)).fetchone()[0]
+        return total
+    
+    def get_total_voiture(self) -> int:
+        """Retourne le nombre total de voitures dans la ville."""
+        db = get_db()
+        streets = db.execute('SELECT * FROM rue WHERE code_postal=?', (self.postal_code,)).fetchall()
+        total = 0
+        for street in streets:
+            total += db.execute('SELECT SUM(voiture) FROM traffic WHERE rue_id=?', (street["rue_id"],)).fetchone()[0]
+        return total
+    
+    def get_total_velo(self) -> int:
+        """Retourne le nombre total de vélos dans la ville."""
+        db = get_db()
+        streets = db.execute('SELECT * FROM rue WHERE code_postal=?', (self.postal_code,)).fetchall()
+        total = 0
+        for street in streets:
+            total += db.execute('SELECT SUM(velo) FROM traffic WHERE rue_id=?', (street["rue_id"],)).fetchone()[0]
+        return total
+    
+    def get_total_pieton(self) -> int:
+        """Retourne le nombre total de piétons dans la ville."""
+        db = get_db()
+        streets = db.execute('SELECT * FROM rue WHERE code_postal=?', (self.postal_code,)).fetchall()
+        total = 0
+        for street in streets:
+            total += db.execute('SELECT SUM(pieton) FROM traffic WHERE rue_id=?', (street["rue_id"],)).fetchone()[0]
+        return total
 
     def get_city_traffic_proportions(self) -> dict:
         """Calcule la proportion de chaque type de vehicule dans la ville.

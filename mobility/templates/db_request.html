@@ -120,7 +120,7 @@
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
 
-            const ctx = document.getElementById('myChart');
+            const ctx = document.getElementById('myChart').getContext('2d');
 
             new Chart(ctx, {
                 type: 'bar',
@@ -133,18 +133,10 @@
                     data: [
                         {% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}
                     ],
-                    borderWidth: 1,
                     backgroundColor: [
                         '#b4befe',
                     ],
                 }]
-                },
-                options: {
-                scales: {
-                    y: {
-                    beginAtZero: true
-                    }
-                }
                 }
             });
         </script>
@@ -177,7 +169,7 @@
     {% endif %}
 {% else %}
     <div class="db-error">
-        La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+        La base de données est en train de s'initialiser. Veuillez revenir dans quelques instants.
     </div>
 {% endif %}
 {% endblock %}

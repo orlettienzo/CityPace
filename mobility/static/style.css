@@ -629,6 +629,10 @@ ul{
     margin-top: 60px;
 }
 
+#myChart {
+    
+}
+
 @media (max-width: 800px) {
     table {
         font-size: 18px;
