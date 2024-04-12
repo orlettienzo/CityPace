@@ -126,7 +126,7 @@ def create_app(test_config=None) -> Flask:
     def progress() -> str:
         """Retourne le pourcentage de progression de la réinitialisation de la base de données si vous avez de la chance."""
         # progress variable from mobility.csv_converter
-        return f"{round(mobility.utils.csv_converter.progress/18048*100, 1)}% done."
+        return f"{round(mobility.utils.csv_converter.progress/18048*100, 1)}% done. finished in {mobility.utils.csv_converter.runtime} seconds."
 
     @app.errorhandler(404)
     def page_not_found(e) -> str:

@@ -22,7 +22,9 @@ def get_number_of_streets_by_city() -> sqlite3.Cursor:
 def get_most_cyclable_cities() -> sqlite3.Cursor:
     """Retourne les villes les plus cyclables sous la forme d'un curseur sqlite3."""
     db = get_db()
-    return db.execute('SELECT ville.nom AS city_name, SUM(traffic.velo) AS number_of_cyclists FROM traffic JOIN rue ON traffic.rue_id = rue.rue_id JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom ORDER BY number_of_cyclists DESC')
+    # return number of bikes per city divided by the population of the city
+    return db.execute('SELECT ville.nom AS city_name, population, ROUND(SUM(traffic.velo)*1.0/population, 2) AS bikes_per_person, SUM(traffic.velo) as number_of_bikes FROM traffic JOIN rue ON traffic.code_postal = rue.code_postal JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom ORDER BY bikes_per_person DESC LIMIT 5')
+
 
 def get_bike_ratio_on_full_moon_days() -> float:
     """Retourne le ratio de cyclistes les jours de pleine lune."""

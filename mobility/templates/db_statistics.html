@@ -37,13 +37,15 @@
         <h2>Villes les plus cyclables</h2>
         <table>
             <tr>
+                <th></th>
                 <th>Ville</th>
-                <th>Nombre de cyclistes</th>
+                <th>Nombre de cyclistes par habitant</th>
             </tr>
             {% for value in most_cyclable_cities %}
             <tr>
+                <td>#{{loop.index}}</td>
                 <td>{{ value.city_name }}</td>
-                <td>{{ value.number_of_cyclists }}</td>
+                <td>{{ value.bikes_per_person }}</td>
             </tr>
             {% endfor %}
             <tr></tr>
@@ -95,7 +97,7 @@
     {% else %}
     <section>
         <div class="db-error">
-            La base de données est en train de s'initialiser. Veuillez revenir plus tard.
+            La base de données est en train de s'initialiser. Veuillez revenir dans quelques instants.
         </div>
     </section>
     {% endif %}

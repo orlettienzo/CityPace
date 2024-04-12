@@ -22,6 +22,13 @@ class Speed:
         db.commit()
 
     @staticmethod
+    def bulk_add(speeds: list) -> None:
+        """Ajoute une liste de vitesses dans la base de données."""
+        db = get_db()
+        db.executemany("INSERT INTO vitesse(rue_id, date, tranche_de_vitesse, proportion) VALUES(?, ?, ?, ?)", speeds)
+        db.commit()
+
+    @staticmethod
     def get(rue_id:int, date:str, tranche_de_vitesse:int) -> "Speed":
         db = get_db()
         data = db.execute('SELECT * FROM vitesse WHERE rue_id=? AND date=? AND tranche_de_vitesse=?', (rue_id, date, tranche_de_vitesse)).fetchone()

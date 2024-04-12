@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS ville;
 CREATE TABLE IF NOT EXISTS ville (
     code_postal INTEGER NOT NULL UNIQUE,
     nom TEXT NOT NULL,
-    population INTEGER NOT NULL,
+    population INTEGER,
     PRIMARY KEY(code_postal)
 );
 DROP TABLE IF EXISTS rue;
@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS v85 (
 DROP TABLE IF EXISTS traffic;
 CREATE TABLE IF NOT EXISTS traffic (
     rue_id INTEGER NOT NULL,
+    code_postal INTEGER NOT NULL,
     date TEXT NOT NULL,
     lourd INTEGER,
     voiture INTEGER,

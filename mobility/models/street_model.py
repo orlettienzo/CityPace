@@ -43,6 +43,13 @@ class Street:
             return None
         return Street(data[1], data[2], data[0], data[3])
 
+    @staticmethod
+    def bulk_add(streets: list):
+        """Ajoute une liste de rues dans la base de données."""
+        db = get_db()
+        db.executemany("INSERT INTO rue(rue_id, nom, code_postal, polyline ) VALUES(?, ?, ?, ?)", streets)
+        db.commit()
+
     def delete(self):
         """Supprime la rue de la base de données."""
         db = get_db()
@@ -52,8 +59,6 @@ class Street:
     def add(self):
         """Sauvegarde la rue dans la base de données."""
         db = get_db()
-        if self.polyline == "":
-            self.polyline = self.get_street_polyline_latlng()
         db.execute("INSERT INTO rue(rue_id,nom, code_postal, polyline ) VALUES(?, ?, ?, ?)", 
                     (self.street_id, self.name, self.postal_code, self.polyline))
         db.commit()
@@ -92,15 +97,13 @@ class Street:
 
         return t
 
-    def get_street_polyline_latlng(self) -> str:
+    def set_street_polyline_latlng(self) -> None:
         """Retourne la liste des coordonnées de la polyline de la rue en utilisant geopy."""
         url = f"https://nominatim.openstreetmap.org/search?q={self.name}, {self.postal_code}, Belgium&format=json"
         try:
-            result = requests.get(url= url, timeout=10)
-            result_json = result.json()
-            return f"{result_json[0]['lat']},{result_json[0]['lon']}"
+            with requests.get(url= url, timeout=10) as result:
+                result_json = result.json()
+                self.polyline = f"{result_json[0]['lat']},{result_json[0]['lon']}"
         except Exception as e:
             print(f"Error: {e}")
-            print(f"result: {result}")
-            print(f"result_json: {result_json}")
-            return ""
+            self.polyline = ""
