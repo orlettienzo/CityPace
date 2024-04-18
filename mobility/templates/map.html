@@ -29,28 +29,6 @@
     {% for marker in mapdata %}
     L.marker([{{marker.polyline}}], {icon: icon, title: "{{marker.nom}}"}).addTo(map).bindPopup("{{marker.nom}}, {{marker.code_postal}}<br>{{marker.city_name}}");
     {% endfor %}
-    
-        // var line = [
-        //     [50.84222,4.36486],
-        //     [50.84580,4.36670],
-        //     [50.84606,4.36689],
-        //     [50.84715,4.36742],
-        //     [50.84734,4.36802]
-        // ]
-        // var polyline = L.polyline(line, {
-        //     opacity: 0.5,
-        //     color: 'red',
-        //     weight: 10
-        // }).addTo(map);
-    
-    // make it full opacity when mouseover
-    // polyline.on('mouseover', function() {
-    //     this.setStyle({ opacity: 1 });
-    // });
-
-    // polyline.on('mouseout', function() {
-    //     this.setStyle({ opacity: 0.5 });
-    // });
 
 </script>
 </section>

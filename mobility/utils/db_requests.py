@@ -60,5 +60,6 @@ def get_stats():
         city_name=city_obj.name,
         streets=get_street_list_for_city(selected_city),
         street_traffic_proportions_by_week_day=street_obj.get_street_traffic_proportions_by_week_day(),
+        street_traffic_proportions_for_period=street_obj.get_street_traffic_proportions_for_period("2024-01-07T03:00:00.000Z", "2024-01-07T10:00:00.000Z"),
         street_name=street_obj.name,
         location=location_for_url)
