@@ -13,7 +13,7 @@
         iconAnchor: [12, 32],
         popupAnchor: [0, -32]
     });
-    var map = L.map('map').setView([{% if lat %}{{lat}}{% else %}50.84{% endif %}, {% if lon %}{{lon}}{% else %}4.36{% endif %}], 12);
+    var map = L.map('map').setView([{{lat}}, {{lon}}], {{zoom}});
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

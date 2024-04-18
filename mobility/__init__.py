@@ -95,11 +95,15 @@ def create_app(test_config=None) -> Flask:
         return render_template("db_statistics.html", done=False)
     
     @app.route('/map')
-    def map() -> str:
+    @app.route('/map/<lat>/<lon>/<zoom>')
+    def map(lat:float=50.84, lon:float=4.36, zoom:int=12) -> str:
         """Page de la carte."""
         if db_populated():
             return render_template('map.html',
                                    done=True,
+                                   lat=lat,
+                                   lon=lon,
+                                   zoom=zoom,
                                    mapdata=get_street_mapinfo())
         return render_template('map.html')
 
