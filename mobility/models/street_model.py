@@ -22,7 +22,7 @@ def get_street_list_for_city(postal_code: int) -> sqlite3.Cursor:
 def get_street_mapinfo() -> sqlite3.Cursor:
     """Retourne les informations nécessaires pour la carte"""
     db = get_db()
-    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, rue.polyline, ville.nom AS city_name\
+    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, SUBSTR(rue.polyline, 1, INSTR(rue.polyline, ",")-1) AS latitude, SUBSTR(rue.polyline, INSTR(rue.polyline, ",")+1) AS longitude, ville.nom AS city_name\
                       FROM rue JOIN ville ON rue.code_postal = ville.code_postal')
 
 class Street:

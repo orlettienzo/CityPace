@@ -28,19 +28,11 @@
                     {% endfor %}
                 </ul>
             </div>
+            <input type="datetime-local" id="start-date" name="search-start" class="disabled"/>
+            <input type="datetime-local" id="end-date" name="search-end" class="disabled"/>
             <a href="/map{{location}}" class="button-primary disabled" id="see-on-map-button">Voir sur la carte
                 <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 1rem 1rem" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
             </a>
-            <div class="date" data-name="date">
-                <div class="first-date">
-                    <label for="start-date">Start Date :</label>
-                    <input type="datetime-local" id="start" name="search-start"/>
-                </div>
-                <div class="second-date">
-                    <label for="end-date">End Date :</label>
-                <input type="datetime-local" id="end" name="search-end"/>
-                </div>
-            </div>
         </div>
         <script>
             const allDropdowns = document.querySelectorAll('.custom-dropdown');
@@ -89,6 +81,8 @@
                         if (option.getAttribute('data-value') == '{{ selected_street }}') {
                             defaultOptionText.textContent = option.textContent;
                             document.querySelector('#see-on-map-button').classList.remove('disabled');
+                            document.querySelector('#start-date').classList.remove('disabled');
+                            document.querySelector('#end-date').classList.remove('disabled');
                         }
 
                         // listen for click events on the options

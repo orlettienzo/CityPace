@@ -5,6 +5,7 @@ from mobility.models.appdata_model import db_populated
 
 bp = Blueprint('requests', __name__)
 
+@bp.route('/new_get_stats')
 @bp.route('/request')
 def request_page() -> str:
     """Page de requête."""
@@ -12,6 +13,13 @@ def request_page() -> str:
         return render_template("db_request.html", done=True, cities=get_city_list())
     # si la base de données n'est pas encore peuplée
     return render_template("db_request.html", done=False)
+
+# @bp.route('/new_get_stats/<str:city_name>/<str:street_name>')
+# @bp.route('/request/<str:city_name>/<str:street_name>/<str:start-date>/<str:end-date>')
+# def new_get_stats(city_name: str, street_name: str, start_date: str = None, end_date: str = None) -> str:
+#     if not db_populated():
+#         return render_template("db_request.html", done=False)
+    
 
 @bp.route("/get_stats", methods=["POST"])
 def get_stats():
