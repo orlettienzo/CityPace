@@ -3,6 +3,7 @@ import datetime # requis pour la fonction get_street_traffic_proportions_by_week
 import sqlite3
 import requests
 from mobility.utils.db import get_db
+import time
 
 def get_street_list() -> sqlite3.Cursor:
     """Retourne la liste des rues de la base de données."""
@@ -63,6 +64,33 @@ class Street:
                     (self.street_id, self.name, self.postal_code, self.polyline))
         db.commit()
 
+    def get_street_traffic_proportions_for_period(self, start_date: str, end_date: str) -> dict:
+        """Calcule la proportion de chaque type de vehicule dans la rue pour une période donnée."""
+        db = get_db()
+        data = db.execute('SELECT * FROM traffic WHERE rue_id=? AND date BETWEEN ? AND ?', (self.street_id, start_date, end_date)).fetchall()
+        t = {"lourd": 0, "voiture": 0, "velo": 0, "pieton": 0}
+        for traffic in data:
+            t["lourd"] += traffic["lourd"]
+            t["voiture"] += traffic["voiture"]
+            t["velo"] += traffic["velo"]
+            t["pieton"] += traffic["pieton"]
+
+        total = t["lourd"] + t["voiture"] + t["velo"] + t["pieton"]
+        if total == 0:
+            t["lourd"] = 0
+            t["voiture"] = 0
+            t["velo"] = 0
+            t["pieton"] = 0
+        else:
+            t["lourd"] = round((t["lourd"]/total) * 100, 2)
+            t["voiture"] = round((t["voiture"]/total) * 100, 2)
+            t["velo"] = round((t["velo"]/total) * 100, 2)
+            t["pieton"] = round((t["pieton"]/total) * 100, 2)
+        print("- - - - - -")
+        print(t)
+
+        return t
+
     def get_street_traffic_proportions_by_week_day(self) -> dict:
         """Calcule la proportion de chaque type de vehicule dans la rue pour chaque jour de la semaine."""
         db = get_db()
@@ -94,6 +122,8 @@ class Street:
             t[key]["voiture"] = round((t[key]["voiture"]/total) * 100, 2)
             t[key]["velo"] = round((t[key]["velo"]/total) * 100, 2)
             t[key]["pieton"] = round((t[key]["pieton"]/total) * 100, 2)
+        print("- - - - - -")
+        print(t)
 
         return t
 

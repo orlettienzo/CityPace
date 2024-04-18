@@ -154,6 +154,15 @@
     <section>
         <h2>{{street_name}}</h2>
         <table>
+            {% for key, value in street_traffic_proportions_for_period.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <table>
             {% for key, value in street_traffic_proportions_by_week_day.items() %}
             <tr>
                 <td>{{ key }}</td>
