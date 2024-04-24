@@ -162,9 +162,53 @@
             <tr>
                 <td>{{ key }}</td>
                 <td>
-                    {% for k, v in value.items() %}
-                    {{ k }} : {{ v }}% <br>
-                    {% endfor %}
+                    <div class="chart-container2">
+                        <canvas id="{{key}}-chart" class="rounded-chart"></canvas>
+                    </div>
+                    <script src="{{url_for('static', filename='js/chart.js')}}"></script>
+                    <script>
+            
+                        const {{key}}_ctx = document.getElementById('{{key}}-chart').getContext('2d');
+            
+                        new Chart({{key}}_ctx, {
+                            type: 'bar',
+                            data: {
+                            labels: ["{{key}}"],
+                            datasets: [
+                                {% for k, v in value.items() %}
+                                {
+                                    label: '{{k}}',
+                                    data: [{{v}}],
+                                    borderSkipped: false,
+                                },
+                                {% endfor %}
+                            ]},
+                            options: {
+                            indexAxis: 'y',
+                            scales: {
+                                x: {
+                                    stacked: true,
+                                    display: false // Hides the x-axis labels and grid lines
+                                },
+                                y: {
+                                    stacked: true,
+                                    display: false // Hides the y-axis labels and grid lines
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false // Optional: hides the legend if also desired
+                                },
+                                title: {
+                                    display: false // Optional: hides the title if also desired
+                                }
+                            },
+                            barPercentage: 1,
+                            categoryPercentage: 1,
+                            maintainAspectRatio: false,
+                            }
+                        });
+                    </script>
                 </td>
             </tr>
             {% endfor %}

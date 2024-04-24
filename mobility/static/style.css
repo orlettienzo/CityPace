@@ -134,7 +134,6 @@ table, .db-error {
     color: var(--subtext0);
     border-radius: 8px;
     width: 100%;
-    max-width: 1200px;
     text-align: center;
 }
 
@@ -668,6 +667,21 @@ ul{
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
+}
+
+.chart-container2 {
+    width: 70vw;
+    height: 80px;
+    /* center elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-bottom: 2rem; */
+    padding: 1rem;
+}
+
+.rounded-chart {
+    border-radius: 80px;
 }
 
 @media (max-width: 800px) {
