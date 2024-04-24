@@ -41,16 +41,7 @@
                             // close the dropdown
                             customDropdown.classList.remove('active');
 
-                            const form = document.createElement('form');
-                            form.method = 'post';
-                            form.action = "{{ url_for('requests.get_stats') }}";
-                            const input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'ville';
-                            input.value = codePostal;
-                            form.appendChild(input);
-                            document.body.appendChild(form);
-                            form.submit();
+                            window.location.href = `/request/${codePostal}`;
                         });
                     });
                 }

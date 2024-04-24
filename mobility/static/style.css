@@ -127,6 +127,17 @@ table, .db-error {
     color: var(--crust);
 }
 
+.message-box {
+    padding: 1rem;
+    /* background-color: var(--surface1); */
+    border: 1px solid var(--surface1);
+    color: var(--subtext0);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+
 tr:nth-child(even) {
     background-color: var(--surface1);
 }

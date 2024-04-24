@@ -4,6 +4,7 @@
 {% block content %}
 <section class="search-section">
     {% if done %}
+        <div class="message-box">Tip: Vous pouvez maintenant partager les statistiques en copiant le lien!</div>
         <div class="actions">
             <div class="custom-dropdown border" data-name="ville">
                 <div class="default-option-custom-dropdown">
@@ -36,22 +37,7 @@
         </div>
         <script>
             const allDropdowns = document.querySelectorAll('.custom-dropdown');
-            function createFormFromDict(dict, submit) {
-                const form = document.createElement('form');
-                form.method = 'post';
-                form.action = "{{ url_for('requests.get_stats') }}";
-                for (const key in dict) {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = key;
-                    input.value = dict[key];
-                    form.appendChild(input);
-                }
-                document.body.appendChild(form);
-                if (submit) {
-                    form.submit();
-                }
-            }
+            
             function initializeDropdown(customDropdown, inputName) {
                     const defaultOption = customDropdown.querySelector('.default-option-custom-dropdown');
                     const options = customDropdown.querySelectorAll('.option');
@@ -88,13 +74,12 @@
                         // listen for click events on the options
                         option.addEventListener('click', () => {
                             let selectedOption = option.textContent;
-                            let codePostal = option.getAttribute('data-value');
+                            let value = option.getAttribute('data-value');
                             
-                            // make a post request to {{ url_for('requests.get_stats') }} with the postal code
                             if (inputName === 'ville') {
-                                createFormFromDict({ville: codePostal}, true)
+                                window.location.href = '/request/' + value;
                             } else if (inputName === 'rue') {
-                                createFormFromDict({rue: codePostal, ville: '{{ selected_city }}'}, true)
+                                window.location.href = '/request/{{ selected_city }}/' + value;
                             }
                             
                             // close the dropdown
