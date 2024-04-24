@@ -10,7 +10,7 @@
         <div class="actions">
             <a href="/statistics" class="button-primary">Statistiques globales</a>
             {% if done %}
-            <div class="custom-dropdown">
+            <div class="custom-dropdown no-border">
                 <div class="default-option-custom-dropdown">
                     <span class="default-option-custom-dropdown-txt">Statistiques par ville</span>
                     <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
@@ -37,7 +37,6 @@
                             // read "data-code-postal" attribute from the selected option
                             let codePostal = option.getAttribute('data-code-postal');
                             // console.log(codePostal); // debug
-                            // make a post request to {{ url_for('requests.get_stats') }} with the postal code
 
                             // close the dropdown
                             customDropdown.classList.remove('active');
