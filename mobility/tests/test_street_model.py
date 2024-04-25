@@ -131,7 +131,7 @@ class TestStreet(unittest.TestCase):
         mock_get_db.assert_called_once()
 
         # Vérifier si l'instruction SQL a été exécutée correctement avec la liste fournie de rues
-        expected_query = "INSERT INTO rue(rue_id, nom, code_postal, polyline) VALUES(?, ?, ?, ?)"
+        expected_query = "INSERT INTO rue(rue_id, nom, code_postal, polyline ) VALUES(?, ?, ?, ?)"
         mock_db.executemany.assert_called_once_with(expected_query, streets)
 
         # Vérifier si la méthode commit a été appelée
@@ -178,7 +178,7 @@ class TestStreet(unittest.TestCase):
         mock_get_db.assert_called_once()
 
         # Vérifier si l'instruction SQL a été exécutée correctement
-        expected_sql = "INSERT INTO rue(rue_id, nom, code_postal, polyline) VALUES(?, ?, ?, ?)"
+        expected_sql = "INSERTINTOrue(rue_id,nom,code_postal,polyline)VALUES(?,?,?,?)"
         expected_params = (1, "Main Street", 75000, "mock_polyline")
 
         # Supprimer les espaces des deux côtés de la chaîne SQL attendue et réelle avant de comparer
