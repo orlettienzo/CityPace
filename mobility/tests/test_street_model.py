@@ -216,9 +216,9 @@ class TestStreet(unittest.TestCase):
         mock_db.execute.assert_called_once_with('SELECT * FROM traffic WHERE rue_id=?', (street.street_id,))
 
         # Check if the result is as expected
-        expected_result = {'Monday': {'lourd': 10.0, 'pieton': 40.0, 'velo': 20.0, 'voiture': 30.0},
-                            'Sunday': {'lourd': 20.0, 'pieton': 30.0, 'velo': 10.0, 'voiture': 40.0},
-                            'Tuesday': {'lourd': 30.0, 'pieton': 10.0, 'velo': 10.0, 'voiture': 50.0}}
+        expected_result = {'Lundi': {'lourd': 10.0, 'pieton': 40.0, 'velo': 20.0, 'voiture': 30.0},
+                            'Dimanche': {'lourd': 20.0, 'pieton': 30.0, 'velo': 10.0, 'voiture': 40.0},
+                            'Mardi': {'lourd': 30.0, 'pieton': 10.0, 'velo': 10.0, 'voiture': 50.0}}
 
         self.assertEqual(result, expected_result)
 
