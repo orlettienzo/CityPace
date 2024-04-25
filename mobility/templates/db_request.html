@@ -29,12 +29,16 @@
                     {% endfor %}
                 </ul>
             </div>
-            <input type="datetime-local" id="start-date" name="search-start" class="disabled"/>
-            <input type="datetime-local" id="end-date" name="search-end" class="disabled"/>
+            <input type="text" id="start-date" name="search-start" class="disabled date-picker"/>
             <a href="/map{{location}}" class="button-primary disabled" id="see-on-map-button">Voir sur la carte
                 <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 1rem 1rem" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
             </a>
         </div>
+        <script>
+            flatpickr("#start-date", {
+                "mode": "range"
+            });
+        </script>
         <script>
             const allDropdowns = document.querySelectorAll('.custom-dropdown');
             
@@ -176,25 +180,25 @@
                             label: 'lourd',
                             data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['lourd'] }},{% endfor %}],
                             backgroundColor: '#b4befe',
-                            borderColor: '#b4befe',
+                            borderColor: '#11111b',
                         },
                         {
                             label: 'voiture',
                             data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['voiture'] }},{% endfor %}],
                             backgroundColor: '#cba6f7',
-                            borderColor: '#cba6f7',
+                            borderColor: '#11111b',
                         },
                         {
                             label: 'velo',
                             data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['velo'] }},{% endfor %}],
                             backgroundColor: '#eba0ac',
-                            borderColor: '#eba0ac',
+                            borderColor: '#11111b',
                         },
                         {
                             label: 'pieton',
                             data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['pieton'] }},{% endfor %}],
                             backgroundColor: '#fab387',
-                            borderColor: '#fab387',
+                            borderColor: '#11111b',
                         }
 
                     ]
@@ -216,7 +220,8 @@
                             },
                             border: {
                                 display: false
-                            },                        },
+                            },
+                        },
                         y: {
                             stacked: true,
                             // display: false
@@ -243,8 +248,8 @@
                             display: false
                         }
                     },
-                    barPercentage: 0.5,
-                    // categoryPercentage: 1,
+                    barPercentage: 0.3,
+                    categoryPercentage: 1,
                     maintainAspectRatio: false,
                     borderRadius: borderRadiusValue,
                 }

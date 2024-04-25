@@ -129,7 +129,7 @@ table, .db-error {
 
 .message-box {
     padding: 1rem;
-    /* background-color: var(--surface1); */
+    background-color: var(--surface0);
     border: 1px solid var(--surface1);
     color: var(--subtext0);
     border-radius: 8px;
@@ -366,6 +366,16 @@ footer {
 
 }
 
+.date-picker {
+    display: flex;
+    background: var(--base);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    -webkit-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
+    box-shadow:inset 0px 0px 0px 1px var(--surface1);
+}
 
 .hamburger-menu-button {
     display: none;
