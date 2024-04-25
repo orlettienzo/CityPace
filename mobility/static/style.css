@@ -660,7 +660,7 @@ ul{
 }
 
 .chart-container {
-    width: 70vw;
+    width: 100%;
     height: 70vh;
     /* center elements */
     display: flex;
@@ -670,7 +670,7 @@ ul{
 }
 
 .chart-container2 {
-    width: 70vw;
+    width: 100%;
     height: 80px;
     /* center elements */
     display: flex;
@@ -678,10 +678,6 @@ ul{
     align-items: center;
     /* margin-bottom: 2rem; */
     padding: 1rem;
-}
-
-.rounded-chart {
-    border-radius: 80px;
 }
 
 @media (max-width: 800px) {

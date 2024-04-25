@@ -157,62 +157,100 @@
             {% endfor %}
         </table>
         <br>
-        <table>
-            {% for key, value in street_traffic_proportions_by_week_day.items() %}
-            <tr>
-                <td>{{ key }}</td>
-                <td>
-                    <div class="chart-container2">
-                        <canvas id="{{key}}-chart" class="rounded-chart"></canvas>
-                    </div>
-                    <script src="{{url_for('static', filename='js/chart.js')}}"></script>
-                    <script>
-            
-                        const {{key}}_ctx = document.getElementById('{{key}}-chart').getContext('2d');
-            
-                        new Chart({{key}}_ctx, {
-                            type: 'bar',
-                            data: {
-                            labels: ["{{key}}"],
-                            datasets: [
-                                {% for k, v in value.items() %}
-                                {
-                                    label: '{{k}}',
-                                    data: [{{v}}],
-                                    borderSkipped: false,
-                                },
-                                {% endfor %}
-                            ]},
-                            options: {
-                            indexAxis: 'y',
-                            scales: {
-                                x: {
-                                    stacked: true,
-                                    display: false // Hides the x-axis labels and grid lines
-                                },
-                                y: {
-                                    stacked: true,
-                                    display: false // Hides the y-axis labels and grid lines
-                                }
+        <div class="chart-container">
+            <canvas id="myChart2"></canvas>
+        </div>
+        <script src="{{url_for('static', filename='js/chart.js')}}"></script>
+        <script>
+            const ctx2 = document.getElementById('myChart2').getContext('2d');
+            const borderRadiusValue = 8;
+
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% for key, value in street_traffic_proportions_by_week_day.items() %}'{{ key }}',{% endfor %}
+                    ],
+                    datasets: [
+                        {
+                            label: 'lourd',
+                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['lourd'] }},{% endfor %}],
+                            backgroundColor: '#b4befe',
+                            borderColor: '#b4befe',
+                        },
+                        {
+                            label: 'voiture',
+                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['voiture'] }},{% endfor %}],
+                            backgroundColor: '#cba6f7',
+                            borderColor: '#cba6f7',
+                        },
+                        {
+                            label: 'velo',
+                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['velo'] }},{% endfor %}],
+                            backgroundColor: '#eba0ac',
+                            borderColor: '#eba0ac',
+                        },
+                        {
+                            label: 'pieton',
+                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['pieton'] }},{% endfor %}],
+                            backgroundColor: '#fab387',
+                            borderColor: '#fab387',
+                        }
+
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    // legend: {
+                    //     labels: {
+                    //         // fontColor: 'red',
+                    //         color: 'red'
+                    //     }
+                    // },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            display: false,
+                            grid: {
+                                display: false
                             },
-                            plugins: {
-                                legend: {
-                                    display: false // Optional: hides the legend if also desired
-                                },
-                                title: {
-                                    display: false // Optional: hides the title if also desired
-                                }
+                            border: {
+                                display: false
+                            },                        },
+                        y: {
+                            stacked: true,
+                            // display: false
+                            grid: {
+                                display: false
                             },
-                            barPercentage: 1,
-                            categoryPercentage: 1,
-                            maintainAspectRatio: false,
+                            border: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#cdd6f4',
+                                font: {
+                                    size: 18
+                                },
+                                family: "neulis-sans"
                             }
-                        });
-                    </script>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    barPercentage: 0.5,
+                    // categoryPercentage: 1,
+                    maintainAspectRatio: false,
+                    borderRadius: borderRadiusValue,
+                }
+            });
+        </script>
+        
     </section>
     {% endif %}
 {% else %}

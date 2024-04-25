@@ -122,8 +122,15 @@ class Street:
             t[key]["voiture"] = round((t[key]["voiture"]/total) * 100, 2)
             t[key]["velo"] = round((t[key]["velo"]/total) * 100, 2)
             t[key]["pieton"] = round((t[key]["pieton"]/total) * 100, 2)
-        print("- - - - - -")
-        print(t)
+
+        # renommer les jours en français
+        t["Lundi"] = t.pop("Monday")
+        t["Mardi"] = t.pop("Tuesday")
+        t["Mercredi"] = t.pop("Wednesday")
+        t["Jeudi"] = t.pop("Thursday")
+        t["Vendredi"] = t.pop("Friday")
+        t["Samedi"] = t.pop("Saturday")
+        t["Dimanche"] = t.pop("Sunday")
 
         return t
 
