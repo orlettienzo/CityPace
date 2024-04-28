@@ -367,7 +367,8 @@ footer {
 }
 
 .date-picker {
-    display: flex;
+    /* display: flex; */
+    display: none;
     background: var(--base);
     padding: 0.5rem 1rem;
     border-radius: 8px;
@@ -665,14 +666,13 @@ ul{
 
 .city-data {
     display: flex;
-    height: 70vh;
+    height: 700px; /* à fix!! */
     gap: 1rem;
 }
 
 .chart-container {
-    width: 100%;
-    height: 70vh;
-    /* center elements */
+    width: 700px; /* à fix!! */
+    height: 700px;
     display: flex;
     justify-content: center;
     align-items: center;

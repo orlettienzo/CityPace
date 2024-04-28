@@ -21,6 +21,12 @@ def request_page(city_id: int = None, street_id: int = None, start_date: str = N
         city_obj = City.get(city_id)
         street_obj = Street.get(street_id)
         location_for_url = f"/{street_obj.polyline.split(',')[0]}/{street_obj.polyline.split(',')[1]}/18"
+        if start_date is None:
+            selected_time_span = street_obj.get_street_time_span()
+            start_date = selected_time_span["start_date"]
+            end_date = selected_time_span["end_date"]
+        else:
+            selected_time_span = {"start_date": start_date, "end_date": end_date}
         return render_template("db_request.html",
                                done=True,
                                cities=get_city_list(),
@@ -30,7 +36,9 @@ def request_page(city_id: int = None, street_id: int = None, start_date: str = N
                                city_name=city_obj.name,
                                streets=get_street_list_for_city(city_id),
                                street_traffic_proportions_by_week_day=street_obj.get_street_traffic_proportions_by_week_day(),
-                               street_traffic_proportions_for_period=street_obj.get_street_traffic_proportions_for_period("2024-01-07T03:00:00.000Z", "2024-01-07T10:00:00.000Z"),
+                               street_traffic_proportions_for_period=street_obj.get_street_traffic_proportions_for_period(start_date, end_date),
+                               street_time_span=street_obj.get_street_time_span(),
+                               selected_time_span=selected_time_span,
                                street_name=street_obj.name,
                                location=location_for_url)
     if city_id is not None:

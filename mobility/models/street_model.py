@@ -90,6 +90,12 @@ class Street:
         print(t)
 
         return t
+    
+    def get_street_time_span(self) -> dict:
+        """Retourne la date de début et de fin du traffic pour la rue."""
+        db = get_db()
+        data = db.execute('SELECT MIN(date) AS start_date, MAX(date) AS end_date FROM traffic WHERE rue_id=?', (self.street_id,)).fetchone()
+        return {"start_date": data["start_date"], "end_date": data["end_date"]}
 
     def get_street_traffic_proportions_by_week_day(self) -> dict:
         """Calcule la proportion de chaque type de vehicule dans la rue pour chaque jour de la semaine."""

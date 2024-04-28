@@ -5,38 +5,66 @@
 <section class="search-section">
     {% if done %}
         <div class="message-box">Tip: Vous pouvez maintenant partager les statistiques en copiant le lien!</div>
-        <div class="actions">
-            <div class="custom-dropdown border" data-name="ville">
-                <div class="default-option-custom-dropdown">
-                    <span class="default-option-custom-dropdown-txt">Sélectionnez une ville</span>
-                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+        <div class="request">
+            <div class="actions">
+                <div class="custom-dropdown border" data-name="ville">
+                    <div class="default-option-custom-dropdown">
+                        <span class="default-option-custom-dropdown-txt">Sélectionnez une ville</span>
+                        <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                    <ul class="options">
+                        {% for city in cities %}
+                        <li class="option" data-value="{{ city.code_postal }}">{{ city.nom }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <ul class="options">
-                    {% for city in cities %}
-                    <li class="option" data-value="{{ city.code_postal }}">{{ city.nom }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="custom-dropdown border disabled-dropdown" data-name="rue">
-                <div class="default-option-custom-dropdown">
-                    <span class="default-option-custom-dropdown-txt">Sélectionnez une rue</span>
-                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+    
+                <div class="custom-dropdown border disabled-dropdown" data-name="rue">
+                    <div class="default-option-custom-dropdown">
+                        <span class="default-option-custom-dropdown-txt">Sélectionnez une rue</span>
+                        <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                    <ul class="options">
+                        {% for street in streets %}
+                        <li class="option" data-value="{{ street.rue_id }}">{{ street.nom }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <ul class="options">
-                    {% for street in streets %}
-                    <li class="option" data-value="{{ street.rue_id }}">{{ street.nom }}</li>
-                    {% endfor %}
-                </ul>
+                <a href="/map{{location}}" class="button-primary disabled" id="see-on-map-button">Voir sur la carte
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 1rem 1rem" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </a>
             </div>
-            <input type="text" id="start-date" name="search-start" class="disabled date-picker"/>
-            <a href="/map{{location}}" class="button-primary disabled" id="see-on-map-button">Voir sur la carte
-                <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 1rem 1rem" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-            </a>
+            <div class="flatpickr">
+                <input type="text" id="start-date" name="search-start" class="disabled date-picker"/>
+            </div>
         </div>
         <script>
+
+            {% if selected_time_span %}
+            console.log("start_date : {{ selected_time_span['start_date']}}");
+            console.log("end_date : {{ selected_time_span['end_date']}}");
+            {% endif %}
+            
             flatpickr("#start-date", {
-                "mode": "range"
+            "mode": "range",
+            "inline": "true",
+            "dateFormat": "Z", // ISO time format
+            {% if street_time_span %}
+            "minDate": "{{ street_time_span['start_date'] }}",
+            "maxDate": "{{ street_time_span['end_date'] }}",
+            {% endif %}
+            {% if selected_time_span %}
+            "defaultDate": ["{{ selected_time_span['start_date'] }}", "{{ selected_time_span['end_date'] }}"],
+            {% endif %}
+            "onChange": function(selectedDates, dateStr, instance) {
+                console.log(dateStr);
+                
+                // Redirect to the selected date range URL
+                if (dateStr.includes(" to ")) {
+                    dateStr = dateStr.replace(" to ", "/");
+                    window.location.href = '/request/{{ selected_city }}/{{ selected_street }}/' + dateStr;
+                } 
+            }
             });
         </script>
         <script>
@@ -72,7 +100,6 @@
                             defaultOptionText.textContent = option.textContent;
                             document.querySelector('#see-on-map-button').classList.remove('disabled');
                             document.querySelector('#start-date').classList.remove('disabled');
-                            document.querySelector('#end-date').classList.remove('disabled');
                         }
 
                         // listen for click events on the options
@@ -102,162 +129,162 @@
         </script>
 </section>
 {% if city_traffic_proportions %}
-    <section>
-        <h2>{{city_name}}</h2>
-        <div class="city-data">
-            <div class="chart-container">
-                <canvas id="myChart"></canvas>
-            </div>
-            <script src="{{url_for('static', filename='js/chart.js')}}"></script>
-            <script>
-                function capitalizeFirstLetter(string) {
-                    return string.charAt(0).toUpperCase() + string.slice(1);
-                }
-    
-                const ctx = document.getElementById('myChart').getContext('2d');
-    
-                new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                    labels: [
-                        {% for key, value in city_traffic_proportions.items() %}'{{ key }}',{% endfor %}
-                    ],
-                    datasets: [{
-                        label: 'Pourcentage du trafic',
-                        data: [
-                            {% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}
-                        ],
-                        backgroundColor: [
-                            '#b4befe',
-                            '#cba6f7',
-                            '#eba0ac',
-                            '#fab387',
-                            '#f9e2af'
-                        ],
-                    }]
-                    }
-                });
-            </script>
-            <table>
-                {% for key, value in city_traffic_proportions.items() %}
-                <tr>
-                    <td>{{ key }}</td>
-                    <td>{{ value }}%</td>
-                </tr>
-                {% endfor %}
-            </table>
+<section>
+    <h2>{{city_name}}</h2>
+    <div class="city-data">
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
         </div>
-    </section>
-    {% endif %}
-    {% if street_traffic_proportions_by_week_day %}
-    <section>
-        <h2>{{street_name}}</h2>
+        <script src="{{url_for('static', filename='js/chart.js')}}"></script>
+        <script>
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                labels: [
+                    {% for key, value in city_traffic_proportions.items() %}'{{ key }}',{% endfor %}
+                ],
+                datasets: [{
+                    label: 'Pourcentage du trafic',
+                    data: [
+                        {% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}
+                    ],
+                    backgroundColor: [
+                        '#b4befe',
+                        '#cba6f7',
+                        '#eba0ac',
+                        '#fab387',
+                        '#f9e2af'
+                    ],
+                }]
+                }
+            });
+        </script>
         <table>
-            {% for key, value in street_traffic_proportions_for_period.items() %}
+            {% for key, value in city_traffic_proportions.items() %}
             <tr>
                 <td>{{ key }}</td>
                 <td>{{ value }}%</td>
             </tr>
             {% endfor %}
         </table>
-        <br>
-        <div class="chart-container">
-            <canvas id="myChart2"></canvas>
-        </div>
-        <script src="{{url_for('static', filename='js/chart.js')}}"></script>
-        <script>
-            const ctx2 = document.getElementById('myChart2').getContext('2d');
-            const borderRadiusValue = 8;
+    </div>
+</section>
+{% endif %}
+{% if street_traffic_proportions_by_week_day %}
+<section>
+    <h2>{{street_name}}</h2>
+    <table>
+        {% for key, value in street_traffic_proportions_for_period.items() %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <div class="chart-container">
+        <canvas id="myChart2"></canvas>
+    </div>
+    <script src="{{url_for('static', filename='js/chart.js')}}"></script>
+    <script>
+        const ctx2 = document.getElementById('myChart2').getContext('2d');
+        const borderRadiusValue = 8;
 
-            new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: [
-                        {% for key, value in street_traffic_proportions_by_week_day.items() %}'{{ key }}',{% endfor %}
-                    ],
-                    datasets: [
-                        {
-                            label: 'lourd',
-                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['lourd'] }},{% endfor %}],
-                            backgroundColor: '#b4befe',
-                            borderColor: '#11111b',
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% for key, value in street_traffic_proportions_by_week_day.items() %}'{{ key }}',{% endfor %}
+                ],
+                datasets: [
+                    {
+                        label: 'lourd',
+                        data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['lourd'] }},{% endfor %}],
+                        backgroundColor: '#b4befe',
+                        borderColor: '#11111b',
+                    },
+                    {
+                        label: 'voiture',
+                        data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['voiture'] }},{% endfor %}],
+                        backgroundColor: '#cba6f7',
+                        borderColor: '#11111b',
+                    },
+                    {
+                        label: 'velo',
+                        data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['velo'] }},{% endfor %}],
+                        backgroundColor: '#eba0ac',
+                        borderColor: '#11111b',
+                    },
+                    {
+                        label: 'pieton',
+                        data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['pieton'] }},{% endfor %}],
+                        backgroundColor: '#fab387',
+                        borderColor: '#11111b',
+                    }
+
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                // legend: {
+                //     labels: {
+                //         // fontColor: 'red',
+                //         color: 'red'
+                //     }
+                // },
+                scales: {
+                    x: {
+                        stacked: true,
+                        display: false,
+                        grid: {
+                            display: false
                         },
-                        {
-                            label: 'voiture',
-                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['voiture'] }},{% endfor %}],
-                            backgroundColor: '#cba6f7',
-                            borderColor: '#11111b',
+                        border: {
+                            display: false
                         },
-                        {
-                            label: 'velo',
-                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['velo'] }},{% endfor %}],
-                            backgroundColor: '#eba0ac',
-                            borderColor: '#11111b',
+                    },
+                    y: {
+                        stacked: true,
+                        // display: false
+                        grid: {
+                            display: false
                         },
-                        {
-                            label: 'pieton',
-                            data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['pieton'] }},{% endfor %}],
-                            backgroundColor: '#fab387',
-                            borderColor: '#11111b',
+                        border: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#cdd6f4',
+                            font: {
+                                size: 18
+                            },
+                            family: "neulis-sans"
                         }
-
-                    ]
+                    },
                 },
-                options: {
-                    indexAxis: 'y',
-                    // legend: {
-                    //     labels: {
-                    //         // fontColor: 'red',
-                    //         color: 'red'
-                    //     }
-                    // },
-                    scales: {
-                        x: {
-                            stacked: true,
-                            display: false,
-                            grid: {
-                                display: false
-                            },
-                            border: {
-                                display: false
-                            },
-                        },
-                        y: {
-                            stacked: true,
-                            // display: false
-                            grid: {
-                                display: false
-                            },
-                            border: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#cdd6f4',
-                                font: {
-                                    size: 18
-                                },
-                                family: "neulis-sans"
-                            }
-                        },
+                plugins: {
+                    legend: {
+                        display: false
                     },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        title: {
-                            display: false
-                        }
-                    },
-                    barPercentage: 0.3,
-                    categoryPercentage: 1,
-                    maintainAspectRatio: false,
-                    borderRadius: borderRadiusValue,
-                }
-            });
-        </script>
-        
-    </section>
-    {% endif %}
+                    title: {
+                        display: false
+                    }
+                },
+                barPercentage: 0.3,
+                categoryPercentage: 1,
+                maintainAspectRatio: false,
+                borderRadius: borderRadiusValue,
+            }
+        });
+    </script>
+    
+</section>
+{% endif %}
 {% else %}
     <div class="db-error">
         La base de données est en train de s'initialiser. Veuillez revenir dans quelques instants.
