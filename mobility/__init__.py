@@ -5,7 +5,7 @@ from flask_executor import Executor
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mobility.models.appdata_model import db_populated
-from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities, get_bike_ratio_on_full_moon_days
+from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities, get_bike_ratio_on_full_moon_days, get_most_traffic_streets
 import mobility.utils.csv_converter
 from mobility.utils import db_requests
 from mobility.utils import db
@@ -65,7 +65,11 @@ def create_app(test_config=None) -> Flask:
     def index() -> str:
         """Page d'accueil."""
         if db_populated():
-            return render_template('index.html', done=True, cities=get_city_list())
+            return render_template('index.html',
+                                   done=True,
+                                   cities=get_city_list(),
+                                   most_cyclable_cities=get_most_cyclable_cities(),
+                                   most_traffic_streets=get_most_traffic_streets())
         return render_template('index.html')
 
     # chargement des routes

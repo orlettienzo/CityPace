@@ -61,23 +61,47 @@
 <section>
     <h2>La <span class="special2">mobilité</span> est au cœur de nos vies.</h2>
     <p>
-        Tous les jours, nous nous déplaçons pour aller travailler, faire des courses, ou simplement nous promener. CityPace vous permet de consulter façilement les statistiques de trafic de votre ville en temps réel.
+        Tous les jours, nous nous déplaçons pour aller travailler, faire des courses, ou simplement nous promener. CityPace vous permet de consulter façilement les statistiques de trafic de votre ville.
     </p>
 </section>
+{% if done %}
 <section>
-    <h2><span class="special2">Toujours</span> accessible!</h2>
-    <p>CityPace a été construit de manière à ne jamais être innaccessible. Même pendant l'initialisation de la base de données, vous pouvez acceder à notre application!</p>
+    <div class="stat-gallery">
+
+        <table>
+            <tr>
+                <th colspan="2" class="table-title">Villes les plus cyclables</th>
+            </tr>
+            {% for value in most_cyclable_cities %}
+            <tr>
+                <td class="table-index">#{{loop.index}}</td>
+                <td class="table-align-left">{{ value.city_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <!-- voitures/heure -->
+        <!-- rues où les véhicules sont les plus rapides -->
+        <table>
+            <tr>
+                <th colspan="2" class="table-title">Rues les plus fréquentées</th>
+            </tr>
+            {% for value in most_traffic_streets %}
+            <tr>
+                <td class="table-index">#{{loop.index}}</td>
+                <td class="table-align-left">{{ value.street_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </section>
+{% endif %}
 <section>
     <h2>Des <span class="special2">statistiques</span> précises.</h2>
     <p>
         Nos données sont extrêmement précises grâce aux capteurs <a href="https://telraam.net/fr/what-is-telraam">Telraam</a>. Ces capteurs sont installés dans plusieurs villes de Belgique et nous permettent de vous fournir des statistiques sur le trafic de votre ville.
     </p>
 </section>
-<!-- villes les plus cyclables -->
-<!-- voitures/heure -->
-<!-- rues où les véhicules sont les plus rapides -->
-<!-- rues les plus fréquentées -->
+
 
     
 

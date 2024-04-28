@@ -121,6 +121,20 @@ table, .db-error {
     max-width: 1200px;
 }
 
+.table-title {
+    margin: 0;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+
+.table-align-left {
+    text-align: left;
+}
+
+.table-index {
+    width: 14%;
+}
+
 .db-error {
     padding: 5rem;
     background-color: var(--peach);
@@ -268,6 +282,11 @@ footer {
     align-items: center;
     margin: 1rem 0;
     flex-wrap: wrap;
+}
+
+.stat-gallery {
+    display: flex;
+    gap: 1rem;
 }
 
 .custom-dropdown {

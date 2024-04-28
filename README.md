@@ -26,7 +26,7 @@ CityPace utilise les données des capteurs [Telraam](https://telraam.net/en/what
 ```
     flask --app=mobility --debug run
 ```
-## tests
+## Tests
 ```
     coverage run -m unittest
     coverage html
