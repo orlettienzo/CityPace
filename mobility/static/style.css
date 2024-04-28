@@ -303,7 +303,7 @@ footer {
     justify-content: space-between;
     cursor: pointer;
     gap: 1rem;
-    z-index: 1;
+    z-index: 4;
     overflow: hidden;
     min-width: 300px;
     -webkit-user-select: none;
@@ -321,9 +321,6 @@ footer {
     box-shadow: none;
 }
 
-/* .border .default-option-custom-dropdown {
-    border: var(--surface1) 1px solid;
-} */
 
 .custom-dropdown .options {
     /* position: relative; */
@@ -344,7 +341,7 @@ footer {
     -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
     box-shadow:inset 0px 0px 0px 1px var(--surface1);
     border-top: none;
-    z-index: 1;
+    z-index: 4;
 }
 
 .disabled-dropdown .default-option-custom-dropdown {
