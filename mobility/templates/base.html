@@ -132,6 +132,9 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 if (!document.body.dataset.disableScrollScript) {
+                    if(window.scrollY!=0){
+                        document.querySelector('.navbar').classList.add('scrolled');
+                    };
                     window.addEventListener('scroll', function(){
                         if(window.scrollY!=0){
                             document.querySelector('.navbar').classList.add('scrolled');
@@ -141,10 +144,11 @@
                     });
                 } else {
                     document.querySelector('.navbar').classList.add('scrolled');
-                    // remove the footer
                     document.querySelector('footer').remove();
                 }
             });
+            
+            
         </script>
     </header>
     <div class="content">
@@ -187,7 +191,7 @@
                         </g>
                     </svg>
                 </a>
-                <p><span class="subtext">© 2024 CityPace, G25, aucune template utilisée.</span></p>
+                <p><span class="subtext">© 2024 CityPace, G25</span></p>
             </div>
             <div>
                 <ul>

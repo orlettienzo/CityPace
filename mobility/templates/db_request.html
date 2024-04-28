@@ -36,6 +36,24 @@
                 <div class="flatpickr">
                     <input type="text" id="start-date" name="search-start" class="disabled date-picker"/>
                 </div>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="toggle-lourd" class="toggle-checkbox" checked>
+                        <label for="toggle-lourd" class="toggle-label">Trafic lourd</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="toggle-voiture" class="toggle-checkbox" checked>
+                        <label for="toggle-voiture" class="toggle-label">Trafic voiture</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="toggle-velo" class="toggle-checkbox" checked>
+                        <label for="toggle-velo" class="toggle-label">Trafic vélo</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="toggle-pieton" class="toggle-checkbox" checked>
+                        <label for="toggle-pieton" class="toggle-label">Trafic piéton</label>
+                    </li>
+                </ul>
             </div>
         </div>
         <script>
@@ -139,28 +157,40 @@
             new Chart(ctx, {
                 type: 'pie',
                 data: {
-                labels: [
-                    {% for key, value in city_traffic_proportions.items() %}'{{ key }}',{% endfor %}
-                ],
-                datasets: [{
-                    label: 'Pourcentage du trafic',
-                    data: [
-                        {% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}
+                    labels: [
+                        {% for key, value in city_traffic_proportions.items() %}'{{ key }}',{% endfor %}
                     ],
-                    backgroundColor: [
-                        '#b4befe',
-                        '#cba6f7',
-                        '#eba0ac',
-                        '#fab387',
-                        '#f9e2af'
-                    ],
-                }]
+                    datasets: [{
+                        label: 'Pourcentage du trafic',
+                        data: [
+                            {% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}
+                        ],
+                        backgroundColor: [
+                            '#b4befe',
+                            '#cba6f7',
+                            '#eba0ac',
+                            '#fab387',
+                            '#f9e2af'
+                        ],
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#cdd6f4',
+                                font: {
+                                    family: "neulis-sans"
+                                }
+                            },
+                        }
+                    }
                 }
             });
         </script>
         <table>
             {% for key, value in city_traffic_proportions.items() %}
-            <tr>
+            <tr class="table-data-{{key}}">
                 <td>{{ key }}</td>
                 <td>{{ value }}%</td>
             </tr>
@@ -174,7 +204,7 @@
     <h2>{{street_name}}</h2>
     <table>
         {% for key, value in street_traffic_proportions_for_period.items() %}
-        <tr>
+        <tr class="table-data-{{key}}">
             <td>{{ key }}</td>
             <td>{{ value }}%</td>
         </tr>
@@ -225,12 +255,6 @@
             },
             options: {
                 indexAxis: 'y',
-                // legend: {
-                //     labels: {
-                //         // fontColor: 'red',
-                //         color: 'red'
-                //     }
-                // },
                 scales: {
                     x: {
                         stacked: true,
@@ -278,6 +302,30 @@
     
 </section>
 {% endif %}
+<script>
+    // add listeners to the checkboxes
+    const checkboxes = document.querySelectorAll('.toggle-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const checked = checkbox.checked;
+            const type = checkbox.id.split('-')[1];
+            // cacher tout ce qui est table-data-(type)
+            const dataElements = document.querySelectorAll(`.table-data-${type}`);
+            dataElements.forEach(element => {
+                if (checked) {
+                    element.style.display = 'table-row';
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+            // cacher les données dans le graphique
+        });
+    });
+    // au cas ou la page est rechargée
+    checkboxes.forEach(checkbox => {
+        checkbox.dispatchEvent(new Event('change'));
+    });
+</script>
 {% else %}
     <div class="db-error">
         La base de données est en train de s'initialiser. Veuillez revenir dans quelques instants.
