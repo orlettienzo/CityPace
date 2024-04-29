@@ -24,7 +24,7 @@ def create_app(test_config=None) -> Flask:
     limiter = Limiter(
         get_remote_address,
         app=app,
-        default_limits=["200 per day", "50 per hour"],
+        default_limits=["500 per day", "20 per minute"],
         storage_uri="memory://",
     )
 

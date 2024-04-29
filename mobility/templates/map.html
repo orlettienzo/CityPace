@@ -34,7 +34,8 @@
     // Leaflet touch helper
     
     {% for marker in mapdata %}
-    L.marker([{{marker.latitude}},{{marker.longitude}}], {icon: icon, title: "{{marker.nom}}"}).addTo(map).bindPopup("{{marker.nom}}, {{marker.code_postal}}<br>{{marker.city_name}}").on('click', function(e) {
+    var popupContent = '{{marker.nom}}, {{marker.code_postal}}<br>{{marker.city_name}}<br><br><a href="/request/{{marker.code_postal}}/{{marker.rue_id}}" class="button-primary">Statistiques</a>';
+    L.marker([{{marker.latitude}},{{marker.longitude}}], {icon: icon, title: "{{marker.nom}}"}).addTo(map).bindPopup(popupContent).on('click', function(e) {
         // change l'url sans recharger la page pour que le lien puisse être partagé
         window.history.pushState(null, null, "/map/{{marker.latitude}}/{{marker.longitude}}/18");
     });
