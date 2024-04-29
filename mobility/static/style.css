@@ -708,7 +708,7 @@ ul{
 
 @media (max-width: 800px) {
     table {
-        font-size: 18px;
+        font-size: 0.8rem;
     }
 
     .section {
@@ -733,6 +733,10 @@ ul{
     }
 
     .illustraded-paragraph {
+        flex-direction: column;
+    }
+
+    .stat-gallery {
         flex-direction: column;
     }
 

@@ -70,7 +70,7 @@
 
         <table>
             <tr>
-                <th colspan="2" class="table-title">Villes les plus cyclables</th>
+                <th colspan="2" class="table-title">Villes les plus cyclables <span class="subtext">*</span></th>
             </tr>
             {% for value in most_cyclable_cities %}
             <tr>
@@ -83,16 +83,30 @@
         <!-- rues où les véhicules sont les plus rapides -->
         <table>
             <tr>
-                <th colspan="2" class="table-title">Rues les plus fréquentées</th>
+                <th colspan="2" class="table-title">Rues les plus fréquentées <span class="subtext">*</span></th>
             </tr>
             {% for value in most_traffic_streets %}
             <tr>
                 <td class="table-index">#{{loop.index}}</td>
-                <td class="table-align-left">{{ value.street_name }}</td>
+                <td class="table-align-left">{{ value.street_name }}, <span class="subtext">{{value.city_name}}</span></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table>
+            <tr>
+                <th colspan="2" class="table-title">Rues les plus rapides <span class="subtext">*</span></th>
+            </tr>
+            {% for value in fastest_streets %}
+            <tr>
+                <td class="table-index">#{{loop.index}}</td>
+                <td class="table-align-left">{{ value.street_name }}, <span class="subtext">{{value.city_name}}</span></td>
             </tr>
             {% endfor %}
         </table>
     </div>
+    <p>
+        <br><span class="subtext">* Statistiques basées sur une fraction des données collectées par les capteurs Telraam.</span>
+    </p>
 </section>
 {% endif %}
 <section>
