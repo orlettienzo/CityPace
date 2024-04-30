@@ -124,7 +124,7 @@ table, .db-error {
 .table-title {
     margin: 0;
     padding: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .table-align-left {
@@ -246,6 +246,8 @@ canvas { width: 100% !important; } /* merci à @bryceadams sur github :)*/
     padding: 0.5rem 1rem;
     border-radius: 8px;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
 }
 
 .disabled {
@@ -673,6 +675,10 @@ ul{
 
     .stat-gallery {
         flex-direction: column;
+    }
+
+    .request-container {
+        flex-direction: column-reverse;
     }
 
     .display-title {

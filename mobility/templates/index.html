@@ -88,7 +88,7 @@
             {% for value in most_traffic_streets %}
             <tr>
                 <td class="table-index">#{{loop.index}}</td>
-                <td class="table-align-left">{{ value.street_name }}, <span class="subtext">{{value.city_name}}</span></td>
+                <td class="table-align-left">{{ value.street_name }}</td>
             </tr>
             {% endfor %}
         </table>
@@ -99,7 +99,7 @@
             {% for value in fastest_streets %}
             <tr>
                 <td class="table-index">#{{loop.index}}</td>
-                <td class="table-align-left">{{ value.street_name }}, <span class="subtext">{{value.city_name}}</span></td>
+                <td class="table-align-left">{{ value.street_name }}</td>
             </tr>
             {% endfor %}
         </table>
@@ -114,6 +114,9 @@
     <p>
         Nos données sont extrêmement précises grâce aux capteurs <a href="https://telraam.net/fr/what-is-telraam">Telraam</a>. Ces capteurs sont installés dans plusieurs villes de Belgique et nous permettent de vous fournir des statistiques sur le trafic de votre ville.
     </p>
+    <div class="actions">
+        <a href="/request" class="button-tertiary">Faire une requête</a>
+    </div>
 </section>
 
 
