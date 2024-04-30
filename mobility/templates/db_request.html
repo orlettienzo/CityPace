@@ -104,14 +104,6 @@
                         }
                     });
                 </script>
-                <!-- <table>
-                    {% for key, value in street_traffic_proportions_for_period.items() %}
-                    <tr class="table-data-{{key}}">
-                        <td>{{ key }}</td>
-                        <td>{{ value }}%</td>
-                    </tr>
-                    {% endfor %}
-                </table> -->
                 <br>
                 <div class="chart-container">
                     <canvas id="myChart2"></canvas>
@@ -212,8 +204,6 @@
     </div>
     <div class="request-panel">
         {% if done %}
-            <!-- <div class="message-box">Tip: Vous pouvez maintenant partager les statistiques en copiant le lien!</div> -->
-
             <div class="custom-dropdown border" data-name="ville">
                 <div class="default-option-custom-dropdown">
                     <span class="default-option-custom-dropdown-txt">Sélectionnez une ville</span>

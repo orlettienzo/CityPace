@@ -52,7 +52,7 @@
                 });
             </script>
             {% else %}
-            <!-- mettre un bouton vers about si la db n'est pas chargée -->
+            <!-- mettre un autre bouton si la db n'est pas chargée -->
             <a href="/about" class="button-secondary">Apprendre plus sur nous</a>
             {% endif %}
         </div>
@@ -67,7 +67,6 @@
 {% if done %}
 <section>
     <div class="stat-gallery">
-
         <table>
             <tr>
                 <th colspan="2" class="table-title">Villes les plus cyclables <span class="subtext">*</span></th>
@@ -79,8 +78,6 @@
             </tr>
             {% endfor %}
         </table>
-        <!-- voitures/heure -->
-        <!-- rues où les véhicules sont les plus rapides -->
         <table>
             <tr>
                 <th colspan="2" class="table-title">Rues les plus fréquentées <span class="subtext">*</span></th>
