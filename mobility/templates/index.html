@@ -10,7 +10,7 @@
         <div class="actions">
             <a href="/statistics" class="button-primary">Statistiques globales</a>
             {% if done %}
-            <div class="custom-dropdown">
+            <div class="custom-dropdown no-border">
                 <div class="default-option-custom-dropdown">
                     <span class="default-option-custom-dropdown-txt">Statistiques par ville</span>
                     <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
@@ -37,21 +37,11 @@
                             // read "data-code-postal" attribute from the selected option
                             let codePostal = option.getAttribute('data-code-postal');
                             // console.log(codePostal); // debug
-                            // make a post request to {{ url_for('requests.get_stats') }} with the postal code
 
                             // close the dropdown
                             customDropdown.classList.remove('active');
 
-                            const form = document.createElement('form');
-                            form.method = 'post';
-                            form.action = "{{ url_for('requests.get_stats') }}";
-                            const input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'ville';
-                            input.value = codePostal;
-                            form.appendChild(input);
-                            document.body.appendChild(form);
-                            form.submit();
+                            window.location.href = `/request/${codePostal}`;
                         });
                     });
                 }
@@ -62,32 +52,70 @@
                 });
             </script>
             {% else %}
-            <!-- mettre un bouton vers about si la db n'est pas chargée -->
+            <!-- mettre un autre bouton si la db n'est pas chargée -->
             <a href="/about" class="button-secondary">Apprendre plus sur nous</a>
             {% endif %}
         </div>
     </div>
 </section>
 <section>
-    <h2>La <span class="special2">mobilité</span> est au cœur de nos vies</h2>
+    <h2>La <span class="special2">mobilité</span> est au cœur de nos vies.</h2>
     <p>
-        Tous les jours, nous nous déplaçons pour aller travailler, faire des courses, ou simplement pour nous promener. CityPace vous permet de consulter façilement les statistiques de trafic de votre ville en temps réel.
+        Tous les jours, nous nous déplaçons pour aller travailler, faire des courses, ou simplement nous promener. CityPace vous permet de consulter façilement les statistiques de trafic de votre ville.
     </p>
 </section>
+{% if done %}
 <section>
-    <h2><span class="special2">Toujours</span> accessible!</h2>
-    <p>CityPace a été construit de manière à ne jamais être innaccesible. Même pendant l'initialisation de la base de données, vous pouvez acceder à notre application!</p>
-</section>
-<section>
-    <h2>Des <span class="special2">statistiques</span> précises</h2>
+    <div class="stat-gallery">
+        <table>
+            <tr>
+                <th colspan="2" class="table-title">Villes les plus cyclables <span class="subtext">*</span></th>
+            </tr>
+            {% for value in most_cyclable_cities %}
+            <tr>
+                <td class="table-index">#{{loop.index}}</td>
+                <td class="table-align-left">{{ value.city_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table>
+            <tr>
+                <th colspan="2" class="table-title">Rues les plus fréquentées <span class="subtext">*</span></th>
+            </tr>
+            {% for value in most_traffic_streets %}
+            <tr>
+                <td class="table-index">#{{loop.index}}</td>
+                <td class="table-align-left">{{ value.street_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table>
+            <tr>
+                <th colspan="2" class="table-title">Rues les plus rapides <span class="subtext">*</span></th>
+            </tr>
+            {% for value in fastest_streets %}
+            <tr>
+                <td class="table-index">#{{loop.index}}</td>
+                <td class="table-align-left">{{ value.street_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
     <p>
-        Nos données sont sont extrêmement précises grâce aux capteurs <a href="https://telraam.net/fr/what-is-telraam">Telraam</a>. Ces capteurs sont installés dans plusieurs villes de Belgique et nous permettent de vous fournir des statistiques sur le trafic de votre ville.
+        <br><span class="subtext">* Statistiques basées sur une fraction des données collectées par les capteurs Telraam.</span>
     </p>
 </section>
-<!-- villes les plus cyclables -->
-<!-- voitures/heure -->
-<!-- rues où les véhicules sont les plus rapides -->
-<!-- rues les plus fréquentées -->
+{% endif %}
+<section>
+    <h2>Des <span class="special2">statistiques</span> précises.</h2>
+    <p>
+        Nos données sont extrêmement précises grâce aux capteurs <a href="https://telraam.net/fr/what-is-telraam">Telraam</a>. Ces capteurs sont installés dans plusieurs villes de Belgique et nous permettent de vous fournir des statistiques sur le trafic de votre ville.
+    </p>
+    <div class="actions">
+        <a href="/request" class="button-tertiary">Faire une requête</a>
+    </div>
+</section>
+
 
     
 

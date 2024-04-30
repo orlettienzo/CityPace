@@ -28,6 +28,9 @@
     <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" /> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='leaflet.css') }}">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- flatpkr -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='flatpickr.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     
     <!-- our stuff -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -73,8 +76,8 @@
                     </svg>
                 </a>
                 <a href="/statistics" class="navbar-link">Statistiques</a>
-                <a href="/request" class="navbar-link">Faire une requête</a>
-                <a href="/map" class="navbar-link">Carte <sup class="note">NEW</sup></a>
+                <a href="/request" class="navbar-link">Faire une requête <sup class="note">UPDATE</sup></a>
+                <a href="/map" class="navbar-link">Carte</a>
             </div>
             <div class="navbar-right">
                 <a href="/about" class="navbar-link">About</a>
@@ -89,8 +92,8 @@
                     <div class="hamburger-exit-button" tabindex=0><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
                 </div>
                 <a href="/statistics" class="hamburger-link">Statistiques</a>
-                <a href="/request" class="hamburger-link">Faire une requête</a>
-                <a href="/map" class="hamburger-link">Carte <sup class="note">NEW</sup></a>
+                <a href="/request" class="hamburger-link">Faire une requête <sup class="note">UPDATE</sup></a>
+                <a href="/map" class="hamburger-link">Carte</a>
                 <a href="/about" class="hamburger-link">About</a>
             </div>
             <script>
@@ -128,6 +131,9 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 if (!document.body.dataset.disableScrollScript) {
+                    if(window.scrollY!=0){
+                        document.querySelector('.navbar').classList.add('scrolled');
+                    };
                     window.addEventListener('scroll', function(){
                         if(window.scrollY!=0){
                             document.querySelector('.navbar').classList.add('scrolled');
@@ -137,10 +143,11 @@
                     });
                 } else {
                     document.querySelector('.navbar').classList.add('scrolled');
-                    // remove the footer
                     document.querySelector('footer').remove();
                 }
             });
+            
+            
         </script>
     </header>
     <div class="content">

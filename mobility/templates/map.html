@@ -13,7 +13,14 @@
         iconAnchor: [12, 32],
         popupAnchor: [0, -32]
     });
-    var map = L.map('map').setView([{% if lat %}{{lat}}{% else %}50.84{% endif %}, {% if lon %}{{lon}}{% else %}4.36{% endif %}], 12);
+    var unknown = L.icon({
+        iconUrl: '/static/unknown.png',
+        iconSize: [24, 32],
+        iconAnchor: [12, 32],
+        popupAnchor: [0, -32]
+    });
+
+    var map = L.map('map').setView([{{lat}}, {{lon}}], {{zoom}});
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -27,30 +34,14 @@
     // Leaflet touch helper
     
     {% for marker in mapdata %}
-    L.marker([{{marker.polyline}}], {icon: icon, title: "{{marker.nom}}"}).addTo(map).bindPopup("{{marker.nom}}, {{marker.code_postal}}<br>{{marker.city_name}}");
+    var popupContent = '{{marker.nom}}, {{marker.code_postal}}<br>{{marker.city_name}}<br><br><a href="/request/{{marker.code_postal}}/{{marker.rue_id}}" class="button-primary">Statistiques</a>';
+    L.marker([{{marker.latitude}},{{marker.longitude}}], {icon: icon, title: "{{marker.nom}}"}).addTo(map).bindPopup(popupContent).on('click', function(e) {
+        // change l'url sans recharger la page pour que le lien puisse être partagé
+        window.history.pushState(null, null, "/map/{{marker.latitude}}/{{marker.longitude}}/18");
+    });
+        
     {% endfor %}
-    
-        // var line = [
-        //     [50.84222,4.36486],
-        //     [50.84580,4.36670],
-        //     [50.84606,4.36689],
-        //     [50.84715,4.36742],
-        //     [50.84734,4.36802]
-        // ]
-        // var polyline = L.polyline(line, {
-        //     opacity: 0.5,
-        //     color: 'red',
-        //     weight: 10
-        // }).addTo(map);
-    
-    // make it full opacity when mouseover
-    // polyline.on('mouseover', function() {
-    //     this.setStyle({ opacity: 1 });
-    // });
-
-    // polyline.on('mouseout', function() {
-    //     this.setStyle({ opacity: 0.5 });
-    // });
+    L.marker([-83.7921,105.6335], {icon: unknown, title: "Unknown"}).addTo(map).bindPopup("?")
 
 </script>
 </section>

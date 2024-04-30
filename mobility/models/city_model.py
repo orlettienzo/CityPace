@@ -107,7 +107,43 @@ class City:
         total = lourd + voiture + velo + pieton
 
         # calcul de la proportion de chaque type de vehicule
-        return {"Lourd": round((lourd/total) * 100, 2),
-            "Voiture": round((voiture/total) * 100, 2), 
-            "Vélo": round((velo/total) * 100, 2), 
-            "Piéton": round((pieton/total) * 100, 2)}
+        return {"lourd": round((lourd/total) * 100, 2),
+            "voiture": round((voiture/total) * 100, 2), 
+            "velo": round((velo/total) * 100, 2), 
+            "pieton": round((pieton/total) * 100, 2)}
+    
+    def get_city_traffic_proportions_for_period(self, start_date: str, end_date: str) -> dict:
+        """Calcule la proportion de chaque type de vehicule dans la ville pour une période donnée.
+        Retourne un dictionnaire avec les pourcentages de chaque type de vehicule.
+        ex: {"lourd": 10, "voiture": 50, "velo": 20, "pieton": 20}
+        """
+        db = get_db()
+        streets = db.execute('SELECT * FROM traffic WHERE code_postal=? AND date BETWEEN ? AND ?', (self.postal_code, start_date, end_date)).fetchall()
+        traffic = []
+        for street in streets:
+            traffic.append(db.execute('SELECT * FROM traffic WHERE rue_id=?', (street["rue_id"],)).fetchall())
+
+        # comptage du traffic total de la ville
+        lourd = 0
+        voiture = 0
+        velo = 0
+        pieton = 0
+        for street in traffic:
+            for vehicle in street:
+                lourd += vehicle["lourd"]
+                voiture += vehicle["voiture"]
+                velo += vehicle["velo"]
+                pieton += vehicle["pieton"]
+        total = lourd + voiture + velo + pieton
+
+        # calcul de la proportion de chaque type de vehicule
+        return {"lourd": round((lourd/total) * 100, 2),
+            "voiture": round((voiture/total) * 100, 2), 
+            "velo": round((velo/total) * 100, 2), 
+            "pieton": round((pieton/total) * 100, 2)}
+
+    def get_city_time_span(self) -> dict:
+        """Retourne la date de début et de fin du traffic pour la ville."""
+        db = get_db()
+        data = db.execute('SELECT MIN(date) AS start_date, MAX(date) AS end_date FROM traffic WHERE code_postal=?', (self.postal_code,)).fetchone()
+        return {"start_date": data["start_date"], "end_date": data["end_date"]}

@@ -5,7 +5,7 @@ from flask_executor import Executor
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from mobility.models.appdata_model import db_populated
-from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities, get_bike_ratio_on_full_moon_days
+from mobility.models.get_stats import get_entry_list, get_number_of_streets_by_city, get_most_cyclable_cities, get_bike_ratio_on_full_moon_days, get_most_traffic_streets, get_fastest_streets
 import mobility.utils.csv_converter
 from mobility.utils import db_requests
 from mobility.utils import db
@@ -24,7 +24,7 @@ def create_app(test_config=None) -> Flask:
     limiter = Limiter(
         get_remote_address,
         app=app,
-        default_limits=["200 per day", "50 per hour"],
+        default_limits=["500 per day", "20 per minute"],
         storage_uri="memory://",
     )
 
@@ -65,10 +65,14 @@ def create_app(test_config=None) -> Flask:
     def index() -> str:
         """Page d'accueil."""
         if db_populated():
-            return render_template('index.html', done=True, cities=get_city_list())
+            return render_template('index.html',
+                                   done=True,
+                                   cities=get_city_list(),
+                                   most_cyclable_cities=get_most_cyclable_cities(),
+                                   most_traffic_streets=get_most_traffic_streets(),
+                                   fastest_streets=get_fastest_streets())
         return render_template('index.html')
 
-    # chargement des routes
     @app.route('/about')
     def about() -> str:
         """Page 'À propos' du site."""
@@ -93,20 +97,29 @@ def create_app(test_config=None) -> Flask:
                                    bike_ratio_on_full_moon_days=get_bike_ratio_on_full_moon_days())
 
         return render_template("db_statistics.html", done=False)
-    
+
     @app.route('/map')
-    def map() -> str:
-        """Page de la carte."""
+    @app.route('/map/<lat>/<lon>/<zoom>')
+    def carte(lat:float=50.84, lon:float=4.36, zoom:int=12) -> str:
+        """Page de la carte.
+        Args:
+            lat (float): Latitude de la carte.
+            lon (float): Longitude de la carte.
+            zoom (int): Zoom de la carte.
+        """
         if db_populated():
             return render_template('map.html',
                                    done=True,
+                                   lat=lat,
+                                   lon=lon,
+                                   zoom=zoom,
                                    mapdata=get_street_mapinfo())
         return render_template('map.html')
 
     @app.route('/resetdb', methods=['POST'])
     @limiter.limit("1/minute") # limite à 1 requête par minute
     def populate_task() -> str:
-        """Permet de réinitialiser la base de données du site."""
+        """Permet de réinitialiser la base de données du site. Nécessite le fichier 'secret.txt' dans le dossier 'mobility' pour fonctionner. Bien sur on ne vous donnera pas le secret."""
         data = request.get_json()
         received_secret = data.get('secret')
 

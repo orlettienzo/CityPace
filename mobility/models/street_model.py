@@ -3,6 +3,7 @@ import datetime # requis pour la fonction get_street_traffic_proportions_by_week
 import sqlite3
 import requests
 from mobility.utils.db import get_db
+import time
 
 def get_street_list() -> sqlite3.Cursor:
     """Retourne la liste des rues de la base de données."""
@@ -21,7 +22,7 @@ def get_street_list_for_city(postal_code: int) -> sqlite3.Cursor:
 def get_street_mapinfo() -> sqlite3.Cursor:
     """Retourne les informations nécessaires pour la carte"""
     db = get_db()
-    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, rue.polyline, ville.nom AS city_name\
+    return db.execute('SELECT rue.rue_id, rue.nom, rue.code_postal, SUBSTR(rue.polyline, 1, INSTR(rue.polyline, ",")-1) AS latitude, SUBSTR(rue.polyline, INSTR(rue.polyline, ",")+1) AS longitude, ville.nom AS city_name\
                       FROM rue JOIN ville ON rue.code_postal = ville.code_postal')
 
 class Street:
@@ -63,6 +64,37 @@ class Street:
                     (self.street_id, self.name, self.postal_code, self.polyline))
         db.commit()
 
+    def get_street_traffic_proportions_for_period(self, start_date: str, end_date: str) -> dict:
+        """Calcule la proportion de chaque type de vehicule dans la rue pour une période donnée."""
+        db = get_db()
+        data = db.execute('SELECT * FROM traffic WHERE rue_id=? AND date BETWEEN ? AND ?', (self.street_id, start_date, end_date)).fetchall()
+        t = {"lourd": 0, "voiture": 0, "velo": 0, "pieton": 0}
+        for traffic in data:
+            t["lourd"] += traffic["lourd"]
+            t["voiture"] += traffic["voiture"]
+            t["velo"] += traffic["velo"]
+            t["pieton"] += traffic["pieton"]
+
+        total = t["lourd"] + t["voiture"] + t["velo"] + t["pieton"]
+        if total == 0:
+            t["lourd"] = 0
+            t["voiture"] = 0
+            t["velo"] = 0
+            t["pieton"] = 0
+        else:
+            t["lourd"] = round((t["lourd"]/total) * 100, 2)
+            t["voiture"] = round((t["voiture"]/total) * 100, 2)
+            t["velo"] = round((t["velo"]/total) * 100, 2)
+            t["pieton"] = round((t["pieton"]/total) * 100, 2)
+
+        return t
+    
+    def get_street_time_span(self) -> dict:
+        """Retourne la date de début et de fin du traffic pour la rue."""
+        db = get_db()
+        data = db.execute('SELECT MIN(date) AS start_date, MAX(date) AS end_date FROM traffic WHERE rue_id=?', (self.street_id,)).fetchone()
+        return {"start_date": data["start_date"], "end_date": data["end_date"]}
+
     def get_street_traffic_proportions_by_week_day(self) -> dict:
         """Calcule la proportion de chaque type de vehicule dans la rue pour chaque jour de la semaine."""
         db = get_db()
@@ -94,6 +126,23 @@ class Street:
             t[key]["voiture"] = round((t[key]["voiture"]/total) * 100, 2)
             t[key]["velo"] = round((t[key]["velo"]/total) * 100, 2)
             t[key]["pieton"] = round((t[key]["pieton"]/total) * 100, 2)
+
+        # renommer les jours en français
+        if "Monday" in t:
+            t["Lundi"] = t.pop("Monday")
+        if "Tuesday" in t:
+            t["Mardi"] = t.pop("Tuesday")
+        if "Wednesday" in t:
+            t["Mercredi"] = t.pop("Wednesday")
+        if "Thursday" in t:
+            t["Jeudi"] = t.pop("Thursday")
+        if "Friday" in t:
+            t["Vendredi"] = t.pop("Friday")
+        if "Saturday" in t:
+            t["Samedi"] = t.pop("Saturday")
+        if "Sunday" in t:
+            t["Dimanche"] = t.pop("Sunday")
+
 
         return t
 

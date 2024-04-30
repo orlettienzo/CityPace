@@ -25,6 +25,26 @@ def get_most_cyclable_cities() -> sqlite3.Cursor:
     # return number of bikes per city divided by the population of the city
     return db.execute('SELECT ville.nom AS city_name, population, ROUND(SUM(traffic.velo)*1.0/population, 2) AS bikes_per_person, SUM(traffic.velo) as number_of_bikes FROM traffic JOIN rue ON traffic.code_postal = rue.code_postal JOIN ville ON rue.code_postal = ville.code_postal GROUP BY ville.nom ORDER BY bikes_per_person DESC LIMIT 5')
 
+def get_most_traffic_streets() -> sqlite3.Cursor:
+    """Retourne les rues avec le plus de véhicules par heure sous la forme d'un curseur sqlite3."""
+    db = get_db()
+    return db.execute('SELECT ville.nom AS city_name, rue.nom AS street_name, SUM(traffic.voiture)+SUM(traffic.lourd)+SUM(traffic.velo)+SUM(traffic.pieton) AS vehicles_per_hour FROM traffic JOIN rue ON traffic.code_postal = rue.code_postal JOIN ville ON rue.code_postal = ville.code_postal GROUP BY rue.nom ORDER BY vehicles_per_hour DESC LIMIT 5')
+
+def get_fastest_streets() -> sqlite3.Cursor:
+    """Retourne les rues les plus rapides sous la forme d'un curseur sqlite3."""
+    db = get_db()
+    # get the list of streets with '120' in column 'tranche_de_vitesse' in table 'vitesse' ordered by column 'proportion'
+    # get the code postal from table 'ville', 'vitesse' table has a 'street_id' column 
+    return db.execute('''
+                      SELECT vitesse.rue_id, ville.nom AS city_name, rue.nom AS street_name, vitesse.tranche_de_vitesse AS speed_range, vitesse.proportion AS proportion 
+                      FROM vitesse 
+                      JOIN rue ON vitesse.rue_id = rue.rue_id 
+                      JOIN ville ON rue.code_postal = ville.code_postal 
+                      WHERE vitesse.tranche_de_vitesse = 120
+                      GROUP BY vitesse.rue_id
+                      ORDER BY vitesse.proportion DESC 
+                      LIMIT 5
+                      ''').fetchall()
 
 def get_bike_ratio_on_full_moon_days() -> float:
     """Retourne le ratio de cyclistes les jours de pleine lune."""

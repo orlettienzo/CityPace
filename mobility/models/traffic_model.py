@@ -20,7 +20,7 @@ class Traffic:
 
         if data is None:
             return None
-        return Traffic(data["rue_id"], data["code_postal"], data["date"], data["lourd"], data["voiture"], data["velo"], data["pieton"]) #fun fact: this does not work (use data[1] instead of data["rue_id"] etc.)
+        return Traffic(data["rue_id"], data["code_postal"], data["date"], data["lourd"], data["voiture"], data["velo"], data["pieton"]) #fun fact: je crois ça ne marche pas (il faut utiliser data[index])
 
     @staticmethod
     def bulk_add(traffics: list) -> None:
@@ -46,5 +46,3 @@ class Traffic:
         db = get_db()
         db.execute("DELETE FROM traffic WHERE rue_id=? AND date=?", (self.rue_id, self.date))
         db.commit()
-
-    
