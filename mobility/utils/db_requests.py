@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template
 from mobility.models.city_model import get_city_list, City
 from mobility.models.street_model import get_street_list_for_city, Street
 from mobility.models.appdata_model import db_populated
@@ -14,20 +14,17 @@ bp = Blueprint('requests', __name__)
 @bp.route('/request/<int:city_id>/<int:street_id>/<start_date>/<end_date>')
 def request_page(city_id: int = None, street_id: int = None, start_date: str = None, end_date: str = None) -> str:
     """Page de requête."""
-    print(f"GOT {city_id=} {street_id=} {start_date=} {end_date=}") # debug
+    print(f"\033[92mGot request for {city_id=}, {street_id=}, {start_date=}, {end_date=}\033[0m")
     if not db_populated():
         return render_template("db_request.html", done=False)
 
     if street_id is not None:
-        print("STREET_ID is not None")
         city_obj = City.get(city_id)
         street_obj = Street.get(street_id)
         location_for_url = f"/{street_obj.polyline.split(',')[0]}/{street_obj.polyline.split(',')[1]}/18"
         if start_date is None:
-            print("START_DATE is None")
             selected_time_span = street_obj.get_street_time_span()
         elif end_date is None:
-            print("END_DATE is None")
             selected_time_span = {"start_date": start_date, "end_date": street_obj.get_street_time_span()["end_date"]}
         else:
             selected_time_span = {"start_date": start_date, "end_date": end_date}
@@ -54,6 +51,5 @@ def request_page(city_id: int = None, street_id: int = None, start_date: str = N
                                city_traffic_proportions=city_obj.get_city_traffic_proportions(),
                                city_name=city_obj.name,
                                streets=get_street_list_for_city(city_id))
-    
-    return render_template("db_request.html", done=True, cities=get_city_list())
 
+    return render_template("db_request.html", done=True, cities=get_city_list())

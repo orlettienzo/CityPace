@@ -63,19 +63,59 @@
         {% if street_traffic_proportions_by_week_day %}
             <section>
                 <h2>{{street_name}}</h2>
-                <table>
+                <div class="chart-container">
+                    <canvas id="myChart1"></canvas>
+                </div>
+                <script>
+                    const ctx1 = document.getElementById('myChart1').getContext('2d');
+                    
+                    new Chart(ctx1, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                {% for key, value in street_traffic_proportions_for_period.items() %}'{{ key }}',{% endfor %}
+                            ],
+                            datasets: [{
+                                label: 'Pourcentage du trafic',
+                                data: [
+                                    {% for key, value in street_traffic_proportions_for_period.items() %}{{ value }},{% endfor %}
+                                ],
+                                backgroundColor: [
+                                    '#b4befe',
+                                    '#cba6f7',
+                                    '#eba0ac',
+                                    '#fab387',
+                                    '#f9e2af'
+                                ],
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: '#cdd6f4',
+                                        font: {
+                                            family: "neulis-sans"
+                                        }
+                                    },
+                                }
+                            },
+                            maintainAspectRatio: false,
+                        }
+                    });
+                </script>
+                <!-- <table>
                     {% for key, value in street_traffic_proportions_for_period.items() %}
                     <tr class="table-data-{{key}}">
                         <td>{{ key }}</td>
                         <td>{{ value }}%</td>
                     </tr>
                     {% endfor %}
-                </table>
+                </table> -->
                 <br>
                 <div class="chart-container">
                     <canvas id="myChart2"></canvas>
                 </div>
-                <script src="{{url_for('static', filename='js/chart.js')}}"></script>
                 <script>
                     const ctx2 = document.getElementById('myChart2').getContext('2d');
                     const borderRadiusValue = 8;
@@ -147,7 +187,13 @@
                             },
                             plugins: {
                                 legend: {
-                                    display: false
+                                    display: true,
+                                    labels: {
+                                        color: '#cdd6f4',
+                                        font: {
+                                            family: "neulis-sans"
+                                        }
+                                    },
                                 },
                                 title: {
                                     display: false
@@ -194,24 +240,7 @@
             <div class="flatpickr">
                 <input type="text" id="start-date" name="search-start" class="disabled date-picker"/>
             </div>
-            <ul>
-                <li>
-                    <input type="checkbox" id="toggle-lourd" class="toggle-checkbox" checked>
-                    <label for="toggle-lourd" class="toggle-label">Trafic lourd</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="toggle-voiture" class="toggle-checkbox" checked>
-                    <label for="toggle-voiture" class="toggle-label">Trafic voiture</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="toggle-velo" class="toggle-checkbox" checked>
-                    <label for="toggle-velo" class="toggle-label">Trafic vélo</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="toggle-pieton" class="toggle-checkbox" checked>
-                    <label for="toggle-pieton" class="toggle-label">Trafic piéton</label>
-                </li>
-            </ul>
+            
             <a href="/map{{location}}" class="button-primary disabled" id="see-on-map-button">Voir sur la carte
                 <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 1rem 1rem" fill="none" stroke="var(--crust)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
             </a>
@@ -299,30 +328,7 @@
                         initializeDropdown(dropdown, dropdown.getAttribute('data-name'));
                     });
             </script>
-            <script>
-                // add listeners to the checkboxes
-                const checkboxes = document.querySelectorAll('.toggle-checkbox');
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        const checked = checkbox.checked;
-                        const type = checkbox.id.split('-')[1];
-                        // cacher tout ce qui est table-data-(type)
-                        const dataElements = document.querySelectorAll(`.table-data-${type}`);
-                        dataElements.forEach(element => {
-                            if (checked) {
-                                element.style.display = 'table-row';
-                            } else {
-                                element.style.display = 'none';
-                            }
-                        });
-                        // cacher les données dans le graphique
-                    });
-                });
-                // au cas ou la page est rechargée
-                checkboxes.forEach(checkbox => {
-                    checkbox.dispatchEvent(new Event('change'));
-                });
-            </script>
+            
         {% else %}
             <div class="db-error">
                 La base de données est en train de s'initialiser. Veuillez revenir dans quelques instants.

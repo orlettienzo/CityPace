@@ -73,7 +73,6 @@ def create_app(test_config=None) -> Flask:
                                    fastest_streets=get_fastest_streets())
         return render_template('index.html')
 
-    # chargement des routes
     @app.route('/about')
     def about() -> str:
         """Page 'À propos' du site."""
@@ -98,11 +97,16 @@ def create_app(test_config=None) -> Flask:
                                    bike_ratio_on_full_moon_days=get_bike_ratio_on_full_moon_days())
 
         return render_template("db_statistics.html", done=False)
-    
+
     @app.route('/map')
     @app.route('/map/<lat>/<lon>/<zoom>')
-    def map(lat:float=50.84, lon:float=4.36, zoom:int=12) -> str:
-        """Page de la carte."""
+    def carte(lat:float=50.84, lon:float=4.36, zoom:int=12) -> str:
+        """Page de la carte.
+        Args:
+            lat (float): Latitude de la carte.
+            lon (float): Longitude de la carte.
+            zoom (int): Zoom de la carte.
+        """
         if db_populated():
             return render_template('map.html',
                                    done=True,
@@ -115,7 +119,7 @@ def create_app(test_config=None) -> Flask:
     @app.route('/resetdb', methods=['POST'])
     @limiter.limit("1/minute") # limite à 1 requête par minute
     def populate_task() -> str:
-        """Permet de réinitialiser la base de données du site."""
+        """Permet de réinitialiser la base de données du site. Nécessite le fichier 'secret.txt' dans le dossier 'mobility' pour fonctionner. Bien sur on ne vous donnera pas le secret."""
         data = request.get_json()
         received_secret = data.get('secret')
 

@@ -86,8 +86,6 @@ class Street:
             t["voiture"] = round((t["voiture"]/total) * 100, 2)
             t["velo"] = round((t["velo"]/total) * 100, 2)
             t["pieton"] = round((t["pieton"]/total) * 100, 2)
-        print("- - - - - -")
-        print(t)
 
         return t
     
