@@ -387,15 +387,14 @@ canvas { width: 100% !important; } /* merci à @bryceadams sur github :)*/
 }
 
 .date-picker {
-    /* display: flex; */
     display: none;
-    background: var(--base);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    -webkit-box-shadow:inset 0px 0px 0px 1px var(--surface1);
-    -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
-    box-shadow:inset 0px 0px 0px 1px var(--surface1);
+}
+
+.flatpickr {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .hamburger-menu-button {
@@ -651,7 +650,7 @@ ul{
     height: 100%;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 870px) {
     table {
         font-size: 0.8rem;
     }
@@ -661,7 +660,11 @@ ul{
     }
 
     .title {
-        margin-top: 5rem;
+        margin-top: 1rem;
+    }
+
+    .center-text {
+        margin-top: 2rem;
     }
 
     .navbar-link {
@@ -705,7 +708,7 @@ ul{
 
 @media (max-width: 720px) {
     :root {
-        --side-padding-width: 40px;
+        --side-padding-width: 10px;
     }
 
     h1 {
