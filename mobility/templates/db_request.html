@@ -70,7 +70,8 @@
                             datasets: [{
                                 label: 'Pourcentage du trafic',
                                 data: [{% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}],
-                                borderColor: colorList,
+                                backgroundColor: colorList,
+                                borderColor: baseColor,
                             }]
                         },
                         options: {...defaultOptions,
@@ -298,7 +299,8 @@
                                     family: "neulis-sans",
                                     size: 24
                                 }
-                            }
+                            },
+                            legend: legendOptions,
                         },
                         scales: scalesOptions,
                         hover: {mode: null},
