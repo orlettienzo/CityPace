@@ -63,6 +63,22 @@ class Street:
         db.execute("INSERT INTO rue(rue_id,nom, code_postal, polyline ) VALUES(?, ?, ?, ?)", 
                     (self.street_id, self.name, self.postal_code, self.polyline))
         db.commit()
+    
+    def get_amount_of_traffic_for_day(self, date: str) -> dict:
+        """Retourne le nombre de chaque type de véhicule dans la rue pour une journée donnée.
+        date doit être au format ISO (2024-01-05T15:00:00.000Z).
+        note: l'heure n'est pas prise en compte.
+        """
+        # print(f"date: {date}")
+        db = get_db()
+        data = db.execute('SELECT * FROM traffic WHERE rue_id=? AND date BETWEEN ? AND ?', (self.street_id, date[:10], date[:10] + "T23:59:59.999Z")).fetchall()
+        t = {"lourd": 0, "voiture": 0, "velo": 0, "pieton": 0}
+        for traffic in data:
+            t["lourd"] += traffic["lourd"]
+            t["voiture"] += traffic["voiture"]
+            t["velo"] += traffic["velo"]
+            t["pieton"] += traffic["pieton"]
+        return t
 
     def get_street_traffic_proportions_for_period(self, start_date: str, end_date: str) -> dict:
         """Calcule la proportion de chaque type de vehicule dans la rue pour une période donnée."""
@@ -156,3 +172,50 @@ class Street:
         except Exception as e:
             print(f"Error: {e}")
             self.polyline = ""
+
+    def get_street_traffic_over_time(self, start_date: str, end_date: str) -> dict:
+        """Calcule le traffic de la rue pour chaque jour de la période donnée en utilisant la méthode get_amount_of_traffic_for_day.
+        start_date et end_date doivent être au format ISO (2024-01-05T15:00:00.000Z)"""
+        number_of_days = (datetime.datetime.strptime(end_date[:10], '%Y-%m-%d') - datetime.datetime.strptime(start_date[:10], '%Y-%m-%d')).days
+        t = {"lourd": [], "voiture": [], "velo": [], "pieton": [], "labels": []}
+        datelist = []
+
+        # step = max(1, number_of_days // 10) # peut être ajusté pour obtenir un graphique plus lisible et faire moins de requêtes
+        for i in range(0, number_of_days + 1):
+            datelist.append((datetime.datetime.strptime(start_date[:10], '%Y-%m-%d') + datetime.timedelta(days=i)).isoformat() + ".000Z")
+
+        for date in datelist:
+            amount_lourd, amount_voiture, amount_velo, amount_pieton = self.get_amount_of_traffic_for_day(date).values()
+            t["lourd"].append(amount_lourd)
+            t["voiture"].append(amount_voiture)
+            t["velo"].append(amount_velo)
+            t["pieton"].append(amount_pieton)
+            t["labels"].append(datetime.datetime.strptime(date[:10], '%Y-%m-%d').strftime('%d-%m-%Y'))
+
+        return t
+    
+    def get_cumulative_street_traffic_over_time(self, start_date: str, end_date: str) -> dict:
+        """Calcule le traffic de la rue pour chaque jour de la période donnée en utilisant la méthode get_amount_of_traffic_for_day.
+        start_date et end_date doivent être au format ISO (2024-01-05T15:00:00.000Z)"""
+        number_of_days = (datetime.datetime.strptime(end_date[:10], '%Y-%m-%d') - datetime.datetime.strptime(start_date[:10], '%Y-%m-%d')).days
+        t = {"lourd": [], "voiture": [], "velo": [], "pieton": [], "labels": []}
+        datelist = []
+
+        for i in range(number_of_days + 1):
+            datelist.append((datetime.datetime.strptime(start_date[:10], '%Y-%m-%d') + datetime.timedelta(days=i)).isoformat() + ".000Z")
+
+        sum_lourd, sum_voiture, sum_velo, sum_pieton = 0, 0, 0, 0
+
+        for date in datelist:
+            amount_lourd, amount_voiture, amount_velo, amount_pieton = self.get_amount_of_traffic_for_day(date).values()
+            sum_lourd += amount_lourd
+            sum_voiture += amount_lourd + amount_voiture
+            sum_velo += amount_lourd + amount_voiture + amount_velo
+            sum_pieton += amount_lourd + amount_voiture + amount_velo + amount_pieton
+            t["lourd"].append(sum_lourd)
+            t["voiture"].append(sum_voiture)
+            t["velo"].append(sum_velo)
+            t["pieton"].append(sum_pieton)
+            t["labels"].append(datetime.datetime.strptime(date[:10], '%Y-%m-%d').strftime('%d-%m-%Y'))
+
+        return t

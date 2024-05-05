@@ -147,3 +147,5 @@ class City:
         db = get_db()
         data = db.execute('SELECT MIN(date) AS start_date, MAX(date) AS end_date FROM traffic WHERE code_postal=?', (self.postal_code,)).fetchone()
         return {"start_date": data["start_date"], "end_date": data["end_date"]}
+        
+        

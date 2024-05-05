@@ -38,6 +38,8 @@ def request_page(city_id: int = None, street_id: int = None, start_date: str = N
                                streets=get_street_list_for_city(city_id),
                                street_traffic_proportions_by_week_day=street_obj.get_street_traffic_proportions_by_week_day(),
                                street_traffic_proportions_for_period=street_obj.get_street_traffic_proportions_for_period(selected_time_span["start_date"], selected_time_span["end_date"]),
+                               street_traffic_over_time=street_obj.get_street_traffic_over_time(selected_time_span["start_date"], selected_time_span["end_date"]),
+                               street_cumulative_traffic_over_time=street_obj.get_cumulative_street_traffic_over_time(selected_time_span["start_date"], selected_time_span["end_date"]),
                                street_time_span=street_obj.get_street_time_span(),
                                selected_time_span=selected_time_span,
                                street_name=street_obj.name,

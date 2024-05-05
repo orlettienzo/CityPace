@@ -4,202 +4,310 @@
 {% block content %}
 <div class="request-container">
     <div class="request-data-container">
-        {% if city_traffic_proportions %}
-            <section>
-                <h2>{{city_name}}</h2>
-
+        <!-- {% if city_name and street_name %}
+            <h2>{{street_name}}, {{city_name}}</h2>
+        {% elif city_name %}
+            <h2>{{city_name}}</h2>
+        {% endif %} -->
+        <div class="request-data-proportions">
+            {% if city_traffic_proportions %}
                 <div class="chart-container">
-                    <canvas id="myChart"></canvas>
+                    <canvas id="cityTrafficProportionsChart"></canvas>
                 </div>
                 <script src="{{url_for('static', filename='js/chart.js')}}"></script>
                 <script>
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
                     }
-
-                    const ctx = document.getElementById('myChart').getContext('2d');
-
-                    new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: [
-                                {% for key, value in city_traffic_proportions.items() %}'{{ key }}',{% endfor %}
-                            ],
-                            datasets: [{
-                                label: 'Pourcentage du trafic',
-                                data: [
-                                    {% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}
-                                ],
-                                backgroundColor: [
-                                    '#b4befe',
-                                    '#cba6f7',
-                                    '#eba0ac',
-                                    '#fab387',
-                                    '#f9e2af'
-                                ],
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    labels: {
-                                        color: '#cdd6f4',
-                                        font: {
-                                            family: "neulis-sans"
-                                        }
-                                    },
-                                }
-                            },
-                            maintainAspectRatio: false,
-                        }
-                    });
-                </script>
-            </section>
-        {% else %}
-        <div class="center-text">
-            <p><span class="subtext">Sélectionnez une ville pour commencer</span></p>
-        </div>
-        {% endif %}
-        {% if street_traffic_proportions_by_week_day %}
-            <section>
-                <h2>{{street_name}}</h2>
-                <div class="chart-container">
-                    <canvas id="myChart1"></canvas>
-                </div>
-                <script>
-                    const ctx1 = document.getElementById('myChart1').getContext('2d');
-                    
-                    new Chart(ctx1, {
-                        type: 'pie',
-                        data: {
-                            labels: [
-                                {% for key, value in street_traffic_proportions_for_period.items() %}'{{ key }}',{% endfor %}
-                            ],
-                            datasets: [{
-                                label: 'Pourcentage du trafic',
-                                data: [
-                                    {% for key, value in street_traffic_proportions_for_period.items() %}{{ value }},{% endfor %}
-                                ],
-                                backgroundColor: [
-                                    '#b4befe',
-                                    '#cba6f7',
-                                    '#eba0ac',
-                                    '#fab387',
-                                    '#f9e2af'
-                                ],
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    labels: {
-                                        color: '#cdd6f4',
-                                        font: {
-                                            family: "neulis-sans"
-                                        }
-                                    },
-                                }
-                            },
-                            maintainAspectRatio: false,
-                        }
-                    });
-                </script>
-                <br>
-                <div class="chart-container">
-                    <canvas id="myChart2"></canvas>
-                </div>
-                <script>
-                    const ctx2 = document.getElementById('myChart2').getContext('2d');
                     const borderRadiusValue = 8;
-
-                    new Chart(ctx2, {
-                        type: 'bar',
-                        data: {
-                            labels: [
-                                {% for key, value in street_traffic_proportions_by_week_day.items() %}'{{ key }}',{% endfor %}
-                            ],
-                            datasets: [
-                                {
-                                    label: 'lourd',
-                                    data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['lourd'] }},{% endfor %}],
-                                    backgroundColor: '#b4befe',
-                                    borderColor: '#11111b',
-                                },
-                                {
-                                    label: 'voiture',
-                                    data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['voiture'] }},{% endfor %}],
-                                    backgroundColor: '#cba6f7',
-                                    borderColor: '#11111b',
-                                },
-                                {
-                                    label: 'velo',
-                                    data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['velo'] }},{% endfor %}],
-                                    backgroundColor: '#eba0ac',
-                                    borderColor: '#11111b',
-                                },
-                                {
-                                    label: 'pieton',
-                                    data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['pieton'] }},{% endfor %}],
-                                    backgroundColor: '#fab387',
-                                    borderColor: '#11111b',
-                                }
-
-                            ]
+                    const textColor = '#cdd6f4';
+                    const baseColor = '#1e1e2e';
+                    const colorList = ['#b4befe','#cba6f7','#eba0ac','#fab387','#f9e2af'];
+                    const defaultOptions = {
+                        maintainAspectRatio: false,
+                        hover: {mode: null},
+                    };
+                    const titleOptions = {
+                        display: true,
+                        color: textColor,
+                        font: {
+                            family: "neulis-sans",
+                            size: 24
+                        }
+                    };
+                    const legendOptions = {
+                        labels: {
+                            color: textColor,
+                            font: {
+                                family: "neulis-sans"
+                            }
                         },
-                        options: {
-                            indexAxis: 'y',
-                            scales: {
-                                x: {
-                                    stacked: true,
-                                    display: false,
-                                    grid: {
-                                        display: false
-                                    },
-                                    border: {
-                                        display: false
-                                    },
-                                },
-                                y: {
-                                    stacked: true,
-                                    // display: false
-                                    grid: {
-                                        display: false
-                                    },
-                                    border: {
-                                        display: false
-                                    },
-                                    ticks: {
-                                        color: '#cdd6f4',
-                                        font: {
-                                            size: 18
-                                        },
-                                        family: "neulis-sans"
-                                    }
-                                },
-                            },
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    labels: {
-                                        color: '#cdd6f4',
-                                        font: {
-                                            family: "neulis-sans"
-                                        }
-                                    },
-                                },
-                                title: {
-                                    display: false
+                    };
+                    const scalesOptions = {
+                        x: {
+                            ticks: {
+                                color: textColor,
+                                font: {
+                                    family: "neulis-sans",
                                 }
                             },
-                            barPercentage: 0.3,
-                            categoryPercentage: 1,
-                            maintainAspectRatio: false,
-                            borderRadius: borderRadiusValue,
+                        },
+                        y: {
+                            ticks: {
+                                color: textColor,
+                                font: {
+                                    family: "neulis-sans",
+                                }
+                            }
+                        }
+                    }
+
+                    const cityTrafficProportionsChart = document.getElementById('cityTrafficProportionsChart').getContext('2d');
+                    new Chart(cityTrafficProportionsChart, {
+                        type: 'pie',
+                        data: {
+                            labels: [{% for key, value in city_traffic_proportions.items() %}'{{ key }}',{% endfor %}],
+                            datasets: [{
+                                label: 'Pourcentage du trafic',
+                                data: [{% for key, value in city_traffic_proportions.items() %}{{ value }},{% endfor %}],
+                                borderColor: colorList,
+                            }]
+                        },
+                        options: {...defaultOptions,
+                            plugins: {
+                                legend: legendOptions,
+                                title: {
+                                    ...titleOptions,
+                                    text: '{{city_name}}'
+                                }
+                            },
+                            borderRadius: borderRadiusValue/2,
                         }
                     });
                 </script>
+            {% else %}
+            <div class="center-text">
+                <p><span class="subtext">Sélectionnez une ville pour commencer</span></p>
+            </div>
+            {% endif %}
+            {% if street_traffic_proportions_by_week_day %}
+                <div class="chart-container">
+                    <canvas id="streetTrafficProportionsChart"></canvas>
+                </div>
+                <script>
+                    const streetTrafficProportionsChart = document.getElementById('streetTrafficProportionsChart').getContext('2d');
+                    
+                    new Chart(streetTrafficProportionsChart, {
+                        type: 'pie',
+                        data: {
+                            labels: [{% for key, value in street_traffic_proportions_for_period.items() %}'{{ key }}',{% endfor %}],
+                            datasets: [{
+                                label: 'Pourcentage du trafic',
+                                data: [{% for key, value in street_traffic_proportions_for_period.items() %}{{ value }},{% endfor %}],
+                                backgroundColor: colorList,
+                                borderColor: baseColor,
+                            }]
+                        },
+                        options: {...defaultOptions,
+                            plugins: {
+                                legend: legendOptions,
+                                title: {...titleOptions, text: '{{street_name}}'
+                                }
+                            },
+                            borderRadius: borderRadiusValue/2,
+                            indexAxis: 'y',
+                        }
+                    });
+                </script>
+            {% endif %}
+        </div>
+        {% if street_traffic_proportions_by_week_day %}
+            <div class="chart-container">
+                <canvas id="streetTrafficProportionsByWeekDayChart"></canvas>
+            </div>
+            <script>
+                const streetTrafficProportionsByWeekDayChart = document.getElementById('streetTrafficProportionsByWeekDayChart').getContext('2d');
+
+                new Chart(streetTrafficProportionsByWeekDayChart, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for key, value in street_traffic_proportions_by_week_day.items() %}'{{ key }}',{% endfor %}],
+                        datasets: [
+                            {
+                                label: 'lourd',
+                                data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['lourd'] }},{% endfor %}],
+                                backgroundColor: colorList[0],
+                            },
+                            {
+                                label: 'voiture',
+                                data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['voiture'] }},{% endfor %}],
+                                backgroundColor: colorList[1],
+                            },
+                            {
+                                label: 'velo',
+                                data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['velo'] }},{% endfor %}],
+                                backgroundColor: colorList[2],
+                            },
+                            {
+                                label: 'pieton',
+                                data: [{% for key, value in street_traffic_proportions_by_week_day.items() %}{{ value['pieton'] }},{% endfor %}],
+                                backgroundColor: colorList[3],
+                            }
+
+                        ]
+                    },
+                    options: {
+                        ...defaultOptions,
+                        indexAxis: 'y',
+                        scales: {
+                            ...scalesOptions,
+                            x: {
+                                stacked: true,
+                                display: false,
+                                grid: {display: false},
+                                border: {display: false},
+                            },
+                            y: {
+                                stacked: true,
+                                grid: {display: false},
+                                border: {display: false},
+                                ticks: {
+                                    color: textColor,
+                                    font: {
+                                        size: 18
+                                    },
+                                    family: "neulis-sans"
+                                }
+                            },
+                        },
+                        plugins: {
+                            legend: legendOptions,
+                            title: {...titleOptions, text: 'Trafic sur {{street_name}} par jour de la semaine'},
+                        },
+                        borderColor: baseColor,
+                        barPercentage: 0.3,
+                        categoryPercentage: 1,
+                        borderRadius: borderRadiusValue,
+                        borderWidth: 2,
+                    }
+                });
+            </script>
+            <div class="chart-container">
+                <canvas id="streetCumulativeTrafficOverTime"></canvas>
+            </div>
+            <script>
+                const streetCumulativeTrafficOverTimeChart = document.getElementById('streetCumulativeTrafficOverTime').getContext('2d');
                 
-            </section>
+                new Chart(streetCumulativeTrafficOverTimeChart, {
+                    type: 'line',
+                    data: {
+                        labels: [{% for label in street_cumulative_traffic_over_time['labels'] %}'{{ label }}',{% endfor %}],
+                        datasets: [
+                            {
+                                label: 'lourd',
+                                data: [{% for value in street_cumulative_traffic_over_time['lourd'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[0],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            },
+                            {
+                                label: 'voiture',
+                                data: [{% for value in street_cumulative_traffic_over_time['voiture'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[1],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            },
+                            {
+                                label: 'velo',
+                                data: [{% for value in street_cumulative_traffic_over_time['velo'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[2],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            },
+                            {
+                                label: 'pieton',
+                                data: [{% for value in street_cumulative_traffic_over_time['pieton'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[3],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {...titleOptions, text: 'Trafic cumulé sur {{street_name}}'},
+                            legend: legendOptions,
+                        },
+                        scales: scalesOptions,
+                        hover: {mode: null},
+                        maintainAspectRatio: false,
+                        tension: 0.2,
+                    }
+                });
+            </script>
+            <div class="chart-container">
+                <canvas id="streetTrafficOverTime"></canvas>
+            </div>
+            <script>
+                const streetTrafficOverTimeChart = document.getElementById('streetTrafficOverTime').getContext('2d');
+                
+                new Chart(streetTrafficOverTimeChart, {
+                    type: 'line',
+                    data: {
+                        labels: [
+                            {% for label in street_traffic_over_time['labels'] %}'{{ label }}',{% endfor %}
+                        ],
+                        datasets: [
+                            {
+                                label: 'lourd',
+                                data: [{% for value in street_traffic_over_time['lourd'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[0],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            },
+                            {
+                                label: 'voiture',
+                                data: [{% for value in street_traffic_over_time['voiture'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[1],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            },
+                            {
+                                label: 'velo',
+                                data: [{% for value in street_traffic_over_time['velo'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[2],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            },
+                            {
+                                label: 'pieton',
+                                data: [{% for value in street_traffic_over_time['pieton'] %}{{ value }},{% endfor %}],
+                                borderColor: colorList[3],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Trafic sur {{street_name}}',
+                                color: '#cdd6f4',
+                                font: {
+                                    family: "neulis-sans",
+                                    size: 24
+                                }
+                            }
+                        },
+                        scales: scalesOptions,
+                        hover: {mode: null},
+                        maintainAspectRatio: false,
+                        tension: 0.2,
+                    }
+                });
+            
+            </script>
         {% endif %}
     </div>
     <div class="request-panel">
