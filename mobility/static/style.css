@@ -583,7 +583,15 @@ canvas { width: 100% !important; } /* merci à @bryceadams sur github :)*/
 
 .illustraded-paragraph {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+}
+
+.illustraded-paragraph-image {
+    width: 40%;
+}
+
+.illustraded-paragraph-text {
+    width: 60%;
 }
 
 ul{
@@ -671,6 +679,10 @@ ul{
 
     .illustraded-paragraph {
         flex-direction: column;
+    }
+
+    .illustraded-paragraph-image, .illustraded-paragraph-text {
+        width: 100%;
     }
 
     .stat-gallery {
