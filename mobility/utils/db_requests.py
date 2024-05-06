@@ -41,6 +41,8 @@ def request_page(city_id: int = None, street_id: int = None, start_date: str = N
                                street_traffic_over_time=street_obj.get_street_traffic_over_time(selected_time_span["start_date"], selected_time_span["end_date"]),
                                street_cumulative_traffic_over_time=street_obj.get_cumulative_street_traffic_over_time(selected_time_span["start_date"], selected_time_span["end_date"]),
                                street_time_span=street_obj.get_street_time_span(),
+                               street_speed_proportions=street_obj.get_speed_proportions(selected_time_span["start_date"], selected_time_span["end_date"]),
+                               street_coordinates=street_obj.get_street_coordinates(),
                                selected_time_span=selected_time_span,
                                street_name=street_obj.name,
                                location=location_for_url)

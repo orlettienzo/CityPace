@@ -184,13 +184,15 @@ class Street:
         for i in range(0, number_of_days + 1):
             datelist.append((datetime.datetime.strptime(start_date[:10], '%Y-%m-%d') + datetime.timedelta(days=i)).isoformat() + ".000Z")
 
+        weekdays = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+
         for date in datelist:
             amount_lourd, amount_voiture, amount_velo, amount_pieton = self.get_amount_of_traffic_for_day(date).values()
             t["lourd"].append(amount_lourd)
             t["voiture"].append(amount_voiture)
             t["velo"].append(amount_velo)
             t["pieton"].append(amount_pieton)
-            t["labels"].append(datetime.datetime.strptime(date[:10], '%Y-%m-%d').strftime('%d-%m-%Y'))
+            t["labels"].append(f"{weekdays[datetime.datetime.strptime(date[:10], '%Y-%m-%d').weekday()]} {datetime.datetime.strptime(date[:10], '%Y-%m-%d').strftime('%d-%m-%y')}")
 
         return t
     
@@ -204,6 +206,7 @@ class Street:
         for i in range(number_of_days + 1):
             datelist.append((datetime.datetime.strptime(start_date[:10], '%Y-%m-%d') + datetime.timedelta(days=i)).isoformat() + ".000Z")
 
+        weekdays = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
         sum_lourd, sum_voiture, sum_velo, sum_pieton = 0, 0, 0, 0
 
         for date in datelist:
@@ -216,6 +219,44 @@ class Street:
             t["voiture"].append(sum_voiture)
             t["velo"].append(sum_velo)
             t["pieton"].append(sum_pieton)
-            t["labels"].append(datetime.datetime.strptime(date[:10], '%Y-%m-%d').strftime('%d-%m-%Y'))
+            t["labels"].append(f"{weekdays[datetime.datetime.strptime(date[:10], '%Y-%m-%d').weekday()]} {datetime.datetime.strptime(date[:10], '%Y-%m-%d').strftime('%d-%m-%y')}")
 
         return t
+    
+    def get_speed_proportions(self, start_date: str, end_date: str) -> dict:
+        """Retourne la proportion de véhicules qui roulent à une certaine tranche de vitesse.
+        Retourne un dictionnaire avec les clés "0-5", "5-10", ... "110-115", "120+" et les valeurs sont des float de sommes de proportions."""
+        db = get_db()
+        data = db.execute('SELECT * FROM vitesse WHERE rue_id=? AND date BETWEEN ? AND ?', (self.street_id, start_date, end_date)).fetchall()
+        t = {}
+        for i in range(0, 121, 5):
+            t[f"{i}-{i+5} km/h"] = 0
+        t["120+ km/h"] = 0
+
+        max_proportion = 0
+
+        for proportion in data:
+            if proportion["tranche_de_vitesse"] == 0:
+                continue
+            if proportion["tranche_de_vitesse"] == 120:
+                t["120+ km/h"] += proportion["proportion"]
+                continue
+            t[f"{proportion['tranche_de_vitesse']}-{proportion['tranche_de_vitesse']+5} km/h"] += proportion["proportion"]
+            max_proportion = max(max_proportion, t[f"{proportion['tranche_de_vitesse']}-{proportion['tranche_de_vitesse']+5} km/h"])
+
+        # normalisation
+        if max_proportion == 0:
+            return t
+        
+        for key in t:
+            t[key] = round((t[key] / max_proportion) * 100, 2)
+
+        return t
+
+    def get_street_coordinates(self) -> str:
+        """Retourne les coordonnées de la rue.
+        returns as a string "latitude,longitude"
+        """
+        db = get_db()
+        data = db.execute('SELECT polyline FROM rue WHERE rue_id=?', (self.street_id,)).fetchone()
+        return data["polyline"]

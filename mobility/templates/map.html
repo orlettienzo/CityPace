@@ -38,6 +38,11 @@
     L.marker([{{marker.latitude}},{{marker.longitude}}], {icon: icon, title: "{{marker.nom}}"}).addTo(map).bindPopup(popupContent).on('click', function(e) {
         // change l'url sans recharger la page pour que le lien puisse être partagé
         window.history.pushState(null, null, "/map/{{marker.latitude}}/{{marker.longitude}}/18");
+        // animation qui centre la carte sur le marker
+        // map.flyTo([{{ marker.latitude }}, {{ marker.longitude }}], 17, {
+        //     animate: true,
+        //     duration: 1.5
+        // });
     });
         
     {% endfor %}

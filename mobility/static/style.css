@@ -390,6 +390,10 @@ canvas { width: 100% !important; } /* merci à @bryceadams sur github :)*/
     display: none;
 }
 
+.hidden {
+    display: none;
+}
+
 .flatpickr {
     display: flex;
     align-content: center;
@@ -612,6 +616,19 @@ ul{
 #map {
     height: calc(100vh - 60px);
     margin-top: 60px;
+}
+
+#minimap {
+    height: 300px;
+    width: 100%;
+    max-width: 307.875px;
+    border-radius: 8px;
+}
+
+.minimap-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .chart-container {
