@@ -387,15 +387,18 @@ canvas { width: 100% !important; } /* merci à @bryceadams sur github :)*/
 }
 
 .date-picker {
-    /* display: flex; */
     display: none;
-    background: var(--base);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    -webkit-box-shadow:inset 0px 0px 0px 1px var(--surface1);
-    -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
-    box-shadow:inset 0px 0px 0px 1px var(--surface1);
+}
+
+.hidden {
+    display: none;
+}
+
+.flatpickr {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .hamburger-menu-button {
@@ -615,12 +618,24 @@ ul{
     margin-top: 60px;
 }
 
+#minimap {
+    height: 300px;
+    width: 100%;
+    max-width: 307.875px;
+    border-radius: 8px;
+}
+
+.minimap-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .chart-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2rem;
-    max-height: 80vh;
+    min-height: 500px;
 }
 
 .request-container {
@@ -628,17 +643,29 @@ ul{
     padding-top: 80px;
     width: 100%;
     flex-wrap: nowrap;
+    justify-content: space-between;
     padding-left: var(--side-padding-width);
     padding-right: var(--side-padding-width);
 }
 
 .request-data-container {
-    flex-grow: 1;
-}
-
-.request-data-container section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+.request-data-proportions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 100%;
+}
+
+.request-data-proportions .chart-container {
+    width: 50%;
 }
 
 .request-panel {
@@ -651,7 +678,7 @@ ul{
     height: 100%;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 870px) {
     table {
         font-size: 0.8rem;
     }
@@ -661,7 +688,11 @@ ul{
     }
 
     .title {
-        margin-top: 5rem;
+        margin-top: 1rem;
+    }
+
+    .center-text {
+        margin-top: 2rem;
     }
 
     .navbar-link {
@@ -693,6 +724,14 @@ ul{
         flex-direction: column-reverse;
     }
 
+    .request-data-proportions {
+        flex-direction: column;
+    }
+
+    .request-data-proportions .chart-container {
+        width: 100%;
+    }
+
     .display-title {
         padding-top: 3rem;
         padding-bottom: 3rem;
@@ -705,7 +744,7 @@ ul{
 
 @media (max-width: 720px) {
     :root {
-        --side-padding-width: 40px;
+        --side-padding-width: 10px;
     }
 
     h1 {
