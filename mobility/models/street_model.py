@@ -164,7 +164,7 @@ class Street:
         return t
 
     def set_street_polyline_latlng(self) -> None:
-        """Retourne la liste des coordonnées de la polyline de la rue en utilisant geopy."""
+        """Retourne la liste des coordonnées de la polyline de la rue en utilisant l'API nominatim."""
         url = f"https://nominatim.openstreetmap.org/search?q={self.name}, {self.postal_code}, Belgium&format=json"
         try:
             with requests.get(url= url, timeout=10) as result:
