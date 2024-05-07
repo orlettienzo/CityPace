@@ -2,6 +2,8 @@
 - Johannes Radesey 07042301
 - Tom Deglume 66572300
 - Enzo Andrade Orletti 34842300
+- Liam Vander Becken 77932300
+- Nicolas Mertens 69132300
 
 ## Introduction
 
