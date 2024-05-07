@@ -345,7 +345,7 @@ canvas { width: 100% !important; } /* merci à @bryceadams sur github :)*/
     -moz-box-shadow:inset 0px 0px 0px 1px var(--surface1);
     box-shadow:inset 0px 0px 0px 1px var(--surface1);
     border-top: none;
-    z-index: 4;
+    z-index: 9999;
 }
 
 .disabled-dropdown .default-option-custom-dropdown {
@@ -611,6 +611,16 @@ ul{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    align-items: center;
+}
+
+.popup-grid p {
+    margin: 0.1rem;
 }
 
 #map {
