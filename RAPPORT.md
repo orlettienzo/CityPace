@@ -25,7 +25,7 @@ Situé en haut, se trouve la barre de navigation qui vous permet d'accéder aux 
 
 Dans un même objectif, vous pouvez retrouver un footer en bas de chaque page pour ne pas devoir remonter pour naviguer
 
-### Page d'acceuil
+### Page d'accueil
 
 ![](docs/rapport/acceuil1.png)
 
@@ -71,8 +71,7 @@ Le ratio de types de véhicules est affiché pour la ville et la rue sous la for
 
 ![](docs/rapport/requete4.png)
 
-Le ratio de types de véhicules par jour de la semaine est représenté sous la frome d'un graphique en barres. Nous avons choisi cet affichage car il est le plus approprié pour ces données.
-<!-- ici il faut développer un peu plus -->
+Le ratio de types de véhicules par jour de la semaine est représenté sous la frome d'un graphique en barres. Nous avons choisi cet affichage car L'utilisateur peut facilement voir les différences entre les jours de la semaine.
 
 <br>
 
@@ -100,7 +99,7 @@ Pour notre fonctionnalité supplémentaire on a choisi d'implémenter une carte 
 
 
 Les coordonnées géographiques pour chaque rue sont générées pendant l'initialisation de base de données et nous proviennent de l'API nominatim. Celle-ci nous retourne les coordonnées en échange d'un nom de rue.
-<!-- rephraser -->
+
 
 ### About
 
@@ -122,4 +121,3 @@ Ainsi, la stratégie initiale consistait à identifier les fichiers présentant 
 
 En conclusion, nous avons vraiment essayé de faire ce projet le plus sérieusement possible avec une très grande attention aux détails. Nous sommes très fiers du résultat et nous avons appris beaucoup en faisant ce projet.
 
-<!-- un peu personnel?? -->
