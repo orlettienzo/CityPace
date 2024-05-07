@@ -164,6 +164,165 @@ class TestCity(unittest.TestCase):
         # Check if commit is called
         mock_db.commit.assert_called_once()
 
+    @patch('mobility.models.city_model.get_db')
+    def test_get_total_lourd(self, mock_get_db):
+        # Mocking database response
+        mock_streets = [
+            {"rue_id": 1},  # Example street 1
+            {"rue_id": 2}   # Example street 2
+        ]
+        mock_traffic_counts = [10, 20]  # Example traffic counts for streets 1 and 2
+        mock_cursor = MagicMock()
+        mock_cursor.fetchone.side_effect = mock_traffic_counts
+        mock_db = MagicMock()
+        mock_db.execute.return_value = mock_cursor
+        mock_get_db.return_value = mock_db
+
+        # Create city object
+        city = City("Test City", 10000, "12345")
+
+        # Call the method to get total lourd
+        result = city.get_total_lourd()
+
+        # Expected result
+        expected_result = 0
+
+        # Test
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.city_model.get_db')
+    def test_get_total_voiture(self, mock_get_db):
+        # Mocking database response
+        mock_streets = [
+            {"rue_id": 1},  # Example street 1
+            {"rue_id": 2}  # Example street 2
+        ]
+        mock_traffic_counts = [10, 20]  # Example traffic counts for streets 1 and 2
+        mock_cursor = MagicMock()
+        mock_cursor.fetchone.side_effect = mock_traffic_counts
+        mock_db = MagicMock()
+        mock_db.execute.return_value = mock_cursor
+        mock_get_db.return_value = mock_db
+
+        # Create city object
+        city = City("Test City", 10000, "12345")
+
+        # Call the method to get total voiture
+        result = city.get_total_voiture()
+
+        # Expected result
+        expected_result = 0
+
+        # Test
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.city_model.get_db')
+    def test_get_total_velo(self, mock_get_db):
+        # Mocking database response
+        mock_streets = [
+            {"rue_id": 1},  # Example street 1
+            {"rue_id": 2}  # Example street 2
+        ]
+        mock_traffic_counts = [5, 15]  # Example traffic counts for streets 1 and 2
+        mock_cursor = MagicMock()
+        mock_cursor.fetchone.side_effect = mock_traffic_counts
+        mock_db = MagicMock()
+        mock_db.execute.return_value = mock_cursor
+        mock_get_db.return_value = mock_db
+
+        # Create city object
+        city = City("Test City", 10000, "12345")
+
+        # Call the method to get total velo
+        result = city.get_total_velo()
+
+        # Expected result
+        expected_result = 0
+
+        # Test
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.city_model.get_db')
+    def test_get_total_pieton(self, mock_get_db):
+        # Mocking database response
+        mock_streets = [
+            {"rue_id": 1},  # Example street 1
+            {"rue_id": 2}  # Example street 2
+        ]
+        mock_traffic_counts = [3, 7]  # Example traffic counts for streets 1 and 2
+        mock_cursor = MagicMock()
+        mock_cursor.fetchone.side_effect = mock_traffic_counts
+        mock_db = MagicMock()
+        mock_db.execute.return_value = mock_cursor
+        mock_get_db.return_value = mock_db
+
+        # Create city object
+        city = City("Test City", 10000, "12345")
+
+        # Call the method to get total pieton
+        result = city.get_total_pieton()
+
+        # Expected result
+        expected_result = 0
+
+        # Test
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.city_model.get_db')
+    def test_get_city_traffic_proportions_for_period(self, mock_get_db):
+        # Mocking database response
+        mock_traffic_data = [
+            {"rue_id": 1, "lourd": 10, "voiture": 20, "velo": 5, "pieton": 5},
+            {"rue_id": 2, "lourd": 5, "voiture": 10, "velo": 8, "pieton": 3}
+        ]  # Example traffic data for the city
+        mock_cursor = MagicMock()
+        mock_cursor.fetchall.return_value = mock_traffic_data
+        mock_db = MagicMock()
+        mock_db.execute.return_value = mock_cursor
+        mock_get_db.return_value = mock_db
+
+        # Create city object
+        city = City("Test City", 10000, "12345")
+
+        # Define start and end dates for the period
+        start_date = "2024-01-01"
+        end_date = "2024-01-05"
+
+        # Call the method to get city traffic proportions for the period
+        result = city.get_city_traffic_proportions_for_period(start_date, end_date)
+
+        # Expected result
+        expected_result = {
+            "lourd": 22.73,
+            "voiture": 45.45,
+            "velo": 19.7,
+            "pieton": 12.12
+        }
+
+        # Test
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.city_model.get_db')
+    def test_get_city_time_span(self, mock_get_db):
+        # Mocking database response
+        mock_time_span_data = {"start_date": "2024-01-01", "end_date": "2024-01-05"}  # Example time span data
+        mock_cursor = MagicMock()
+        mock_cursor.fetchone.return_value = mock_time_span_data
+        mock_db = MagicMock()
+        mock_db.execute.return_value = mock_cursor
+        mock_get_db.return_value = mock_db
+
+        # Create city object
+        city = City("Test City", 10000, "12345")
+
+        # Call the method to get city time span
+        result = city.get_city_time_span()
+
+        # Expected result
+        expected_result = {"start_date": "2024-01-01", "end_date": "2024-01-05"}
+
+        # Test
+        self.assertEqual(result, expected_result)
 
 if __name__ == '__main__':
     unittest.main()
