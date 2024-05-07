@@ -260,5 +260,158 @@ class TestStreet(unittest.TestCase):
         # Vérifier si la polyline reste vide
         self.assertEqual(street.polyline, "")
 
+    @patch('mobility.models.street_model.get_db')
+    def test_get_amount_of_traffic_for_day(self, mock_get_db):
+        mock_db = MagicMock()
+        mock_get_db.return_value = mock_db
+
+        # Mocking database response
+        mock_data = [
+            {"lourd": 10, "voiture": 20, "velo": 5, "pieton": 15},
+            {"lourd": 5, "voiture": 15, "velo": 10, "pieton": 25}
+        ]
+        mock_db.execute.return_value.fetchall.return_value = mock_data
+
+        # Create street object
+        street = Street("Test Street", "12345", 1)
+
+        # Expected result
+        expected_result = {"lourd": 15, "voiture": 35, "velo": 15, "pieton": 40}
+
+        # Test
+        result = street.get_amount_of_traffic_for_day("2024-01-05T15:00:00.000Z")
+        self.assertEqual(result, expected_result)
+
+    @patch("mobility.models.street_model.get_db")
+    def test_get_street_traffic_proportions_for_period(self, mock_get_db):
+        # Mocking database response
+        mock_data = [
+            {"lourd": 10, "voiture": 20, "velo": 5, "pieton": 15},
+            {"lourd": 5, "voiture": 15, "velo": 10, "pieton": 25}
+        ]
+        mock_db = MagicMock()
+        mock_db.execute.return_value.fetchall.return_value = mock_data
+        mock_get_db.return_value = mock_db
+
+        # Create street object
+        street = Street("Test Street", "12345", 1)
+
+        # Expected result
+        expected_result = {"lourd": 14.29, "voiture": 33.33, "velo": 14.29, "pieton": 38.1}
+
+        # Test
+        result = street.get_street_traffic_proportions_for_period("2024-01-05", "2024-01-06")
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.street_model.get_db')
+    def test_get_street_time_span(self, mock_get_db):
+        # Mocking database response
+        mock_data = {"start_date": "2024-01-05T10:00:00.000Z", "end_date": "2024-01-06T15:00:00.000Z"}
+        mock_db = MagicMock()
+        mock_db.execute.return_value.fetchone.return_value = mock_data
+        mock_get_db.return_value = mock_db
+
+        # Create street object
+        street = Street("Test Street", "12345", 1)
+
+        # Expected result
+        expected_result = {"start_date": "2024-01-05T10:00:00.000Z", "end_date": "2024-01-06T15:00:00.000Z"}
+
+        # Test
+        result = street.get_street_time_span()
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.street_model.requests.get')
+    def test_set_street_polyline_latlng(self, mock_requests_get):
+        # Mocking response from requests.get
+        mock_response = MagicMock()
+        mock_response.json.return_value = [
+            {"lat": 50.8503, "lon": 4.3517}  # Coordinates for Brussels, Belgium
+        ]
+        mock_requests_get.return_value.__enter__.return_value = mock_response
+
+        # Create street object
+        street = Street("Test Street", "12345", 1)
+
+        # Call the method to set street polyline
+        street.set_street_polyline_latlng()
+
+        # Expected result
+        expected_polyline = "50.8503,4.3517"
+
+        # Test
+        self.assertEqual(street.polyline, expected_polyline)
+
+    @patch.object(Street, 'get_amount_of_traffic_for_day')
+    def test_get_street_traffic_over_time(self, mock_get_amount_of_traffic_for_day):
+        # Mocking response from get_amount_of_traffic_for_day
+        mock_get_amount_of_traffic_for_day.return_value = {"lourd": 10, "voiture": 20, "velo": 5, "pieton": 15}
+
+        # Create street object
+        street = Street("Test Street", "12345", 1)
+
+        # Call the method to get street traffic over time
+        start_date = "2024-01-01T00:00:00.000Z"
+        end_date = "2024-01-03T00:00:00.000Z"
+        result = street.get_street_traffic_over_time(start_date, end_date)
+
+        # Expected result
+        expected_result = {
+            "lourd": [10, 10, 10],
+            "voiture": [20, 20, 20],
+            "velo": [5, 5, 5],
+            "pieton": [15, 15, 15],
+            "labels": ["Lun 01-01-24", "Mar 02-01-24", "Mer 03-01-24"]
+        }
+
+        # Test
+        self.assertEqual(result, expected_result)
+
+    @patch.object(Street, 'get_amount_of_traffic_for_day')
+    def test_get_cumulative_street_traffic_over_time(self, mock_get_amount_of_traffic_for_day):
+        # Mocking response from get_amount_of_traffic_for_day
+        mock_get_amount_of_traffic_for_day.return_value = {"lourd": 10, "voiture": 20, "velo": 5, "pieton": 15}
+
+        # Create street object
+        street = Street("Test Street", "12345", 1)
+
+        # Call the method to get cumulative street traffic over time
+        start_date = "2024-01-01T00:00:00.000Z"
+        end_date = "2024-01-03T00:00:00.000Z"
+        result = street.get_cumulative_street_traffic_over_time(start_date, end_date)
+
+        # Expected result
+        expected_result = {
+            "lourd": [10, 20, 30],
+            "voiture": [30, 60, 90],
+            "velo": [35, 70, 105],
+            "pieton": [50, 100, 150],
+            "labels": ["Lun 01-01-24", "Mar 02-01-24", "Mer 03-01-24"]
+        }
+
+        # Test
+        self.assertEqual(result, expected_result)
+
+    @patch('mobility.models.street_model.get_db')
+    def test_get_street_coordinates(self, mock_get_db):
+        # Mocking database response
+        mock_polyline = "50.8503,4.3517"  # Example polyline
+        mock_data = {"polyline": mock_polyline}
+        mock_db = MagicMock()
+        mock_db.execute.return_value.fetchone.return_value = mock_data
+        mock_get_db.return_value = mock_db
+
+        # Create street object
+        street = Street("Test Street", "12345", 1)
+
+        # Call the method to get street coordinates
+        result = street.get_street_coordinates()
+
+        # Expected result
+        expected_result = mock_polyline
+
+        # Test
+        self.assertEqual(result, expected_result)
+
 if __name__ == '__main__':
     unittest.main()
