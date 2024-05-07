@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Statistiques{% endblock %}
 {% block content %}
-    {% if done %}
+{% if done %}
     <section>
-        <h2>Nombre d'entrées par table :</h2>
+        <h2>Nombre d'entrées par table</h2>
         <table>
             <tr>
                 <th>Nom de la table</th>
@@ -18,7 +18,7 @@
         </table>
     </section>
     <section>
-        <h2>Nombre de rues par ville :</h2>
+        <h2>Nombre de rues par ville</h2>
         <table>
             <tr>
                 <th>Ville</th>
@@ -34,7 +34,7 @@
         </table>
     </section>
     <section>
-        <h2>Villes les plus cyclables :</h2>
+        <h2>Villes les plus cyclables</h2>
         <table>
             <tr>
                 <th></th>
@@ -52,7 +52,7 @@
         </table>
     </section>
     <section>
-        <h2>Liste des villes :</h2>
+        <h2>Liste des villes</h2>
         <table>
             <tr>
                 <th>Code Postal</th>
@@ -69,7 +69,7 @@
         </table>
     </section>
     <section>
-        <h2>Liste des rues :</h2>
+        <h2>Liste des rues</h2>
         <table>
             <tr>
                 <th class="hide-on-mobile">Identifiant de la rue</th>
@@ -89,7 +89,7 @@
         </table>
     </section>
     <section>
-        <h2>Taux de cyclistes les jours de pleine lune :</h2>
+        <h2>Taux de cyclistes les jours de pleine lune</h2>
         <p>
             Le taux de cyclistes les jours de pleine lune est de {{ bike_ratio_on_full_moon_days }}%.
         </p>
